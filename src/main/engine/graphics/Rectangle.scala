@@ -22,4 +22,12 @@ case class Rectangle(leftUp: Point, width: Float, height: Float) {
   def trianglePointingDown: Triangle = Triangle(centerDown, leftUp, rightUp)
   def trianglePointingLeft: Triangle = Triangle(centerLeft, rightDown, rightUp)
   def trianglePointingRight: Triangle = Triangle(centerRight, leftDown, leftUp)
+  def grow(factor : Float) = {
+    val newWidth = width * factor
+    val newHeight = height * factor
+    val diffX = (newWidth - width) / 2
+    val diffY = (newHeight - height) / 2
+    Rectangle(Point(left - diffX, top - diffY ), newWidth,newHeight)
+
+  }
 }
