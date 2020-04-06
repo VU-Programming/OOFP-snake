@@ -1,5 +1,3 @@
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     id 'scala'
@@ -55,14 +53,6 @@ task zip(type: Zip) {
 }
 
 
-tasks.withType(Test) {
-    group = "verification"
-    testLogging {
-        events  TestLogEvent.FAILED,
-                TestLogEvent.PASSED,
-                TestLogEvent.STANDARD_OUT
-    }
-}
 
 
 
