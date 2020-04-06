@@ -1,7 +1,7 @@
 // DO NOT MODIFY FOR BASIC SUBMISSION
 // scalastyle:off
 
-package test.util
+package generic
 
 import engine.random.RandomGenerator
 

@@ -26,8 +26,8 @@ repositories {
     mavenCentral()
 }
 
-sourceSets.main.scala.srcDirs = ['src']
-sourceSets.test.scala.srcDirs = ['test']
+sourceSets.main.scala.srcDirs = ['src/main']
+sourceSets.test.scala.srcDirs = ['src/test']
 
 dependencies {
     implementation "org.scala-lang:scala-library:${scalaVersion}"

@@ -1,7 +1,7 @@
 // DO NOT MODIFY FOR BASIC SUBMISSION
 // scalastyle:off
 
-package test.util
+package generic
 
 import java.io.{PrintWriter, StringWriter}
 
@@ -30,7 +30,7 @@ object StringUtils {
     val header = sideBySide(headerAPadded, divider, headerBPadded)
     val width = maxWidthA + divider.length + maxWidthB
     val hLine = horizontalLineOfWidth(width)
-    val content = (contentAPadded, contentBPadded).zipped.map(sideBySide(_, divider, _))
+    val content = contentAPadded.lazyZip(contentBPadded).map(sideBySide(_, divider, _))
 
     (header +: hLine +: content).mkString("\n")
   }

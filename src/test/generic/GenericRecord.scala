@@ -1,20 +1,19 @@
 // DO NOT MODIFY FOR BASIC SUBMISSION
 // scalastyle:off
 
-package test
+package generic
 
 import java.io.{File, PrintWriter}
 
 import engine.random.RandomGenerator
-import test.util.{StringUtils, TestRandomGen}
-import test.util.StringUtils._
 import org.scalatest.{FunSuiteLike, Matchers}
+import generic.GenericRecord._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
-import ExecutionContext.Implicits.global
 import scala.language.postfixOps
-import test.GenericRecord._
+import generic.StringUtils._
 
 /** Fair warning: this file is messy.
   * Generic test infrastructure for Snake and Tetris.
