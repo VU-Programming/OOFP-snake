@@ -4,7 +4,7 @@
 package snake
 
 import engine.random.RandomGenerator
-import generic.{GameLogicInterface, GenericRecord, GridTypeInterface}
+import generic.{CellTypeInterface, GameLogicInterface, GenericRecord}
 import snake.game._
 import snake.logic.SnakeLogic
 
@@ -15,7 +15,7 @@ case class ReverseGame(enable: Boolean) extends SnakeAction
 case object Step extends SnakeAction
 
 
-case class SnakeGridTypeWrapper(gridType: CellType)  extends GridTypeInterface[SnakeGridTypeWrapper] {
+case class SnakeGridTypeWrapper(gridType: CellType)  extends CellTypeInterface[SnakeGridTypeWrapper] {
   override def conforms(rhs: SnakeGridTypeWrapper): Boolean = (gridType, rhs.gridType) match {
     case (SnakeBody(_), SnakeBody(_)) => true
     case (l, r) => l == r
