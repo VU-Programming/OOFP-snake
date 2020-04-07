@@ -15,17 +15,16 @@ import scala.concurrent.duration._
 import scala.language.postfixOps
 import generic.StringUtils._
 
-/** Fair warning: this file is messy.
-  * Generic test infrastructure for Snake and Tetris.
+/**   * Generic test infrastructure for Snake and Tetris.
   *
-  * This supports a game with a grid, filled with some GridType
+  * This supports a game with a grid, filled with some CellType
   * on which some actions can be done.
   *
   * An initial game can be constructed out of some InitialInfo
   * For testing we perform the actions and check is the grid
   * is the same as specified in the test.
   */
-trait GridTypeInterface[T] {
+trait CellTypeInterface[T] {
   def conforms(rhs: T): Boolean
 
   def toChar: Char
@@ -44,12 +43,12 @@ trait GameLogicInterface[GameAction, GridType] {
 }
 
 abstract class GenericRecord[
-                GameAction,
-                GridType <: GridTypeInterface[GridType],
-                GameLogic <: GameLogicInterface[GameAction, GridType],
-                InitialInfo]() {
+            GameAction,
+            CellType <: CellTypeInterface[CellType],
+            GameLogic <: GameLogicInterface[GameAction, CellType],
+            InitialInfo]() {
 
-  def charToGridType(ch: Char): GridType
+  def charToGridType(ch: Char): CellType
 
   def makeGame(r: RandomGenerator, info: InitialInfo): GameLogic
 
@@ -59,7 +58,7 @@ abstract class GenericRecord[
     def conforms(other: GameDisplay): Boolean
   }
 
-  case class GridDisplay(grid: Seq[Seq[GridType]])
+  case class GridDisplay(grid: Seq[Seq[CellType]])
     extends GameDisplay {
 
     val nrRows: Int = grid.length
@@ -68,12 +67,12 @@ abstract class GenericRecord[
     override def toString: String =
       grid.map(_.map(_.toChar).mkString).mkString("\n")
 
-    def gridConforms(otherGrid: Seq[Seq[GridType]]): Boolean = {
+    def gridConforms(otherGrid: Seq[Seq[CellType]]): Boolean = {
 
-      def zippedCells: Seq[(GridType, GridType)] =
+      val zippedCells: Seq[(CellType, CellType)] =
         for ((rowL, rowR) <- grid zip otherGrid; p <- rowL zip rowR) yield p
 
-      def sameContent: Boolean =
+      val sameContent: Boolean =
         zippedCells.forall(pair => pair._1.conforms(pair._2))
 
       sameContent
@@ -121,7 +120,7 @@ abstract class GenericRecord[
 
   }
 
-  def gridString(s: String): GridDisplay = {
+  def stringToGridDisplay(s: String): GridDisplay = {
     GridDisplay(
       for (row <- s.stripMargin.linesIterator.toList)
         yield for (char <- row)
@@ -151,7 +150,7 @@ abstract class GenericRecord[
     def apply(rand: Int,
               actions: Seq[GameAction],
               grid: String): TestFrame = {
-      TestFrame(FrameInput(rand, actions), gridString(grid))
+      TestFrame(FrameInput(rand, actions), stringToGridDisplay(grid))
     }
 
     def apply(rand: Int, grid: String): TestFrame = {
@@ -195,7 +194,8 @@ abstract class GenericRecord[
       val (successA, successB) = (da.conforms(a.display), db.conforms(b.display))
       Seq(da, db) foreach { case LogicFailed(e) => throw e ; case _ => () }
       if (!successA || !successB) return false
-    }; true
+    }
+    return true
   }
 
   case class Test(name: String, initialInfo: InitialInfo, frames: Seq[TestFrame]) {
