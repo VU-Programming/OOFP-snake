@@ -14,7 +14,7 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.language.postfixOps
 import generic.StringUtils._
-import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.concurrent.{Signaler, TimeLimitedTests}
 import org.scalatest.time.{Seconds, Span}
 
 /**   * Generic test infrastructure for Snake and Tetris.
@@ -248,7 +248,6 @@ abstract class GenericRecord[
     type InterTest = (String, Test, Test)
     type GradedInterTest = (String, Test, Test, Double)
 
-    override def timeLimit: Span = Span(5,Seconds)
 
     val InterleaveFailMsg =
       s"""
@@ -382,9 +381,11 @@ abstract class GenericRecord[
       }
       //endXXX
     }
-
-
+    override def timeLimit: Span = Span(1,Seconds)
+    // this is need to actually stop when the buggy code contains an infinite loop
+    override val defaultTestSignaler: Signaler = ReallyStopSignaler
   }
+
 
 }
 
@@ -399,4 +400,11 @@ object GenericRecord {
   val CodeStylePoints = 5
 
   val GameStepTimeout: FiniteDuration = 10 milliseconds
+}
+
+
+object ReallyStopSignaler extends Signaler {
+  override def apply(testThread: Thread): Unit = {
+    testThread.stop() // deprecated. unsafe. do not use
+  }
 }
