@@ -210,6 +210,33 @@ abstract class GenericRecord[
       checkSameRecording(referenceDisplays, implementationDisplays)
   }
 
+
+  object TestFrame {
+
+    def apply(rand: Int,
+              actions: Seq[GameAction],
+              grid: String): TestFrame = {
+      TestFrame(FrameInput(rand, actions), stringToGridDisplay(grid))
+    }
+
+    def apply(rand: Int, grid: String): TestFrame = {
+      apply(rand, List(), grid)
+    }
+
+    def apply(rand: Int,
+              actions: Seq[GameAction],
+              display: GameDisplay): TestFrame = {
+      TestFrame(FrameInput(rand, actions), display)
+    }
+
+    def apply(rand: Int, display: GameDisplay): TestFrame = {
+      TestFrame(FrameInput(rand, List()), display)
+    }
+
+  }
+
+
+
   def checkSameRecording(testRecord: Seq[GameDisplay],
                          actualRecord: Seq[GameDisplay]): Boolean = {
     testRecord.zip(actualRecord).forall(p => p._1.conforms(p._2))
