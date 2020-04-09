@@ -14,6 +14,8 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.language.postfixOps
 import generic.StringUtils._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Seconds, Span}
 
 /**   * Generic test infrastructure for Snake and Tetris.
   *
@@ -56,6 +58,7 @@ abstract class GenericRecord[
 
   sealed abstract class GameDisplay {
     def conforms(other: GameDisplay): Boolean
+    def isError : Boolean
   }
 
   case class GridDisplay(grid: Seq[Seq[CellType]])
@@ -87,6 +90,7 @@ abstract class GenericRecord[
         case _ => false
       }
 
+    override def isError: Boolean = false
   }
 
   case class GameOverDisplay() extends GameDisplay {
@@ -94,6 +98,7 @@ abstract class GenericRecord[
       case GameOverDisplay() => true
       case _ => false
     }
+    override def isError: Boolean = false
   }
 
   case class LogicFailed(cause: Throwable) extends GameDisplay {
@@ -101,6 +106,8 @@ abstract class GenericRecord[
       case LogicFailed(_) => true
       case _ => false
     }
+
+    override def isError: Boolean = true
 
     override def toString: String =
       "LogicFailed(" + stackTraceAsString(cause) + ")"
@@ -145,29 +152,6 @@ abstract class GenericRecord[
     }
   }
 
-  object TestFrame {
-
-    def apply(rand: Int,
-              actions: Seq[GameAction],
-              grid: String): TestFrame = {
-      TestFrame(FrameInput(rand, actions), stringToGridDisplay(grid))
-    }
-
-    def apply(rand: Int, grid: String): TestFrame = {
-      apply(rand, List(), grid)
-    }
-
-    def apply(rand: Int,
-              actions: Seq[GameAction],
-              display: GameDisplay): TestFrame = {
-      TestFrame(FrameInput(rand, actions), display)
-    }
-
-    def apply(rand: Int, display: GameDisplay): TestFrame = {
-      TestFrame(FrameInput(rand, List()), display)
-    }
-
-  }
 
   def performActionsAndGetDisplay(random: TestRandomGen,
                                   logic: GameLogic,
@@ -201,35 +185,25 @@ abstract class GenericRecord[
   case class Test(name: String, initialInfo: InitialInfo, frames: Seq[TestFrame]) {
     lazy val referenceDisplays: Seq[GameDisplay] = frames.map(_.display)
 
-    // Gods of Scala... Forgive me for I have sinned...
     lazy val implementationDisplays: Seq[GameDisplay] = {
-      val result: Future[Seq[GameDisplay]] = Future {
         val random = new TestRandomGen(frames.head.input.randomNumber)
 
         try {
           val logic = makeGame(random, initialInfo)
-          var failDisp: GameDisplay = null
-
-          val displays = getDisplay(logic) +:
-            frames.tail.map {
-              f => performActionsAndGetDisplay(random, logic, f.input)
-            } takeWhile { // slice off all frames after logic fail
-            case disp@LogicFailed(_) =>
-              failDisp = disp; false
-            case _ => true
+          val displays = Seq.newBuilder[GameDisplay]
+          displays.addOne(getDisplay(logic))
+          var error = false
+          val inputIterator = frames.tail.iterator
+          while(!error && inputIterator.hasNext ) {
+            val testFrame = inputIterator.next()
+            val newDisplay = performActionsAndGetDisplay(random, logic, testFrame.input)
+            displays.addOne(newDisplay)
+            error = newDisplay.isError
           }
-
-          if (failDisp != null) displays :+ failDisp else displays
+          displays.result()
         } catch {
           case e: Throwable => Seq(LogicFailed(e))
         }
-      }
-
-      try {
-        Await.result(result, GameStepTimeout)
-      } catch {
-        case e: Throwable => Seq(LogicFailed(e))
-      }
     }
 
     lazy val passes: Boolean =
@@ -241,11 +215,13 @@ abstract class GenericRecord[
     testRecord.zip(actualRecord).forall(p => p._1.conforms(p._2))
   }
 
-  class TestSuite extends FunSuiteLike with Matchers {
+  class TestSuite extends FunSuiteLike with Matchers with TimeLimitedTests {
 
     type GradedTest = (Test, Double)
     type InterTest = (String, Test, Test)
     type GradedInterTest = (String, Test, Test, Double)
+
+    override def timeLimit: Span = Span(5,Seconds)
 
     val InterleaveFailMsg =
       s"""
@@ -331,26 +307,15 @@ abstract class GenericRecord[
     def handleInterleaveTests(t: GradedInterTest): (Boolean, Double) = {
       val (name, testA, testB, points) = t
       var thrown: Throwable = null
-
-      val result = Future {
-        try {
-          checkInterleave(testA, testB)
-        } catch {
-          case e: Throwable =>
-            thrown = e
-            false
-        }
-      }
-
-      var didPass = false
-
+      var didPass = false;
       try {
-        didPass = Await.result(result, GameStepTimeout)
+        didPass = checkInterleave(testA, testB)
       } catch {
         case e: Throwable =>
           thrown = e
           didPass = false
       }
+
 
       lazy val passes: Boolean = {
         val failMsg = if (thrown != null) stackTraceAsString(thrown)
@@ -390,6 +355,7 @@ abstract class GenericRecord[
       }
       //endXXX
     }
+
 
   }
 
