@@ -18,7 +18,18 @@ case object Step extends SnakeAction
 case class SnakeGridTypeWrapper(gridType: CellType)  extends CellTypeInterface[SnakeGridTypeWrapper] {
   override def conforms(rhs: SnakeGridTypeWrapper): Boolean = (gridType, rhs.gridType) match {
     case (SnakeBody(_), SnakeBody(_)) => true
-    case (l, r) => l == r
+      // this is such that the student cannot succeed at all test by overriding equality!
+    case (Empty(), Empty()) => true
+    case (Apple(), Apple()) => true
+    case (SnakeHead(dl),SnakeHead(dr)) =>
+      (dl, dr) match  {
+        case (East(), East()) => true
+        case (West(), West()) => true
+        case (South(), South()) => true
+        case (North(), North()) => true
+        case _ => false
+      }
+    case _ => false
   }
 
   override def toChar: Char = gridType match {
