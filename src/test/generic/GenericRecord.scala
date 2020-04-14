@@ -166,6 +166,7 @@ abstract class GenericRecord[
     val dispA = getDisplay(logicA)
     val dispB = getDisplay(logicB)
     if(!dispA.conforms(testA.frames.head.display) || dispB.conforms(testB.frames.head.display))
+      return false
 
     for ((a, b) <- testA.frames.tail.zip(testB.frames.tail)) {
       val (da, db) = (performActionsAndGetDisplay(randomA, logicA, a.input),
