@@ -335,7 +335,6 @@ abstract class GenericRecord[
 
     def handleInterleaveTests(t: GradedInterTest): (Boolean, Double) = {
       val (name, testA, testB, points) = t
-      test("Got here")(assert(true))
       lazy val didPass = checkInterleave(testA, testB)
       test(name) {
         val didPass = checkInterleave(testA, testB)
