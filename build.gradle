@@ -41,7 +41,7 @@ dependencies {
     testImplementation("junit:junit:4.13")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.6.0")
     testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.8"
-    compile "org.scalacheck:scalacheck_${scalaMajorVersion}:1.14.3"
+    testCompile "org.scalacheck:scalacheck_${scalaMajorVersion}:1.14.3"
 }
 
 task zip(type: Zip) {
@@ -50,11 +50,11 @@ task zip(type: Zip) {
 
     // To make sure you can always run this task
     outputs.upToDateWhen { false }
-    dependsOn build
-    from fileTree(dir: 'src/bla')
+    dependsOn assemble
+    from fileTree(dir: 'src/main/tetris/logic')
     include '*/**'
 
-    archiveFileName = 'exercises.zip'
+    archiveFileName = 'tetris.zip'
     destinationDir(file("$projectDir"))
 }
 
