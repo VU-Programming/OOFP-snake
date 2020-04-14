@@ -293,44 +293,39 @@ abstract class GenericRecord[
       ((nrPassed, ranTests.length), (pts, maxPts))
     }
 
+
     def handleTest(t: GradedTest): (Boolean, Double) = {
+      def actionsString(actions: Seq[GameAction]): String =
+        "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
+
+      def printTraceFrame(frame: TestFrame, actual: GameDisplay, index: Int): Unit = {
+        println(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}")
+
+        val frameIsCorrect = frame.display.conforms(actual)
+        val frameString =
+          if (frameIsCorrect) withHeader("Want & Got", frame.display.toString)
+          else twoColumnTable("Want", "Got", frame.display.toString, actual.toString)
+
+        println(frameString)
+        println()
+      }
 
       val (theTest, points) = t
       test(theTest.name) {
 
+        val didPass = theTest.passes
+        val ptsStr = if (didPass) f"+$points%.2f Points" else "No Points"
+        val headerString = s"${theTest.name} : ${if (didPass) PassStr else FailStr} : $ptsStr"
+        println(List.fill(headerString.length)("=").mkString + "\n" + headerString)
 
-        lazy val didPass = theTest.passes
+        if (!didPass) println("This is what went wrong:\n")
+        else println("This is what we got & expected:\n")
 
-        lazy val passes: Boolean = {
-          def actionsString(actions: Seq[GameAction]): String =
-            "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
+        theTest.frames
+          .lazyZip(theTest.implementationDisplays)
+          .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
 
-          def printTraceFrame(frame: TestFrame, actual: GameDisplay, index: Int): Unit = {
-            println(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}")
-
-            val frameIsCorrect = frame.display.conforms(actual)
-            val frameString =
-              if (frameIsCorrect) withHeader("Want & Got", frame.display.toString)
-              else twoColumnTable("Want", "Got", frame.display.toString, actual.toString)
-
-            println(frameString)
-            println()
-          }
-
-          val ptsStr = if (didPass) f"+$points%.2f Points" else "No Points"
-          val headerString = s"${theTest.name} : ${if (didPass) PassStr else FailStr} : $ptsStr"
-          println(List.fill(headerString.length)("=").mkString + "\n" + headerString)
-
-          if (!didPass) println("This is what went wrong:\n")
-          else println("This is what we got & expected:\n")
-
-          theTest.frames
-            .lazyZip(theTest.implementationDisplays)
-            .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
-
-          didPass
-        }
-        assert(passes)
+        assert(didPass)
         val score = if (didPass) points else 0
         return (didPass, score)
       }
@@ -340,30 +335,19 @@ abstract class GenericRecord[
     def handleInterleaveTests(t: GradedInterTest): (Boolean, Double) = {
       val (name, testA, testB, points) = t
       test(name) {
-        var thrown: Throwable = null
-        var didPass = false;
-        try {
-          didPass = checkInterleave(testA, testB)
-        } catch {
-          case e: Throwable =>
-            thrown = e
-            didPass = false
-        }
+        val didPass = checkInterleave(testA, testB)
 
-
-        lazy val passes: Boolean = {
-          val failMsg = if (thrown != null) stackTraceAsString(thrown)
-          else InterleaveFailMsg.stripMargin
+        if(!didPass){
           val message = s"Interleave Test: ${testA.name}, ${testB.name} : " +
             s"${
-              if (!didPass) FailStr + " : No Points\n" + failMsg
+              if (!didPass) FailStr + " : No Points\n" + InterleaveFailMsg.stripMargin
               else PassStr + f" : +$points%.2f Points"
             }"
           println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
-          didPass
         }
 
-        assert(passes)
+
+        assert(didPass)
         val score = if (didPass) points else 0
         return (didPass, score)
       }
