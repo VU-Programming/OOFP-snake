@@ -2,7 +2,22 @@
 plugins {
     id 'scala'
     id 'idea'
+    id 'application'
 }
+
+
+application {
+    mainClassName = 'tetris.game.TetrisGame'
+}
+
+
+task test(type: Test) {
+    description="Run tests for assignment 2(tetris)"
+    filter {
+        includeTestsMatching "snake.TetrisTestSuite"
+    }
+}
+
 
 
 test {
