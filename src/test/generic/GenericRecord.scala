@@ -336,16 +336,12 @@ abstract class GenericRecord[
       val (name, testA, testB, points) = t
       test(name) {
         val didPass = checkInterleave(testA, testB)
-
-        if(!didPass){
-          val message = s"Interleave Test: ${testA.name}, ${testB.name} : " +
-            s"${
-              if (!didPass) FailStr + " : No Points\n" + InterleaveFailMsg.stripMargin
-              else PassStr + f" : +$points%.2f Points"
-            }"
-          println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
-        }
-
+        val message = s"Interleave Test: ${testA.name}, ${testB.name} : " +
+          s"${
+            if (!didPass) FailStr + " : No Points\n" + InterleaveFailMsg.stripMargin
+            else PassStr + f" : +$points%.2f Points"
+          }"
+        println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
 
         assert(didPass)
         val score = if (didPass) points else 0
