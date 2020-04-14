@@ -144,25 +144,17 @@ abstract class GenericRecord[
       )
     }
 
-    try {
-      if (logic.isGameOver) GameOverDisplay()
-      else getGridDisplay(logic)
-    } catch {
-      case e: Throwable => LogicFailed(e)
-    }
+    if (logic.isGameOver) GameOverDisplay()
+    else getGridDisplay(logic)
   }
 
 
   def performActionsAndGetDisplay(random: TestRandomGen,
                                   logic: GameLogic,
                                   frameInput: FrameInput): GameDisplay = {
-    try {
-      random.curNumber = frameInput.randomNumber
-      frameInput.actions.foreach(logic.performAction)
-      getDisplay(logic)
-    } catch {
-      case e: Throwable => LogicFailed(e)
-    }
+    random.curNumber = frameInput.randomNumber
+    frameInput.actions.foreach(logic.performAction)
+    getDisplay(logic)
   }
 
   def checkInterleave(testA: Test, testB: Test): Boolean = {
@@ -171,12 +163,14 @@ abstract class GenericRecord[
 
     val logicA = makeGame(randomA, testA.initialInfo)
     val logicB = makeGame(randomB, testB.initialInfo)
+    val dispA = getDisplay(logicA)
+    val dispB = getDisplay(logicB)
+    if(!dispA.conforms(testA.frames.head.display) || dispB.conforms(testB.frames.head.display))
 
     for ((a, b) <- testA.frames.tail.zip(testB.frames.tail)) {
       val (da, db) = (performActionsAndGetDisplay(randomA, logicA, a.input),
         performActionsAndGetDisplay(randomB, logicB, b.input))
       val (successA, successB) = (da.conforms(a.display), db.conforms(b.display))
-      Seq(da, db) foreach { case LogicFailed(e) => throw e ; case _ => () }
       if (!successA || !successB) return false
     }
     return true
@@ -187,16 +181,23 @@ abstract class GenericRecord[
 
     lazy val implementationDisplays: Seq[GameDisplay] = {
         val random = new TestRandomGen(frames.head.input.randomNumber)
-
+        def catchLogicError(compute : => GameDisplay) : GameDisplay = {
+          try {
+            return compute
+          } catch {
+            case e => LogicFailed(e)
+          }
+        }
         try {
           val logic = makeGame(random, initialInfo)
           val displays = Seq.newBuilder[GameDisplay]
-          displays.addOne(getDisplay(logic))
-          var error = false
+          val firstDisplay = catchLogicError{ getDisplay(logic) }
+          displays.addOne(firstDisplay)
+          var error = firstDisplay.isError
           val inputIterator = frames.tail.iterator
           while(!error && inputIterator.hasNext ) {
             val testFrame = inputIterator.next()
-            val newDisplay = performActionsAndGetDisplay(random, logic, testFrame.input)
+            val newDisplay = catchLogicError {performActionsAndGetDisplay(random, logic, testFrame.input) }
             displays.addOne(newDisplay)
             error = newDisplay.isError
           }
