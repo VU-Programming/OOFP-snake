@@ -19,8 +19,9 @@ class SnakeGame extends GameBase {
 
   var gameLogic = new SnakeLogic()
   val updateTimer = new UpdateTimer(FramesPerSecond)
-  val widthInPixels: Int = WidthCellInPixels * gameLogic.nrColumns
-  val heightInPixels: Int = HeightCellInPixels * gameLogic.nrRows
+  val gridDimensions =  gameLogic.gridDimensions
+  val widthInPixels: Int = WidthCellInPixels * gridDimensions.width
+  val heightInPixels: Int = HeightCellInPixels * gridDimensions.height
   val screenArea: Rectangle = Rectangle(Point(0, 0), widthInPixels, heightInPixels)
 
   // this function is wrongly named draw by processing (is called on each update next to drawing)
@@ -37,8 +38,8 @@ class SnakeGame extends GameBase {
 
   def drawGrid(): Unit = {
 
-    val widthPerCell = screenArea.width / gameLogic.nrColumns
-    val heightPerCell = screenArea.height / gameLogic.nrRows
+    val widthPerCell = screenArea.width / gridDimensions.width
+    val heightPerCell = screenArea.height / gridDimensions.height
 
     def getCell(colIndex: Int, rowIndex: Int): Rectangle = {
       val leftUp = Point(screenArea.left + colIndex * widthPerCell,
@@ -74,8 +75,8 @@ class SnakeGame extends GameBase {
     setFillColor(White)
     drawRectangle(screenArea)
 
-    for (y <- 0 until gameLogic.nrRows;
-         x <- 0 until gameLogic.nrColumns) {
+    for (y <- 0 until gridDimensions.height;
+         x <- 0 until gridDimensions.width) {
       drawCell(getCell(x, y), gameLogic.getGridTypeAt(x, y))
     }
 

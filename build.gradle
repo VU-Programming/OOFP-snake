@@ -51,11 +51,11 @@ task zip(type: Zip) {
 
     // To make sure you can always run this task
     outputs.upToDateWhen { false }
-    dependsOn build
-    from fileTree(dir: 'src/bla')
+    dependsOn assemble
+    from fileTree(dir: 'src/snake/logic')
     include '*/**'
 
-    archiveFileName = 'exercises.zip'
+    archiveFileName = 'snake.zip'
     destinationDir(file("$projectDir"))
 }
 

@@ -1,7 +1,7 @@
 package snake.logic
 
 import engine.random.{RandomGenerator, ScalaRandomGen}
-import snake.game.{CellType, Direction, Empty}
+import snake.game.{CellType, Dimensions, Direction, Empty}
 import snake.logic.SnakeLogic._
 
 /** To implement Snake, complete the ``TODOs`` below.
@@ -10,10 +10,9 @@ import snake.logic.SnakeLogic._
  * please also put them in the ``snake`` package.
  */
 class SnakeLogic(val randomGen: RandomGenerator,
-                 val nrColumns: Int,
-                 val nrRows: Int) {
+                 val gridDimensions : Dimensions) {
 
-  def this() = this(new ScalaRandomGen(), DefaultRows, DefaultColumns)
+  def this() = this(new ScalaRandomGen(), DefaultGridDimensions)
 
   def isGameOver: Boolean = false
 
@@ -36,7 +35,7 @@ object SnakeLogic {
 
   val DefaultColumns = 25
   val DefaultRows = 25
-
+  val DefaultGridDimensions = Dimensions(DefaultColumns,DefaultRows)
 }
 
 
