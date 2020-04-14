@@ -13,7 +13,7 @@ import engine.GameBase
 import engine.graphics.{Color, Point, Rectangle}
 import snake.game.SnakeGame._
 import engine.graphics.Color._
-import snake.logic.SnakeLogic
+import snake.logic.{Apple, CellType, Direction, East, Empty, North, SnakeBody, SnakeHead, SnakeLogic, South, West}
 
 class SnakeGame extends GameBase {
 
@@ -77,7 +77,7 @@ class SnakeGame extends GameBase {
 
     for (y <- 0 until gridDimensions.height;
          x <- 0 until gridDimensions.width) {
-      drawCell(getCell(x, y), gameLogic.getGridTypeAt(x, y))
+      drawCell(getCell(x, y), gameLogic.getCellAt(x, y))
     }
 
   }

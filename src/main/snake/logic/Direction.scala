@@ -1,4 +1,6 @@
-package snake.game
+package snake.logic
+
+// you can alter this file!
 
 /** Given a direction `d` : you can decide
  * which one it is as follows:

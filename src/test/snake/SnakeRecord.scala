@@ -6,7 +6,7 @@ package snake
 import engine.random.RandomGenerator
 import generic.{CellTypeInterface, GameLogicInterface, GenericRecord}
 import snake.game._
-import snake.logic.SnakeLogic
+import snake.logic.{Apple, CellType, Direction, East, Empty, North, SnakeBody, SnakeHead, SnakeLogic, South, West}
 
 
 sealed abstract class SnakeAction
@@ -43,7 +43,7 @@ case class SnakeLogicWrapper(logic: SnakeLogic)
   }
 
   def getGridTypeAt(col: Int , row: Int): SnakeGridTypeWrapper =
-    SnakeGridTypeWrapper(logic.getGridTypeAt(col,row))
+    SnakeGridTypeWrapper(logic.getCellAt(col,row))
 
   override def nrRows: Int = logic.nrRows
   override def nrColumns: Int = logic.nrColumns

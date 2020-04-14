@@ -1,7 +1,6 @@
 package snake.logic
 
 import engine.random.{RandomGenerator, ScalaRandomGen}
-import snake.game.{CellType, Dimensions, Direction, Empty}
 import snake.logic.SnakeLogic._
 
 /** To implement Snake, complete the ``TODOs`` below.
@@ -26,7 +25,7 @@ class SnakeLogic(val randomGen: RandomGenerator,
   def changeDir(d: Direction): Unit = ()
 
   // TODO implement me
-  def getGridTypeAt(x: Int, y: Int): CellType = Empty()
+  def getCellAt(x: Int, y: Int): CellType = Empty()
 
 }
 
