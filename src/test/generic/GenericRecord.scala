@@ -401,6 +401,6 @@ object GenericRecord {
 
 object ReallyStopSignaler extends Signaler {
   override def apply(testThread: Thread): Unit = {
-    testThread.stop() // deprecated. unsafe. do not use
+    StopRunningNow.stopRunningNowUnsafe(testThread)
   }
 }
