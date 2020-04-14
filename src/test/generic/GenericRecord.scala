@@ -152,16 +152,21 @@ abstract class GenericRecord[
     }
   }
 
-
   def performActionsAndGetDisplay(random: TestRandomGen,
                                   logic: GameLogic,
                                   frameInput: FrameInput): GameDisplay = {
-    try {
       random.curNumber = frameInput.randomNumber
       frameInput.actions.foreach(logic.performAction)
       getDisplay(logic)
+  }
+
+  def performActionsAndGetDisplayCatchError(random: TestRandomGen,
+                                  logic: GameLogic,
+                                  frameInput: FrameInput): GameDisplay = {
+    try {
+      performActionsAndGetDisplay(random,logic,frameInput)
     } catch {
-      case e: Throwable => LogicFailed(e)
+      case e => LogicFailed(e)
     }
   }
 
@@ -171,12 +176,11 @@ abstract class GenericRecord[
 
     val logicA = makeGame(randomA, testA.initialInfo)
     val logicB = makeGame(randomB, testB.initialInfo)
-
+  // hier dus: we gaan door met vergelijken ook al is er een exceptie....
     for ((a, b) <- testA.frames.tail.zip(testB.frames.tail)) {
       val (da, db) = (performActionsAndGetDisplay(randomA, logicA, a.input),
         performActionsAndGetDisplay(randomB, logicB, b.input))
       val (successA, successB) = (da.conforms(a.display), db.conforms(b.display))
-      Seq(da, db) foreach { case LogicFailed(e) => throw e ; case _ => () }
       if (!successA || !successB) return false
     }
     return true
@@ -196,7 +200,7 @@ abstract class GenericRecord[
           val inputIterator = frames.tail.iterator
           while(!error && inputIterator.hasNext ) {
             val testFrame = inputIterator.next()
-            val newDisplay = performActionsAndGetDisplay(random, logic, testFrame.input)
+            val newDisplay = performActionsAndGetDisplayCatchError(random, logic, testFrame.input)
             displays.addOne(newDisplay)
             error = newDisplay.isError
           }
@@ -337,21 +341,13 @@ abstract class GenericRecord[
 
     def handleInterleaveTests(t: GradedInterTest): (Boolean, Double) = {
       val (name, testA, testB, points) = t
+      test("Got here")(assert(true))
+      lazy val didPass = checkInterleave(testA, testB)
       test(name) {
-        var thrown: Throwable = null
-        var didPass = false;
-        try {
-          didPass = checkInterleave(testA, testB)
-        } catch {
-          case e: Throwable =>
-            thrown = e
-            didPass = false
-        }
 
 
         lazy val passes: Boolean = {
-          val failMsg = if (thrown != null) stackTraceAsString(thrown)
-          else InterleaveFailMsg.stripMargin
+          val failMsg =InterleaveFailMsg.stripMargin
           val message = s"Interleave Test: ${testA.name}, ${testB.name} : " +
             s"${
               if (!didPass) FailStr + " : No Points\n" + failMsg
@@ -360,10 +356,9 @@ abstract class GenericRecord[
           println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
           didPass
         }
-
-        assert(passes)
-        val score = if (didPass) points else 0
-        return (didPass, score)
+        assert(checkInterleave(testA, testB))
+        val score = if (passes) points else 0
+        return (passes, score)
       }
       (true,0)
     }
