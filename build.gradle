@@ -11,15 +11,6 @@ application {
 }
 
 
-task test(type: Test) {
-    description="Run tests for assignment 2(tetris)"
-    filter {
-        includeTestsMatching "snake.TetrisTestSuite"
-    }
-}
-
-
-
 test {
     useJUnitPlatform()
     afterSuite { suite, result ->
@@ -66,6 +57,8 @@ task zip(type: Zip) {
     archiveFileName = 'exercises.zip'
     destinationDir(file("$projectDir"))
 }
+
+
 
 
 
