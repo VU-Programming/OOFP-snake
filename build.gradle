@@ -2,7 +2,14 @@
 plugins {
     id 'scala'
     id 'idea'
+    id 'application'
 }
+
+
+application {
+    mainClassName = 'snake.game.SnakeGame'
+}
+
 
 
 test {

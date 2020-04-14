@@ -18,7 +18,7 @@ class SnakeLogic(val randomGen: RandomGenerator,
   def isGameOver: Boolean = false
 
   // TODO implement me
-  def step(): Unit = {while(true){}}
+  def step(): Unit = ()
 
   // TODO implement me
   def setReverseTime(reverse: Boolean): Unit = ()
