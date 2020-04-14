@@ -186,7 +186,7 @@ abstract class GenericRecord[
           try {
             return compute
           } catch {
-            case e => LogicFailed(e)
+            case e : Throwable => LogicFailed(e)
           }
         }
         try {
