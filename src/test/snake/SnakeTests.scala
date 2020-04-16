@@ -1,6 +1,5 @@
 package snake
 
-import snake.game.South
 import snake.SnakeRecord._
 import snake.logic.{East, North, South, West}
 

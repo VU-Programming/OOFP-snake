@@ -5,8 +5,7 @@ package snake
 
 import engine.random.RandomGenerator
 import generic.{CellTypeInterface, GameLogicInterface, GenericRecord}
-import snake.game._
-import snake.logic.{Apple, CellType, Direction, East, Empty, North, SnakeBody, SnakeHead, GameLogic, South, West}
+import snake.logic.{Apple, CellType, Dimensions, Direction, East, Empty, GameLogic, North, Point, SnakeBody, SnakeHead, South, West}
 
 
 sealed abstract class SnakeAction
@@ -53,21 +52,21 @@ case class SnakeLogicWrapper(logic: GameLogic)
     case ReverseGame(enable) => logic.setReverse(enable)
   }
 
-  def getGridTypeAt(col: Int , row: Int): SnakeGridTypeWrapper =
-    SnakeGridTypeWrapper(logic.getCellType(col,row))
+  def getGridTypeAt(x : Int, y : Int ): SnakeGridTypeWrapper =
+    SnakeGridTypeWrapper(logic.getCellType(Point(x,y)))
 
-  override def nrRows: Int = logic.nrRows
-  override def nrColumns: Int = logic.nrColumns
+  override def nrRows: Int = logic.gridDims.height
+  override def nrColumns: Int = logic.gridDims.width
   override def isGameOver: Boolean = logic.gameOver
 
 }
 
 object SnakeRecord extends GenericRecord
-  [SnakeAction, SnakeGridTypeWrapper, SnakeLogicWrapper, (Int, Int)]() {
+  [SnakeAction, SnakeGridTypeWrapper, SnakeLogicWrapper,Dimensions]() {
 
 
-  override def makeGame(r: RandomGenerator, info: (Int, Int)): SnakeLogicWrapper =
-    SnakeLogicWrapper(new GameLogic(r,info._1, info._2))
+  override def makeGame(r: RandomGenerator, info: Dimensions): SnakeLogicWrapper =
+    SnakeLogicWrapper(new GameLogic(r,info))
 
   override def gameLogicName: String = "SnakeLogic"
 
@@ -86,8 +85,8 @@ object SnakeRecord extends GenericRecord
 
   object SnakeTest {
     def apply(name : String, frames : Seq[TestFrame]): SnakeRecord.Test = {
-      val dimensions: (Int, Int) = frames.head.display match {
-        case grid: GridDisplay => (grid.nrColumns, grid.nrRows)
+      val dimensions: Dimensions = frames.head.display match {
+        case grid: GridDisplay => Dimensions(grid.nrColumns, grid.nrRows)
         case _ => throw new Error("No grid display in test")
       }
 
