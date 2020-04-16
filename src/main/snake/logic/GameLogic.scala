@@ -10,9 +10,6 @@ import snake.logic.GameLogic._
  */
 class GameLogic(val random: RandomGenerator,
                 val gridDims : Dimensions) {
-
-  def this() = this(new ScalaRandomGen(), DefaultGridDims)
-
   def gameOver: Boolean = false
 
   // TODO implement me
@@ -32,9 +29,21 @@ class GameLogic(val random: RandomGenerator,
 /** GameLogic companion object */
 object GameLogic {
 
-  val DefaultColumns = 25
-  val DefaultRows = 25
-  val DefaultGridDims : Dimensions = Dimensions(DefaultColumns,DefaultRows)
+  // These are the dimensions used when playing the game
+  // when testing the game, other dimensions are passed to
+  // the constructor of GameLogic when testing.
+  // Note that therefore it is important that you do not use
+  // the variable DefaultGridDims in your code!
+  // Doing so will cause tests which have different dimensions to FAIL!
+  //
+  // In your code only use gridDims.width and gridDims.height
+  // do NOT use DefaultGridDims.width and DefaultGridDims.height
+  val DefaultGridDims
+    : Dimensions =
+    Dimensions(width = 25, height = 25)  // you can adjust these values to play on a different sized board
+
+
+
 }
 
 
