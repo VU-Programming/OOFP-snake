@@ -77,7 +77,7 @@ class SnakeGame extends GameBase {
     drawRectangle(screenArea)
 
     for (p <- gridDimensions.allPointsInside) {
-      drawCell(getCell(p), gameLogic.getCellAt(p))
+      drawCell(getCell(p), gameLogic.getCellTypeAt(p))
     }
 
   }

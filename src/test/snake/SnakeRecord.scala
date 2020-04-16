@@ -54,7 +54,7 @@ case class SnakeLogicWrapper(logic: SnakeLogic)
   }
 
   def getGridTypeAt(col: Int , row: Int): SnakeGridTypeWrapper =
-    SnakeGridTypeWrapper(logic.getCellAt(col,row))
+    SnakeGridTypeWrapper(logic.getCellTypeAt(col,row))
 
   override def nrRows: Int = logic.nrRows
   override def nrColumns: Int = logic.nrColumns
