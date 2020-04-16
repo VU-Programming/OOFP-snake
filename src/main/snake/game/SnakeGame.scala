@@ -29,7 +29,7 @@ class SnakeGame extends GameBase {
   override def draw(): Unit = {
     updateState()
     drawGrid()
-    if (gameLogic.isGameOver) drawGameOverScreen()
+    if (gameLogic.gameOver) drawGameOverScreen()
   }
 
   def drawGameOverScreen(): Unit = {
@@ -77,7 +77,7 @@ class SnakeGame extends GameBase {
     drawRectangle(screenArea)
 
     for (p <- gridDimensions.allPointsInside) {
-      drawCell(getCell(p), gameLogic.getCellTypeAt(p))
+      drawCell(getCell(p), gameLogic.getCellType(p))
     }
 
   }
@@ -98,7 +98,7 @@ class SnakeGame extends GameBase {
       case VK_DOWN  => changeDir(South())
       case VK_LEFT  => changeDir(West())
       case VK_RIGHT => changeDir(East())
-      case VK_R     => gameLogic.setReverseTime(true)
+      case VK_R     => gameLogic.setReverse(true)
       case _        => ()
     }
 
@@ -106,7 +106,7 @@ class SnakeGame extends GameBase {
 
   override def keyReleased(event: KeyEvent): Unit = {
     event.getKeyCode match {
-      case VK_R => gameLogic.setReverseTime(false)
+      case VK_R => gameLogic.setReverse(false)
       case _    => ()
     }
   }

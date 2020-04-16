@@ -13,19 +13,19 @@ class SnakeLogic(val randomGen: RandomGenerator,
 
   def this() = this(new ScalaRandomGen(), DefaultGridDimensions)
 
-  def isGameOver: Boolean = false
+  def gameOver: Boolean = false
 
   // TODO implement me
   def step(): Unit = ()
 
   // TODO implement me
-  def setReverseTime(reverse: Boolean): Unit = ()
+  def setReverse(reverse: Boolean): Unit = ()
 
   // TODO implement me
   def changeDir(d: Direction): Unit = ()
 
   // TODO implement me
-  def getCellTypeAt(p : Point): CellType = Empty()
+  def getCellType(p : Point): CellType = Empty()
 
 }
 

@@ -50,15 +50,15 @@ case class SnakeLogicWrapper(logic: SnakeLogic)
   override def performAction(action: SnakeAction): Unit = action match {
     case ChangeDir(d) => logic.changeDir(d)
     case Step => logic.step()
-    case ReverseGame(enable) => logic.setReverseTime(enable)
+    case ReverseGame(enable) => logic.setReverse(enable)
   }
 
   def getGridTypeAt(col: Int , row: Int): SnakeGridTypeWrapper =
-    SnakeGridTypeWrapper(logic.getCellTypeAt(col,row))
+    SnakeGridTypeWrapper(logic.getCellType(col,row))
 
   override def nrRows: Int = logic.nrRows
   override def nrColumns: Int = logic.nrColumns
-  override def isGameOver: Boolean = logic.isGameOver
+  override def isGameOver: Boolean = logic.gameOver
 
 }
 
