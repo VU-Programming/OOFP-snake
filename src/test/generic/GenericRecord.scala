@@ -358,17 +358,21 @@ abstract class GenericRecord[
 
     def writePoints(t : TestSummary,
                     suiteName: String = "x.x"): Unit = {
-      val fraction = t.points / t.maxPoints
+      val points    = t.points
+      val maxPoints = t.maxPoints
+      val nrPassed  = t.nrPassed
+      val nrTests   = t.nrTests
+      val fraction = points / maxPoints
       val percentage = fraction * 100
-      val resultStr = f"Total Functionality Points : $t.points%.2f/$t.maxPoints%.2f [$percentage%.2f" + "%]"
-      println(f"Passed $t.nrPassedTests%d/$t.totalNrTests%d tests")
+      val resultStr = f"Total Functionality Points : $points%.2f/$maxPoints%.2f [$percentage%.2f" + "%]"
+      println(f"Passed $nrPassed%d/$nrTests%d tests")
       println(s"${"=" * resultStr.length}\n$resultStr\n${"=" * resultStr.length}")
 
       val initialCodeStyleGrade = fraction * CodeStylePoints
       println(f"(Initial code style points: $initialCodeStyleGrade%.2f)")
       //beginXXX
       val filename = s"grade_${suiteName.replace('.', '_')}.tmp"
-      val pointStr = s"$t.points"
+      val pointStr = s"$points"
       val writer = new PrintWriter(new File(filename))
       try {
         writer.println(pointStr)
