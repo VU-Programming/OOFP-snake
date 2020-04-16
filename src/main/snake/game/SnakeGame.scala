@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent._
 
 import engine.GameBase
 import engine.graphics.{Color, Point, Rectangle}
+import snake.logic.{Point => GridPoint}
 import snake.game.SnakeGame._
 import engine.graphics.Color._
 import snake.logic.{Apple, CellType, Direction, East, Empty, North, SnakeBody, SnakeHead, SnakeLogic, South, West}
@@ -41,9 +42,9 @@ class SnakeGame extends GameBase {
     val widthPerCell = screenArea.width / gridDimensions.width
     val heightPerCell = screenArea.height / gridDimensions.height
 
-    def getCell(colIndex: Int, rowIndex: Int): Rectangle = {
-      val leftUp = Point(screenArea.left + colIndex * widthPerCell,
-        screenArea.top + rowIndex * heightPerCell)
+    def getCell(p : GridPoint): Rectangle = {
+      val leftUp = Point(screenArea.left + p.x * widthPerCell,
+        screenArea.top + p.y * heightPerCell)
       Rectangle(leftUp, widthPerCell, heightPerCell)
     }
 
@@ -75,9 +76,8 @@ class SnakeGame extends GameBase {
     setFillColor(White)
     drawRectangle(screenArea)
 
-    for (y <- 0 until gridDimensions.height;
-         x <- 0 until gridDimensions.width) {
-      drawCell(getCell(x, y), gameLogic.getCellAt(x, y))
+    for (p <- gridDimensions.allPointsInside) {
+      drawCell(getCell(p), gameLogic.getCellAt(p))
     }
 
   }

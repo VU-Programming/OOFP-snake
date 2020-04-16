@@ -25,7 +25,7 @@ class SnakeLogic(val randomGen: RandomGenerator,
   def changeDir(d: Direction): Unit = ()
 
   // TODO implement me
-  def getCellAt(x: Int, y: Int): CellType = Empty()
+  def getCellAt(p : Point): CellType = Empty()
 
 }
 
