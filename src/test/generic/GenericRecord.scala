@@ -32,14 +32,14 @@ trait CellTypeInterface[T] {
   def toChar: Char
 }
 
-trait GameLogicInterface[GameAction, GridType] {
+trait GameLogicInterface[GameAction, CellType] {
   def nrRows: Int
 
   def nrColumns: Int
 
   def performAction(action: GameAction): Unit
 
-  def getGridTypeAt(col: Int, row: Int): GridType
+  def getCell(col: Int, row: Int): CellType
 
   def isGameOver: Boolean
 }
@@ -140,7 +140,7 @@ abstract class GenericRecord[
       GridDisplay(
         for (row <- 0 until logic.nrRows)
           yield for (col <- 0 until logic.nrColumns)
-            yield logic.getGridTypeAt(col, row)
+            yield logic.getCell(col, row)
       )
     }
 
@@ -244,11 +244,11 @@ abstract class GenericRecord[
     testRecord.zip(actualRecord).forall(p => p._1.conforms(p._2))
   }
 
-  class TestSuite extends FunSuiteLike with Matchers with TimeLimitedTests {
+  case class TestWithPoints(test : Test, points : Double)
+  case class InterleaveTest(name : String, testa : Test, testb : Test)
+  case class InterleaveTestWithPoints(test : InterleaveTest, points : Double)
 
-    type GradedTest = (Test, Double)
-    type InterTest = (String, Test, Test)
-    type GradedInterTest = (String, Test, Test, Double)
+  class TestSuite extends FunSuiteLike with Matchers with TimeLimitedTests {
 
 
     val InterleaveFailMsg =
@@ -262,7 +262,7 @@ abstract class GenericRecord[
     """
 
     def reportOnUniformlyScoredTests(testList: List[Test] = Nil,
-                                     mainInterTestList: List[InterTest] = Nil,
+                                     mainInterTestList: List[InterleaveTest] = Nil,
                                      suiteName: String): Unit = {
       val ((nrPassed, nrTests), (pts, maxPts)) =
         runUniformlyScoredTestsAndGetGrade(testList, mainInterTestList)
@@ -270,31 +270,31 @@ abstract class GenericRecord[
     }
 
     def runUniformlyScoredTestsAndGetGrade(tests: List[Test] = Nil,
-                                           interTests: List[InterTest] = Nil):
+                                           interTests: List[InterleaveTest] = Nil):
     ((Int, Int), (Double, Double)) = {
       val nrTests = tests.length + interTests.length
       val scorePerTest: Double = FunctionalityPoints.toDouble / nrTests.toDouble
 
-      val testsWithScore: List[GradedTest] =
-        tests.map((_, scorePerTest))
+      val testsWithPoints: List[TestWithPoints] =
+        tests.map(TestWithPoints(_, scorePerTest))
 
-      val interTestsWithScore: List[GradedInterTest] =
-        interTests.map(p => (p._1, p._2, p._3, scorePerTest))
+      val interTestsWithScore: List[InterleaveTestWithPoints] =
+        interTests.map(InterleaveTestWithPoints(_, scorePerTest))
 
-      runTestsAndGetGrade(testsWithScore, interTestsWithScore)
+      runTestsAndGetGrade(testsWithPoints, interTestsWithScore)
     }
 
-    def runTestsAndGetGrade(gts: List[GradedTest] = Nil,
-                            gits: List[GradedInterTest] = Nil): ((Int, Int), (Double, Double)) = {
+    def runTestsAndGetGrade(gts: List[TestWithPoints] = Nil,
+                            gits: List[InterleaveTestWithPoints] = Nil): ((Int, Int), (Double, Double)) = {
       val ranTests: List[(Boolean, Double)] = gts.map(handleTest) ++ gits.map(handleInterleaveTests)
       val nrPassed: Int = ranTests.count(_._1)
       val pts = ranTests.map(_._2).sum
-      val maxPts = gts.map(_._2).sum + gits.map(_._4).sum
+      val maxPts = gts.map(_.points).sum + gits.map(_.points).sum
       ((nrPassed, ranTests.length), (pts, maxPts))
     }
 
 
-    def handleTest(t: GradedTest): (Boolean, Double) = {
+    def handleTest(t: TestWithPoints): (Boolean, Double) = {
       def actionsString(actions: Seq[GameAction]): String =
         "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
 
@@ -310,7 +310,7 @@ abstract class GenericRecord[
         println()
       }
 
-      val (theTest, points) = t
+      val (theTest, points) = (t.test,t.points)
       test(theTest.name) {
 
         val didPass = theTest.passes
@@ -332,8 +332,8 @@ abstract class GenericRecord[
       (false,0)
     }
 
-    def handleInterleaveTests(t: GradedInterTest): (Boolean, Double) = {
-      val (name, testA, testB, points) = t
+    def handleInterleaveTests(t: InterleaveTestWithPoints): (Boolean, Double) = {
+      val (name, testA, testB, points) = (t.test.name,t.test.testa,t.test.testb,t.points)
       test(name) {
         val didPass = checkInterleave(testA, testB)
         val message = s"Interleave Test: ${testA.name}, ${testB.name} : " +
