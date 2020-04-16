@@ -309,7 +309,8 @@ abstract class GenericRecord[
         println(frameString)
         println()
       }
-
+      var res = false
+      var score = 0.0
       val (theTest, points) = (t.test,t.points)
       test(theTest.name) {
 
@@ -326,14 +327,16 @@ abstract class GenericRecord[
           .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
 
         assert(didPass)
-        val score = if (didPass) points else 0
-        return (didPass, score)
+        score = if (didPass) points else 0
+        res = didPass
       }
-      (false,0)
+      (res,score)
     }
 
     def handleInterleaveTests(t: InterleaveTestWithPoints): (Boolean, Double) = {
       val (name, testA, testB, points) = (t.test.name,t.test.testa,t.test.testb,t.points)
+      var res = false
+      var score = 0.0
       test(name) {
         val didPass = checkInterleave(testA, testB)
         val message = s"Interleave Test: ${testA.name}, ${testB.name} : " +
@@ -344,10 +347,10 @@ abstract class GenericRecord[
         println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
 
         assert(didPass)
-        val score = if (didPass) points else 0
-        return (didPass, score)
+        score = if (didPass) points else 0
+        res = didPass
       }
-      (true,0)
+      (res,score)
     }
 
     def writePoints(nrPassedTests: Int,
