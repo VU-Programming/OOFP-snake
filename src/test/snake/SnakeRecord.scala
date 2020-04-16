@@ -52,7 +52,7 @@ case class SnakeLogicWrapper(logic: GameLogic)
     case ReverseGame(enable) => logic.setReverse(enable)
   }
 
-  def getGridTypeAt(x : Int, y : Int ): SnakeGridTypeWrapper =
+  def getCell(x : Int, y : Int ): SnakeGridTypeWrapper =
     SnakeGridTypeWrapper(logic.getCellType(Point(x,y)))
 
   override def nrRows: Int = logic.gridDims.height

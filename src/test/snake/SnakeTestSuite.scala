@@ -32,9 +32,9 @@ abstract class SnakeTestSuite extends TestSuite {
     testGame10x7,
   )
 
-  val mainInterTestList: List[InterTest] = List(
-    ("testInterleave6x3and10x7", testGame6x3, testGame10x7),
-    // ("testInterleave6x6and10x7", testGame6x6, testGame10x7),
+  val mainInterTestList: List[InterleaveTest] = List(
+    InterleaveTest("testInterleave6x3and10x7", testGame6x3, testGame10x7),
+    InterleaveTest("testInterleave6x6and10x7", testGame6x6, testGame10x7),
   )
 
 
