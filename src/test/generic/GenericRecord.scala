@@ -165,7 +165,8 @@ abstract class GenericRecord[
     val logicB = makeGame(randomB, testB.initialInfo)
     val dispA = getDisplay(logicA)
     val dispB = getDisplay(logicB)
-    if(!dispA.conforms(testA.frames.head.display) || dispB.conforms(testB.frames.head.display))
+    if(!dispA.conforms(testA.frames.head.display) ||
+       !dispB.conforms(testB.frames.head.display))
       return false
 
     for ((a, b) <- testA.frames.tail.zip(testB.frames.tail)) {
