@@ -6,7 +6,7 @@ package snake
 import engine.random.RandomGenerator
 import generic.{CellTypeInterface, GameLogicInterface, GenericRecord}
 import snake.game._
-import snake.logic.{Apple, CellType, Direction, East, Empty, North, SnakeBody, SnakeHead, SnakeLogic, South, West}
+import snake.logic.{Apple, CellType, Direction, East, Empty, North, SnakeBody, SnakeHead, GameLogic, South, West}
 
 
 sealed abstract class SnakeAction
@@ -44,7 +44,7 @@ case class SnakeGridTypeWrapper(gridType: CellType)  extends CellTypeInterface[S
 }
 
 
-case class SnakeLogicWrapper(logic: SnakeLogic)
+case class SnakeLogicWrapper(logic: GameLogic)
   extends GameLogicInterface[SnakeAction, SnakeGridTypeWrapper] {
 
   override def performAction(action: SnakeAction): Unit = action match {
@@ -67,7 +67,7 @@ object SnakeRecord extends GenericRecord
 
 
   override def makeGame(r: RandomGenerator, info: (Int, Int)): SnakeLogicWrapper =
-    SnakeLogicWrapper(new SnakeLogic(r,info._1, info._2))
+    SnakeLogicWrapper(new GameLogic(r,info._1, info._2))
 
   override def gameLogicName: String = "SnakeLogic"
 

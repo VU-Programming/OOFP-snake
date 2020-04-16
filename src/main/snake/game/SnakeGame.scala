@@ -14,13 +14,13 @@ import engine.graphics.{Color, Point, Rectangle}
 import snake.logic.{Point => GridPoint}
 import snake.game.SnakeGame._
 import engine.graphics.Color._
-import snake.logic.{Apple, CellType, Direction, East, Empty, North, SnakeBody, SnakeHead, SnakeLogic, South, West}
+import snake.logic.{Apple, CellType, Direction, East, Empty, North, SnakeBody, SnakeHead, GameLogic, South, West}
 
 class SnakeGame extends GameBase {
 
-  var gameLogic = new SnakeLogic()
+  var gameLogic = new GameLogic()
   val updateTimer = new UpdateTimer(FramesPerSecond)
-  val gridDimensions =  gameLogic.gridDimensions
+  val gridDimensions =  gameLogic.gridDims
   val widthInPixels: Int = WidthCellInPixels * gridDimensions.width
   val heightInPixels: Int = HeightCellInPixels * gridDimensions.height
   val screenArea: Rectangle = Rectangle(Point(0, 0), widthInPixels, heightInPixels)

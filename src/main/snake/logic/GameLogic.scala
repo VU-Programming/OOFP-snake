@@ -1,15 +1,15 @@
 package snake.logic
 
 import engine.random.{RandomGenerator, ScalaRandomGen}
-import snake.logic.SnakeLogic._
+import snake.logic.GameLogic._
 
 /** To implement Snake, complete the ``TODOs`` below.
  *
  * If you need additional files,
  * please also put them in the ``snake`` package.
  */
-class SnakeLogic(val randomGen: RandomGenerator,
-                 val gridDimensions : Dimensions) {
+class GameLogic(val random: RandomGenerator,
+                val gridDims : Dimensions) {
 
   def this() = this(new ScalaRandomGen(), DefaultGridDimensions)
 
@@ -19,7 +19,7 @@ class SnakeLogic(val randomGen: RandomGenerator,
   def step(): Unit = ()
 
   // TODO implement me
-  def setReverse(reverse: Boolean): Unit = ()
+  def setReverse(r: Boolean): Unit = ()
 
   // TODO implement me
   def changeDir(d: Direction): Unit = ()
@@ -29,8 +29,8 @@ class SnakeLogic(val randomGen: RandomGenerator,
 
 }
 
-/** SnakeLogic companion object */
-object SnakeLogic {
+/** GameLogic companion object */
+object GameLogic {
 
   val DefaultColumns = 25
   val DefaultRows = 25
