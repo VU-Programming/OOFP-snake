@@ -11,7 +11,7 @@ import snake.logic.GameLogic._
 class GameLogic(val random: RandomGenerator,
                 val gridDims : Dimensions) {
 
-  def this() = this(new ScalaRandomGen(), DefaultGridDimensions)
+  def this() = this(new ScalaRandomGen(), DefaultGridDims)
 
   def gameOver: Boolean = false
 
@@ -34,7 +34,7 @@ object GameLogic {
 
   val DefaultColumns = 25
   val DefaultRows = 25
-  val DefaultGridDimensions = Dimensions(DefaultColumns,DefaultRows)
+  val DefaultGridDims : Dimensions = Dimensions(DefaultColumns,DefaultRows)
 }
 
 
