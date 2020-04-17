@@ -249,6 +249,10 @@ abstract class GenericRecord[
   case class InterleaveTest(name : String, testa : Test, testb : Test)
   case class InterleaveTestWithPoints(test : InterleaveTest, points : Double)
 
+  case class TestSummary(nrPassed : Int, nrTests : Int, points : Double, maxPoints : Double)
+
+  type Points = Double
+
   class TestSuite extends FunSuiteLike with Matchers with TimeLimitedTests {
 
 
@@ -265,14 +269,13 @@ abstract class GenericRecord[
     def reportOnUniformlyScoredTests(testList: List[Test] = Nil,
                                      mainInterTestList: List[InterleaveTest] = Nil,
                                      suiteName: String): Unit = {
-      val ((nrPassed, nrTests), (pts, maxPts)) =
+      val testSummary =
         runUniformlyScoredTestsAndGetGrade(testList, mainInterTestList)
-      writePoints(nrPassed, nrTests, pts, maxPts, suiteName)
+      writePoints(testSummary, suiteName)
     }
 
     def runUniformlyScoredTestsAndGetGrade(tests: List[Test] = Nil,
-                                           interTests: List[InterleaveTest] = Nil):
-    ((Int, Int), (Double, Double)) = {
+                                           interTests: List[InterleaveTest] = Nil): TestSummary = {
       val nrTests = tests.length + interTests.length
       val scorePerTest: Double = FunctionalityPoints.toDouble / nrTests.toDouble
 
@@ -286,16 +289,18 @@ abstract class GenericRecord[
     }
 
     def runTestsAndGetGrade(gts: List[TestWithPoints] = Nil,
-                            gits: List[InterleaveTestWithPoints] = Nil): ((Int, Int), (Double, Double)) = {
-      val ranTests: List[(Boolean, Double)] = gts.map(handleTest) ++ gits.map(handleInterleaveTests)
-      val nrPassed: Int = ranTests.count(_._1)
-      val pts = ranTests.map(_._2).sum
+                            gits: List[InterleaveTestWithPoints] = Nil): TestSummary = {
+      val testScores: List[Double] = gts.map(handleTest) ++ gits.map(handleInterleaveTests)
+      val nrTests = testScores.length
+      val nrPassed: Int = testScores.count(_ > 0)
+      val pts = testScores.sum
       val maxPts = gts.map(_.points).sum + gits.map(_.points).sum
-      ((nrPassed, ranTests.length), (pts, maxPts))
+      TestSummary(nrPassed, nrTests, pts, maxPts)
     }
 
 
-    def handleTest(t: TestWithPoints): (Boolean, Double) = {
+
+    def handleTest(t: TestWithPoints): Points = {
       def actionsString(actions: Seq[GameAction]): String =
         "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
 
@@ -310,7 +315,6 @@ abstract class GenericRecord[
         println(frameString)
         println()
       }
-      var res = false
       var score = 0.0
       val (theTest, points) = (t.test,t.points)
       test(theTest.name) {
@@ -329,14 +333,12 @@ abstract class GenericRecord[
 
         assert(didPass)
         score = if (didPass) points else 0
-        res = didPass
       }
-      (res,score)
+      score
     }
 
-    def handleInterleaveTests(t: InterleaveTestWithPoints): (Boolean, Double) = {
+    def handleInterleaveTests(t: InterleaveTestWithPoints): Points = {
       val (name, testA, testB, points) = (t.test.name,t.test.testa,t.test.testb,t.points)
-      var res = false
       var score = 0.0
       test(name) {
         val didPass = checkInterleave(testA, testB)
@@ -349,22 +351,23 @@ abstract class GenericRecord[
 
         assert(didPass)
         score = if (didPass) points else 0
-        res = didPass
       }
-      (res,score)
+      score
     }
 
-    def writePoints(nrPassedTests: Int,
-                    totalNrTests: Int,
-                    points: Double,
-                    maxPoints: Double,
+    def writePoints(t : TestSummary,
                     suiteName: String = "x.x"): Unit = {
-      val percentage = (points / maxPoints) * 100
+      val points    = t.points
+      val maxPoints = t.maxPoints
+      val nrPassed  = t.nrPassed
+      val nrTests   = t.nrTests
+      val fraction = points / maxPoints
+      val percentage = fraction * 100
       val resultStr = f"Total Functionality Points : $points%.2f/$maxPoints%.2f [$percentage%.2f" + "%]"
-      println(f"Passed $nrPassedTests%d/$totalNrTests%d tests")
+      println(f"Passed $nrPassed%d/$nrTests%d tests")
       println(s"${"=" * resultStr.length}\n$resultStr\n${"=" * resultStr.length}")
 
-      val initialCodeStyleGrade = (points / maxPoints) * CodeStylePoints
+      val initialCodeStyleGrade = fraction * CodeStylePoints
       println(f"(Initial code style points: $initialCodeStyleGrade%.2f)")
       //beginXXX
       val filename = s"grade_${suiteName.replace('.', '_')}.tmp"
