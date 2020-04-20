@@ -263,7 +263,6 @@ abstract class GenericRecord[
     var maxPoints  : Double = 0
 
     override def afterAll(): Unit = {
-
       super.afterAll()
       writePoints("bla")
     }
@@ -334,9 +333,9 @@ abstract class GenericRecord[
         theTest.frames
           .lazyZip(theTest.implementationDisplays)
           .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
+
         maxPoints += points
         nrTests += 1
-        println("Nr tests: " + nrTests)
         if(didPass) {
           nrPassedTests += 1
           scoredPoints += points
