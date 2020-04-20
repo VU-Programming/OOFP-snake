@@ -261,6 +261,12 @@ abstract class GenericRecord[
     var scoredPoints : Double = 0
     var maxPoints  : Double = 0
 
+    override def afterAll(): Unit = {
+      super.afterAll()
+      writePoints("bla")
+    }
+
+
     val InterleaveFailMsg =
       s"""
          |Assuming you passed the non-interleaved version of each test:
@@ -328,13 +334,14 @@ abstract class GenericRecord[
           .lazyZip(theTest.implementationDisplays)
           .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
 
-        assert(didPass)
         maxPoints += points
         nrTests += 1
         if(didPass) {
           nrPassedTests += 1
           scoredPoints += points
         }
+        assert(didPass)
+
       }
     }
 
@@ -349,13 +356,14 @@ abstract class GenericRecord[
           }"
         println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
 
-        assert(didPass)
         maxPoints += points
         nrTests += 1
         if(didPass) {
           nrPassedTests += 1
           scoredPoints += points
         }
+        assert(didPass)
+
       }
     }
 
