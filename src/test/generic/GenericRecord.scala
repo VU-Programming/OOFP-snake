@@ -257,10 +257,10 @@ abstract class GenericRecord[
     // Testing via the via the test() method is done asynchronously
     // so we set these variables via side effects to give more statistics
     // such as the number of points obtained etc
-    var nrTests = 0
-    var nrPassedTests = 0
-    var scoredPoints = 0
-    var maxPoints = 0
+    var nrTests : Int = 0
+    var nrPassedTests : Int  = 0
+    var scoredPoints : Double = 0
+    var maxPoints  : Double = 0
 
     val InterleaveFailMsg =
       s"""
