@@ -6,7 +6,7 @@ package generic
 import java.io.{File, PrintWriter}
 
 import engine.random.RandomGenerator
-import org.scalatest.{FunSuiteLike, Matchers}
+import org.scalatest.{BeforeAndAfterAll, FunSuiteLike, Matchers}
 import generic.GenericRecord._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -250,12 +250,17 @@ abstract class GenericRecord[
   case class InterleaveTest(name : String, testa : Test, testb : Test)
   case class InterleaveTestWithPoints(test : InterleaveTest, points : Double)
 
-  case class TestSummary(nrPassed : Int, nrTests : Int, points : Double, maxPoints : Double)
-
   type Points = Double
 
-  class TestSuite extends FunSuiteLike with Matchers with TimeLimitedTests {
+  class TestSuite extends FunSuiteLike with Matchers with TimeLimitedTests with BeforeAndAfterAll{
 
+    // Testing via the via the test() method is done asynchronously
+    // so we set these variables via side effects to give more statistics
+    // such as the number of points obtained etc
+    var nrTests = 0
+    var nrPassedTests = 0
+    var scoredPoints = 0
+    var maxPoints = 0
 
     val InterleaveFailMsg =
       s"""
@@ -268,15 +273,12 @@ abstract class GenericRecord[
     """
 
     def reportOnUniformlyScoredTests(testList: List[Test] = Nil,
-                                     mainInterTestList: List[InterleaveTest] = Nil,
-                                     suiteName: String): Unit = {
-      val testSummary =
+                                     mainInterTestList: List[InterleaveTest] = Nil): Unit = {
         runUniformlyScoredTestsAndGetGrade(testList, mainInterTestList)
-      writePoints(testSummary, suiteName)
     }
 
     def runUniformlyScoredTestsAndGetGrade(tests: List[Test] = Nil,
-                                           interTests: List[InterleaveTest] = Nil): TestSummary = {
+                                           interTests: List[InterleaveTest] = Nil): Unit = {
       val nrTests = tests.length + interTests.length
       val scorePerTest: Double = FunctionalityPoints.toDouble / nrTests.toDouble
 
@@ -290,18 +292,14 @@ abstract class GenericRecord[
     }
 
     def runTestsAndGetGrade(gts: List[TestWithPoints] = Nil,
-                            gits: List[InterleaveTestWithPoints] = Nil): TestSummary = {
-      val testScores: List[Double] = gts.map(handleTest) ++ gits.map(handleInterleaveTests)
-      val nrTests = testScores.length
-      val nrPassed: Int = testScores.count(_ > 0)
-      val pts = testScores.sum
-      val maxPts = gts.map(_.points).sum + gits.map(_.points).sum
-      TestSummary(nrPassed, nrTests, pts, maxPts)
+                            gits: List[InterleaveTestWithPoints] = Nil): Unit = {
+      gts.foreach(handleTest)
+      gits.foreach(handleInterleaveTests)
     }
 
 
 
-    def handleTest(t: TestWithPoints): Points = {
+    def handleTest(t: TestWithPoints): Unit = {
       def actionsString(actions: Seq[GameAction]): String =
         "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
 
@@ -316,7 +314,6 @@ abstract class GenericRecord[
         println(frameString)
         println()
       }
-      var score = 0.0
       val (theTest, points) = (t.test,t.points)
       test(theTest.name) {
 
@@ -333,14 +330,17 @@ abstract class GenericRecord[
           .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
 
         assert(didPass)
-        score = if (didPass) points else 0
+        maxPoints += points
+        nrTests += 1
+        if(didPass) {
+          nrPassedTests += 1
+          scoredPoints += points
+        }
       }
-      score
     }
 
-    def handleInterleaveTests(t: InterleaveTestWithPoints): Points = {
+    def handleInterleaveTests(t: InterleaveTestWithPoints): Unit = {
       val (name, testA, testB, points) = (t.test.name,t.test.testa,t.test.testb,t.points)
-      var score = 0.0
       test(name) {
         val didPass = checkInterleave(testA, testB)
         val message = s"Interleave Test: ${testA.name}, ${testB.name} : " +
@@ -351,28 +351,27 @@ abstract class GenericRecord[
         println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
 
         assert(didPass)
-        score = if (didPass) points else 0
+        maxPoints += points
+        nrTests += 1
+        if(didPass) {
+          nrPassedTests += 1
+          scoredPoints += points
+        }
       }
-      score
     }
 
-    def writePoints(t : TestSummary,
-                    suiteName: String = "x.x"): Unit = {
-      val points    = t.points
-      val maxPoints = t.maxPoints
-      val nrPassed  = t.nrPassed
-      val nrTests   = t.nrTests
-      val fraction = points / maxPoints
+    def writePoints(suiteName: String = "x.x"): Unit = {
+      val fraction = scoredPoints / maxPoints
       val percentage = fraction * 100
-      val resultStr = f"Total Functionality Points : $points%.2f/$maxPoints%.2f [$percentage%.2f" + "%]"
-      println(f"Passed $nrPassed%d/$nrTests%d tests")
+      val resultStr = f"Total Functionality Points : $scoredPoints%.2f/$maxPoints%.2f [$percentage%.2f" + "%]"
+      println(f"Passed $nrPassedTests%d/$nrTests%d tests")
       println(s"${"=" * resultStr.length}\n$resultStr\n${"=" * resultStr.length}")
 
       val initialCodeStyleGrade = fraction * CodeStylePoints
       println(f"(Initial code style points: $initialCodeStyleGrade%.2f)")
       //beginXXX
       val filename = s"grade_${suiteName.replace('.', '_')}.tmp"
-      val pointStr = s"$points"
+      val pointStr = s"$scoredPoints"
       val writer = new PrintWriter(new File(filename))
       try {
         writer.println(pointStr)
