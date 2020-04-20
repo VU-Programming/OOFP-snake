@@ -55,9 +55,9 @@ class TetrisTestSuite extends TestSuite {
     testGame6x10
   )
 
-  val mainInterTestList: List[InterTest] = List(
-    ("testInterleave5x9and8x11", testGame5x9, testGame8x11),
-    ("testInterleave8x11and6x10", testGame8x11, testGame6x10),
+  val mainInterTestList: List[InterleaveTest] = List(
+    InterleaveTest("testInterleave5x9and8x11", testGame5x9, testGame8x11),
+    InterleaveTest("testInterleave8x11and6x10", testGame8x11, testGame6x10),
   )
 
   reportOnUniformlyScoredTests(testList, mainInterTestList, "2.0")

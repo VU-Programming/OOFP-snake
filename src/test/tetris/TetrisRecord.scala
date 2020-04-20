@@ -4,9 +4,9 @@
 package tetris
 
 import engine.random.RandomGenerator
-import generic.{GameLogicInterface, GenericRecord, CellTypeInterface}
+import generic.{CellTypeInterface, GameLogicInterface, GenericRecord}
 import tetris.game._
-import tetris.logic.TetrisLogic
+import tetris.logic.{Empty, IBlock, JBlock, LBlock, OBlock, SBlock, TBlock, TetrisBlock, TetrisLogic, ZBlock}
 
 sealed abstract class TetrisAction
 case object RotateLeft    extends TetrisAction
@@ -46,7 +46,7 @@ case class TetrisLogicWrapper
     case Drop => doHardDrop()
   }
 
-  override def getGridTypeAt(col: Int , row: Int): TetrisGridTypeWrapper = TetrisGridTypeWrapper(getBlockAt(col,row))
+  override def getCell(col: Int , row: Int): TetrisGridTypeWrapper = TetrisGridTypeWrapper(getBlockAt(col,row))
 }
 
 

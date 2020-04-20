@@ -1,4 +1,4 @@
-package tetris.game
+package tetris.logic
 
 abstract class TetrisBlock
 case object IBlock  extends TetrisBlock
