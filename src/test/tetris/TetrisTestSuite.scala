@@ -60,5 +60,5 @@ class TetrisTestSuite extends TestSuite {
     InterleaveTest("testInterleave8x11and6x10", testGame8x11, testGame6x10),
   )
 
-  reportOnUniformlyScoredTests(testList, mainInterTestList, "2.0")
+  reportOnUniformlyScoredTests(testList, mainInterTestList)
 }
