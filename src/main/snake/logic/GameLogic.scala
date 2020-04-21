@@ -29,11 +29,12 @@ class GameLogic(val random: RandomGenerator,
 /** GameLogic companion object */
 object GameLogic {
 
-  // These are the dimensions used when playing the game
-  // when testing the game, other dimensions are passed to
-  // the constructor of GameLogic when testing.
-  // Note that therefore it is important that you do not use
-  // the variable DefaultGridDims in your code!
+  // These are the dimensions used when playing the game.
+  // When testing the game, other dimensions are passed to
+  // the constructor of GameLogic.
+  //
+  // DO NOT USE the variable DefaultGridDims in your code!
+  //
   // Doing so will cause tests which have different dimensions to FAIL!
   //
   // In your code only use gridDims.width and gridDims.height
