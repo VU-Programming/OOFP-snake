@@ -387,6 +387,7 @@ abstract class GenericRecord[
           } finally {
             writer.close()
           }
+        case None => ()
       }
     }
     override def timeLimit: Span = Span(1,Seconds)
