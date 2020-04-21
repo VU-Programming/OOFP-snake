@@ -261,10 +261,11 @@ abstract class GenericRecord[
     var nrPassedTests : Int  = 0
     var scoredPoints : Double = 0
     var maxPoints  : Double = 0
+    val filenameForPoints : Option[String] = None
 
     override def afterAll(): Unit = {
       super.afterAll()
-      writePoints("bla")
+      writePoints()
     }
 
     val InterleaveFailMsg =
@@ -366,7 +367,7 @@ abstract class GenericRecord[
       }
     }
 
-    def writePoints(suiteName: String = "x.x"): Unit = {
+    def writePoints(): Unit = {
       val fraction = scoredPoints / maxPoints
       val percentage = fraction * 100
       val resultStr = f"Total Functionality Points : $scoredPoints%.2f/$maxPoints%.2f [$percentage%.2f" + "%]"
@@ -375,16 +376,17 @@ abstract class GenericRecord[
 
       val initialCodeStyleGrade = fraction * CodeStylePoints
       println(f"(Initial code style points: $initialCodeStyleGrade%.2f)")
-      //beginXXX
-      val filename = s"grade_${suiteName.replace('.', '_')}.tmp"
-      val pointStr = s"$scoredPoints"
-      val writer = new PrintWriter(new File(filename))
-      try {
-        writer.println(pointStr)
-      } finally {
-        writer.close()
+      filenameForPoints match {
+        case Some(fn) =>
+          val filename = s"grade_${fn.replace('.', '_')}.tmp"
+          val pointStr = s"$scoredPoints"
+          val writer = new PrintWriter(new File(filename))
+          try {
+            writer.println(pointStr)
+          } finally {
+            writer.close()
+          }
       }
-      //endXXX
     }
     override def timeLimit: Span = Span(1,Seconds)
     // this is need to actually stop when the buggy code contains an infinite loop
