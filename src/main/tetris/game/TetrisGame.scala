@@ -12,13 +12,15 @@ import processing.core.{PApplet, PConstants}
 import processing.event.KeyEvent
 import tetris.logic._
 import tetris.game.TetrisGame._
+import tetris.logic.{Point => GridPoint}
 
 class TetrisGame extends GameBase {
 
-  var gameLogic = TetrisLogic()
+  var gameLogic : TetrisLogic = TetrisLogic()
   val updateTimer = new UpdateTimer(FramesPerSecond)
-  val widthInPixels: Int = WidthCellInPixels * gameLogic.nrColumns
-  val heightInPixels: Int = HeightCellInPixels * gameLogic.nrRows
+  val gridDims : Dimensions = gameLogic.gridDims
+  val widthInPixels: Int = WidthCellInPixels * gridDims.width
+  val heightInPixels: Int = HeightCellInPixels * gridDims.height
   val screenArea: Rectangle = Rectangle(Point(0, 0), widthInPixels, heightInPixels)
 
   override def draw(): Unit = {
@@ -33,21 +35,21 @@ class TetrisGame extends GameBase {
   }
 
   def drawGrid(): Unit = {
-    val widthPerCell = screenArea.width / gameLogic.nrColumns
-    val heightPerCell = screenArea.height / gameLogic.nrRows
 
-    for (y <- 0 until gameLogic.nrRows;
-         x <- 0 until gameLogic.nrColumns) {
-      drawCell(getCell(x, y), gameLogic.getBlockAt(x,y))
+    val widthPerCell = screenArea.width / gridDims.width
+    val heightPerCell = screenArea.height / gridDims.height
+
+    for (p <- gridDims.allPointsInside) {
+      drawCell(getCell(p), gameLogic.getCellType(p))
     }
 
-    def getCell(colIndex: Int, rowIndex: Int): Rectangle = {
-      val leftUp = Point(screenArea.left + colIndex * widthPerCell,
-        screenArea.top + rowIndex * heightPerCell)
+    def getCell(p : GridPoint): Rectangle = {
+      val leftUp = Point(screenArea.left + p.x * widthPerCell,
+        screenArea.top + p.y * heightPerCell)
       Rectangle(leftUp, widthPerCell, heightPerCell)
     }
 
-    def drawCell(area: Rectangle, tetrisColor: TetrisBlock): Unit = {
+    def drawCell(area: Rectangle, tetrisColor: CellType): Unit = {
       val color = tetrisBlockToColor(tetrisColor)
       setFillColor(color)
       drawRectangle(area)
@@ -99,16 +101,16 @@ class TetrisGame extends GameBase {
     }
   }
 
-  def tetrisBlockToColor(color: TetrisBlock): Color =
+  def tetrisBlockToColor(color: CellType): Color =
     color match {
-      case IBlock => Color.LightBlue
-      case OBlock => Color.Yellow
-      case LBlock => Color.Orange
-      case JBlock => Color.Blue
-      case SBlock => Color.Green
+      case ICell => Color.LightBlue
+      case OCell => Color.Yellow
+      case LCell => Color.Orange
+      case JCell => Color.Blue
+      case SCell => Color.Green
       case Empty  => Color.Black
-      case TBlock => Color.Purple
-      case ZBlock => Color.Red
+      case TCell => Color.Purple
+      case ZCell => Color.Red
     }
 }
 

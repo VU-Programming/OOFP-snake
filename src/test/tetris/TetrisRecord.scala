@@ -6,7 +6,7 @@ package tetris
 import engine.random.RandomGenerator
 import generic.{CellTypeInterface, GameLogicInterface, GenericRecord}
 import tetris.game._
-import tetris.logic.{Empty, IBlock, JBlock, LBlock, OBlock, SBlock, TBlock, TetrisBlock, TetrisLogic, ZBlock}
+import tetris.logic.{CellType, Dimensions, Empty, ICell, JCell, LCell, OCell, Point, SCell, TCell, TetrisLogic, ZCell}
 
 sealed abstract class TetrisAction
 case object RotateLeft    extends TetrisAction
@@ -16,17 +16,17 @@ case object Left          extends TetrisAction
 case object Right         extends TetrisAction
 case object Drop          extends TetrisAction
 
-case class TetrisGridTypeWrapper(gridType : TetrisBlock)  extends CellTypeInterface[TetrisGridTypeWrapper]{
+case class TetrisGridTypeWrapper(gridType : CellType)  extends CellTypeInterface[TetrisGridTypeWrapper]{
   override def conforms(rhs : TetrisGridTypeWrapper) : Boolean = gridType == rhs.gridType
 
   override def toChar: Char = gridType match {
-    case IBlock  => 'I'
-    case JBlock  => 'J'
-    case LBlock  => 'L'
-    case OBlock  => 'O'
-    case SBlock  => 'S'
-    case TBlock  => 'T'
-    case ZBlock  => 'Z'
+    case ICell  => 'I'
+    case JCell  => 'J'
+    case LCell  => 'L'
+    case OCell  => 'O'
+    case SCell  => 'S'
+    case TCell  => 'T'
+    case ZCell  => 'Z'
     case Empty   => '.'
   }
 }
@@ -34,9 +34,9 @@ case class TetrisGridTypeWrapper(gridType : TetrisBlock)  extends CellTypeInterf
 
 case class TetrisLogicWrapper
 (override val randomGen : RandomGenerator,
- override val nrColumns: Int, override val nrRows : Int,
- override val initialBoard : Seq[Seq[TetrisBlock]])
-  extends TetrisLogic(randomGen,nrColumns ,nrRows,initialBoard) with GameLogicInterface[TetrisAction, TetrisGridTypeWrapper]{
+ override val gridDims : Dimensions,
+ override val initialBoard : Seq[Seq[CellType]])
+  extends TetrisLogic(randomGen,gridDims,initialBoard) with GameLogicInterface[TetrisAction, TetrisGridTypeWrapper]{
   override def performAction(action: TetrisAction): Unit = action match {
     case RotateLeft => rotateLeft()
     case RotateRight => rotateRight()
@@ -46,54 +46,57 @@ case class TetrisLogicWrapper
     case Drop => doHardDrop()
   }
 
-  override def getCell(col: Int , row: Int): TetrisGridTypeWrapper = TetrisGridTypeWrapper(getBlockAt(col,row))
+  override def getCell(col: Int , row: Int): TetrisGridTypeWrapper = TetrisGridTypeWrapper(getCellType(Point(col,row)))
+
+  override def nrRows: Int = gridDims.height
+  override def nrColumns: Int = gridDims.width
 }
 
 
 object TetrisRecord  extends GenericRecord
-  [TetrisAction, TetrisGridTypeWrapper, TetrisLogicWrapper, (Int,Int, Seq[Seq[TetrisBlock]])]() {
+  [TetrisAction, TetrisGridTypeWrapper, TetrisLogicWrapper, (Dimensions, Seq[Seq[CellType]])]() {
   def charToGridType(char: Char) : TetrisGridTypeWrapper = TetrisGridTypeWrapper(char match {
-    case 'I' => IBlock
-    case 'J' => JBlock
-    case 'L' => LBlock
-    case 'O' => OBlock
-    case 'S' => SBlock
-    case 'T' => TBlock
-    case 'Z' => ZBlock
+    case 'I' => ICell
+    case 'J' => JCell
+    case 'L' => LCell
+    case 'O' => OCell
+    case 'S' => SCell
+    case 'T' => TCell
+    case 'Z' => ZCell
     case '.' => Empty
   })
 
 
-  def emptyBoard( nrColumns : Int, nrRows : Int) : Seq[Seq[TetrisBlock]] = {
-    val emptyLine = Seq.fill(nrColumns)(Empty)
-    Seq.fill(nrRows)(emptyLine)
+  def emptyBoard( dims : Dimensions) : Seq[Seq[CellType]] = {
+    val emptyLine = Seq.fill(dims.width)(Empty)
+    Seq.fill(dims.height)(emptyLine)
   }
 
-  override def makeGame(random: RandomGenerator, initialInfo: (Int, Int, Seq[Seq[TetrisBlock]])): TetrisLogicWrapper =
-    new TetrisLogicWrapper(random,initialInfo._1, initialInfo._2, initialInfo._3)
+  override def makeGame(random: RandomGenerator, initialInfo: (Dimensions, Seq[Seq[CellType]])): TetrisLogicWrapper =
+    new TetrisLogicWrapper(random,initialInfo._1, initialInfo._2)
 
   override def gameLogicName: String = "TetrisLogic"
 
 
   object TetrisTest {
     def apply(name: String, frames: Seq[TestFrame]): Test = {
-      val dimensions: (Int, Int) = frames.head.display match {
-        case grid: GridDisplay => (grid.nrColumns, grid.nrRows)
+      val dimensions: Dimensions = frames.head.display match {
+        case grid: GridDisplay => Dimensions(width = grid.nrColumns, height = grid.nrRows)
         case _ => throw new Error("No grid display in test")
       }
-      Test(name,(dimensions._1,dimensions._2, emptyBoard(dimensions._1,dimensions._2)),frames)
+      Test(name,(dimensions, emptyBoard(dimensions)),frames)
     }
 
-    def parseInitialField(s : String) : Seq[Seq[TetrisBlock]] =
+    def parseInitialField(s : String) : Seq[Seq[CellType]] =
       stringToGridDisplay(s).grid.map(_.map(_.gridType))
 
 
     def apply(name: String, initial : String, frames: Seq[TestFrame]): Test = {
-      val dimensions: (Int, Int) = frames.head.display match {
-        case grid: GridDisplay => (grid.nrColumns, grid.nrRows)
+      val dimensions: Dimensions = frames.head.display match {
+        case grid: GridDisplay => Dimensions(width = grid.nrColumns, height = grid.nrRows)
         case x => throw new Error("No grid display in " ++ name ++ " got instead " ++ x.toString)
       }
-      Test(name,(dimensions._1,dimensions._2, parseInitialField(initial)),frames)
+      Test(name,(dimensions, parseInitialField(initial)),frames)
     }
   }
 }
