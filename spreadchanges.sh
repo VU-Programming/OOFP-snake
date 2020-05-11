@@ -15,3 +15,6 @@ e git push
 e git checkout tetris
 e git merge master
 e git push
+e git checkout connectfour
+e git merge master
+e git push
