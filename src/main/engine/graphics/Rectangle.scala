@@ -30,4 +30,10 @@ case class Rectangle(leftUp: Point, width: Float, height: Float) {
     Rectangle(Point(left - diffX, top - diffY ), newWidth,newHeight)
 
   }
+
+  def contains(p : Point) : Boolean =
+    p.x >= left && p.x < right && p.y >= top && p.y < bottom
+
+  def localPoint(globalPoint : Point) : Point =
+    globalPoint - leftUp
 }

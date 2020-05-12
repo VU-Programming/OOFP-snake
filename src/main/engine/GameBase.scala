@@ -51,6 +51,9 @@ class GameBase   extends PApplet {
     popStyle()
   }
 
+  def drawLine(p1 : Point, p2 : Point) : Unit =
+    line(p1.x,p1.y, p2.x,p2.y ) 
+
   def drawRectangle(r: Rectangle): Unit =
     rect(r.left,r.top, r.width, r.height)
 
