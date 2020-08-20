@@ -4,7 +4,7 @@
 package snake
 
 import engine.random.RandomGenerator
-import generic.{CellTypeInterface, GameLogicInterface, GenericRecord}
+import generic.{CellTypeInterface, GameLogicInterface, GameTestSuite, GenericRecord}
 import snake.logic.{Apple, CellType, Dimensions, Direction, East, Empty, GameLogic, North, Point, SnakeBody, SnakeHead, South, West}
 
 
@@ -61,7 +61,7 @@ case class SnakeLogicWrapper(logic: GameLogic)
 
 }
 
-object SnakeRecord extends GenericRecord
+object SnakeTestSuite extends GameTestSuite
   [SnakeAction, SnakeGridTypeWrapper, SnakeLogicWrapper,Dimensions]() {
 
 
@@ -83,17 +83,18 @@ object SnakeRecord extends GenericRecord
     })
 
 
-  object SnakeTest {
-    def apply(name : String, frames : Seq[TestFrame]): SnakeRecord.Test = {
+  def snakeTest(name : String, frames : Seq[TestFrame]) = {
+
       val dimensions: Dimensions = frames.head.display match {
         case grid: GridDisplay => Dimensions(grid.nrColumns, grid.nrRows)
         case _ => throw new Error("No grid display in test")
       }
 
       def addStep(input : FrameInput) : FrameInput = FrameInput(input.randomNumber, input.actions  :+ Step)
+
       val framesWithStep : Seq[TestFrame] =
-        frames.head +: frames.tail.map(frame => SnakeRecord.TestFrame(addStep(frame.input), frame.display))
-      Test(name, dimensions,framesWithStep)
+        frames.head +: frames.tail.map(frame => TestFrame(addStep(frame.input), frame.display))
+     gameTest(name, TestRecording(dimensions,framesWithStep))
     }
   }
 
