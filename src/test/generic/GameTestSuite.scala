@@ -246,9 +246,9 @@ abstract class GameTestSuite[
        |we have two  $gameLogicName instances running in 'parallel', the test fails.
   """
 
-  def gameTest(testName : String, theTest : TestRecording): Unit = gameTest(testName, theTest,1.0)
+  def gameTest(testName : String, theTest : TestRecording): Unit = gameTest(testName, theTest,1)
 
-  def gameTest(testName : String, theTest : TestRecording, weight : Double): Unit = {
+  def gameTest(testName : String, theTest : TestRecording, weight : Int): Unit = {
     def actionsString(actions: Seq[GameAction]): String =
       "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
 
@@ -263,7 +263,7 @@ abstract class GameTestSuite[
       println(frameString)
       println()
     }
-    test(testName) {
+    test(testName,weight = weight ) {
       val didPass = theTest.passes
       val ptsStr = if (didPass) f"+$weight%.2f Points" else "No Points"
       val headerString = s"${testName} : ${if (didPass) PassStr else FailStr} : $ptsStr"
@@ -280,10 +280,10 @@ abstract class GameTestSuite[
     }
   }
   def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording): Unit =
-    gameInterleaveTest(name,testA,testB,1.0)
+    gameInterleaveTest(name,testA,testB,1)
 
-  def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording, weight : Double): Unit = {
-    test(name) {
+  def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording, weight : Int): Unit = {
+    test(name,weight) {
       val didPass = checkInterleave(testA, testB)
       val message = s"Interleave Test: $name : " +
         s"${
