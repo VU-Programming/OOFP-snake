@@ -12,14 +12,14 @@ import generic.StringUtils._
 import infrastructure.TestBase
 
 /**   * Generic test infrastructure for Snake and Tetris.
-  *
-  * This supports a game with a grid, filled with some CellType
-  * on which some actions can be done.
-  *
-  * An initial game can be constructed out of some InitialInfo
-  * For testing we perform the actions and check is the grid
-  * is the same as specified in the test.
-  */
+ *
+ * This supports a game with a grid, filled with some CellType
+ * on which some actions can be done.
+ *
+ * An initial game can be constructed out of some InitialInfo
+ * For testing we perform the actions and check is the grid
+ * is the same as specified in the test.
+ */
 trait CellTypeInterface[T] {
   def conforms(rhs: T): Boolean
 
@@ -39,10 +39,10 @@ trait GameLogicInterface[GameAction, CellType] {
 }
 
 abstract class GameTestSuite[
-            GameAction,
-            CellType <: CellTypeInterface[CellType],
-            GameLogic <: GameLogicInterface[GameAction, CellType],
-            InitialInfo]()  extends TestBase {
+  GameAction,
+  CellType <: CellTypeInterface[CellType],
+  GameLogic <: GameLogicInterface[GameAction, CellType],
+  InitialInfo]()  extends TestBase {
 
   def charToGridType(ch: Char): CellType
 
@@ -142,7 +142,6 @@ abstract class GameTestSuite[
     else getGridDisplay(logic)
   }
 
-
   def performActionsAndGetDisplay(random: TestRandomGen,
                                   logic: GameLogic,
                                   frameInput: FrameInput): GameDisplay = {
@@ -160,7 +159,7 @@ abstract class GameTestSuite[
     val dispA = getDisplay(logicA)
     val dispB = getDisplay(logicB)
     if(!dispA.conforms(testA.frames.head.display) ||
-       !dispB.conforms(testB.frames.head.display))
+      !dispB.conforms(testB.frames.head.display))
       return false
 
     for ((a, b) <- testA.frames.tail.zip(testB.frames.tail)) {
@@ -176,31 +175,32 @@ abstract class GameTestSuite[
     lazy val referenceDisplays: Seq[GameDisplay] = frames.map(_.display)
 
     lazy val implementationDisplays: Seq[GameDisplay] = {
-        val random = new TestRandomGen(frames.head.input.randomNumber)
-        def catchLogicError(compute : => GameDisplay) : GameDisplay = {
-          try {
-            return compute
-          } catch {
-            case e : Throwable => LogicFailed(e)
-          }
-        }
+      val random = new TestRandomGen(frames.head.input.randomNumber)
+      def catchLogicError(compute : => GameDisplay) : GameDisplay = {
         try {
-          val logic = makeGame(random, initialInfo)
-          val displays = Seq.newBuilder[GameDisplay]
-          val firstDisplay = catchLogicError{ getDisplay(logic) }
-          displays.addOne(firstDisplay)
-          var error = firstDisplay.isError
-          val inputIterator = frames.tail.iterator
-          while(!error && inputIterator.hasNext ) {
-            val testFrame = inputIterator.next()
-            val newDisplay = catchLogicError {performActionsAndGetDisplay(random, logic, testFrame.input) }
-            displays.addOne(newDisplay)
-            error = newDisplay.isError
-          }
-          displays.result()
+          return compute
         } catch {
-          case e: Throwable => Seq(LogicFailed(e))
+          case e : Throwable => LogicFailed(e)
         }
+      }
+      try {
+        val logic = makeGame(random, initialInfo)
+        val displays = Seq.newBuilder[GameDisplay]
+        val firstDisplay = catchLogicError{ getDisplay(logic) }
+        displays.addOne(firstDisplay)
+        var error = firstDisplay.isError
+        val inputIterator = frames.tail.iterator
+        while(!error && inputIterator.hasNext ) {
+          val testFrame = inputIterator.next()
+
+          val newDisplay = catchLogicError {performActionsAndGetDisplay(random, logic, testFrame.input) }
+          displays.addOne(newDisplay)
+          error = newDisplay.isError
+        }
+        displays.result()
+      } catch {
+        case e: Throwable => Seq(LogicFailed(e))
+      }
     }
 
     lazy val passes: Boolean =
@@ -251,33 +251,30 @@ abstract class GameTestSuite[
   def gameTest(testName : String, theTest : TestRecording, weight : Int): Unit = {
     def actionsString(actions: Seq[GameAction]): String =
       "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
+    val sbuild = new StringBuilder()
 
     def printTraceFrame(frame: TestFrame, actual: GameDisplay, index: Int): Unit = {
-      println(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}")
+      sbuild.append(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}\n")
 
       val frameIsCorrect = frame.display.conforms(actual)
       val frameString =
         if (frameIsCorrect) withHeader("Want & Got", frame.display.toString)
         else twoColumnTable("Want", "Got", frame.display.toString, actual.toString)
 
-      println(frameString)
-      println()
+      sbuild.append(frameString + "\n")
+      sbuild.append("\n")
     }
     test(testName,weight = weight ) {
-
       val didPass = theTest.passes
-      val ptsStr = if (didPass) f"+$weight%.2f Points" else "No Points"
-      val headerString = s"${testName} : ${if (didPass) PassStr else FailStr} : $ptsStr"
-      println(List.fill(headerString.length)("=").mkString + "\n" + headerString)
 
-      if (!didPass) println("This is what went wrong:\n")
-      else println("This is what we got & expected:\n")
+      if (!didPass) sbuild.append("This is what went wrong:\n\n")
+      else sbuild.append("This is what we got & expected:\n\n")
 
       theTest.frames
         .lazyZip(theTest.implementationDisplays)
         .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
 
-      assert(didPass)
+      assert(didPass,sbuild.toString())
     }
   }
   def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording): Unit =
