@@ -3,19 +3,14 @@
 
 package generic
 
-import java.io.{File, PrintWriter}
 
 import engine.random.RandomGenerator
-import org.scalatest.{BeforeAndAfterAll, FunSuite, FunSuiteLike, Matchers}
+import org.scalatest.FunSuite
 import generic.GenericRecord._
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent._
-import scala.concurrent.duration._
 import scala.language.postfixOps
 import generic.StringUtils._
-import org.scalatest.concurrent.{Signaler, TimeLimitedTests}
-import org.scalatest.time.{Seconds, Span}
+import infrastructure.TestBase
 
 /**   * Generic test infrastructure for Snake and Tetris.
   *
@@ -246,10 +241,7 @@ abstract class GenericRecord[
   }
 
 
-  class TestSuite extends FunSuite with TimeLimitedTests{
-
-
-
+  class GameTestSuite extends TestBase{
 
     val InterleaveFailMsg =
       s"""
@@ -260,7 +252,6 @@ abstract class GenericRecord[
          |Running your game with a single  $gameLogicName instance works, but when
          |we have two  $gameLogicName instances running in 'parallel', the test fails.
     """
-
 
     def gameTest(testName : String, theTest : Test, weight : Double): Unit = {
       def actionsString(actions: Seq[GameAction]): String =
@@ -292,7 +283,6 @@ abstract class GenericRecord[
           .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
 
         assert(didPass)
-
       }
     }
 
@@ -307,7 +297,6 @@ abstract class GenericRecord[
         println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
 
         assert(didPass)
-
       }
     }
   }
