@@ -1,10 +1,9 @@
 package snake
 
 import org.junit.runner.RunWith
-import snake.SnakeRecord._
 import snake.SnakeTests._
 import org.scalatestplus.junit.JUnitRunner
-
+/*
 abstract class SnakeTestSuite extends TestSuite {
 
   val mainTestList: List[Test] = List(
@@ -62,3 +61,5 @@ class SnakeTestsAssignment1_3 extends SnakeTestSuite {
 
   reportOnUniformlyScoredTests(testList, mainInterTestList)
 }
+
+ */

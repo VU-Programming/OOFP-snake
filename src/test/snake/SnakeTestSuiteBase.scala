@@ -4,7 +4,7 @@
 package snake
 
 import engine.random.RandomGenerator
-import generic.{CellTypeInterface, GameLogicInterface, GameTestSuite, GenericRecord}
+import generic.{CellTypeInterface, GameLogicInterface, GameTestSuite}
 import snake.logic.{Apple, CellType, Dimensions, Direction, East, Empty, GameLogic, North, Point, SnakeBody, SnakeHead, South, West}
 
 
@@ -61,7 +61,7 @@ case class SnakeLogicWrapper(logic: GameLogic)
 
 }
 
-object SnakeTestSuite extends GameTestSuite
+abstract class SnakeTestSuiteBase extends GameTestSuite
   [SnakeAction, SnakeGridTypeWrapper, SnakeLogicWrapper,Dimensions]() {
 
 
@@ -83,7 +83,7 @@ object SnakeTestSuite extends GameTestSuite
     })
 
 
-  def snakeTest(name : String, frames : Seq[TestFrame]) = {
+  def test(name : String, frames : Seq[TestFrame]) : Unit = {
 
       val dimensions: Dimensions = frames.head.display match {
         case grid: GridDisplay => Dimensions(grid.nrColumns, grid.nrRows)
@@ -95,7 +95,7 @@ object SnakeTestSuite extends GameTestSuite
       val framesWithStep : Seq[TestFrame] =
         frames.head +: frames.tail.map(frame => TestFrame(addStep(frame.input), frame.display))
      gameTest(name, TestRecording(dimensions,framesWithStep))
-    }
+
   }
 
 

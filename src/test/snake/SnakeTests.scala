@@ -1,6 +1,5 @@
 package snake
 
-import snake.SnakeRecord._
 import snake.logic.{East, North, South, West}
 
 object SnakeTests {
@@ -8,98 +7,11 @@ object SnakeTests {
 
   // ===1.1===
 
-  val testStartCorrectly  : SnakeRecord.Test =
-    SnakeTest("testStartCorrectly",
-      List(
-        TestFrame(0,
-          """OO>A..
-            |......""")))
+
+  /*
 
 
-  val testApplePos3  : SnakeRecord.Test =
-    SnakeTest("testApplePos3",
-      List(
-        TestFrame(3,
-          """OO>...
-            |A.....""")))
 
-
-  val testApplePos8  : SnakeRecord.Test =
-    SnakeTest("testApplePos8",
-      List(
-        TestFrame(8,
-          """OO>...
-            |.....A""")))
-
-
-  val testNoRoomForApple  : SnakeRecord.Test =
-    SnakeTest("testNoRoomForApple",
-      List(
-        TestFrame(2,
-          """OO>..A"""),
-        TestFrame(2,
-          """.OO>.A"""),
-        TestFrame(2,
-          """..OO>A"""),
-        TestFrame(2,
-          """..AOO>"""),
-        TestFrame(2,
-          """>.AOOO"""),
-        TestFrame(2,
-          """O>AOOO"""),
-        TestFrame(2,
-          """OO>OOO"""),
-        TestFrame(2,
-          GameOverDisplay()
-        )))
-
-
-  val testMove  : SnakeRecord.Test =
-    SnakeTest("testMove",
-      List(
-        TestFrame(3,
-          """OO>...
-            |A....."""),
-        TestFrame(3,
-          """.OO>..
-            |A....."""),
-        TestFrame(3,
-          """..OO>.
-            |A....."""),
-      ))
-
-
-  val testIgnoreEatHead  : SnakeRecord.Test =
-    SnakeTest("testIgnoreEatHead",
-      List(
-        TestFrame(5,
-          """OO>...
-            |..A..."""),
-        TestFrame(5, List(ChangeDir(West())),
-          """.OO>..
-            |..A..."""),
-        TestFrame(5, List(ChangeDir(West())),
-          """..OO>.
-            |..A...""")
-      ))
-
-
-  val testIgnoreEatHeadQuickSwitch  : SnakeRecord.Test =
-    SnakeTest("testQuickSwitch",
-      List(
-        TestFrame(4,
-          """OO>.
-            |...A
-            |...."""),
-        TestFrame(4,
-          """.OO>
-            |...A
-            |...."""),
-        TestFrame(4, List(ChangeDir(North()), ChangeDir(West())),
-          """..OO
-            |...A
-            |...^"""),
-      ))
 
   val testIgnoreEatHeadQuickSwitch2  : SnakeRecord.Test =
     SnakeTest("testQuickSwitch2",
@@ -1866,5 +1778,5 @@ object SnakeTests {
           |....."""),
     ))
 
-
+ */
 }
