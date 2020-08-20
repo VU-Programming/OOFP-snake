@@ -5,8 +5,7 @@ package generic
 
 
 import engine.random.RandomGenerator
-import org.scalatest.FunSuite
-import generic.GenericRecord._
+import generic.GameTestSuite._
 
 import scala.language.postfixOps
 import generic.StringUtils._
@@ -208,7 +207,6 @@ abstract class GameTestSuite[
       checkSameRecording(referenceDisplays, implementationDisplays)
   }
 
-
   object TestFrame {
 
     def apply(rand: Int,
@@ -232,8 +230,6 @@ abstract class GameTestSuite[
     }
 
   }
-
-
 
   def checkSameRecording(testRecord: Seq[GameDisplay],
                          actualRecord: Seq[GameDisplay]): Boolean = {
