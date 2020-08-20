@@ -5,8 +5,7 @@ package generic
 
 
 import engine.random.RandomGenerator
-import org.scalatest.FunSuite
-import generic.GenericRecord._
+import generic.GameTestSuite._
 
 import scala.language.postfixOps
 import generic.StringUtils._
@@ -39,11 +38,11 @@ trait GameLogicInterface[GameAction, CellType] {
   def isGameOver: Boolean
 }
 
-abstract class GenericRecord[
+abstract class GameTestSuite[
             GameAction,
             CellType <: CellTypeInterface[CellType],
             GameLogic <: GameLogicInterface[GameAction, CellType],
-            InitialInfo]() {
+            InitialInfo]()  extends TestBase {
 
   def charToGridType(ch: Char): CellType
 
@@ -151,8 +150,7 @@ abstract class GenericRecord[
       getDisplay(logic)
   }
 
-
-  def checkInterleave(testA: Test, testB: Test): Boolean = {
+  def checkInterleave(testA: TestRecording, testB: TestRecording): Boolean = {
     val randomA = new TestRandomGen(testA.frames.head.input.randomNumber)
     val randomB = new TestRandomGen(testB.frames.head.input.randomNumber)
 
@@ -173,7 +171,7 @@ abstract class GenericRecord[
     return true
   }
 
-  case class Test(initialInfo: InitialInfo, frames: Seq[TestFrame]) {
+  case class TestRecording(initialInfo: InitialInfo, frames: Seq[TestFrame]) {
     lazy val referenceDisplays: Seq[GameDisplay] = frames.map(_.display)
 
     lazy val implementationDisplays: Seq[GameDisplay] = {
@@ -209,7 +207,6 @@ abstract class GenericRecord[
       checkSameRecording(referenceDisplays, implementationDisplays)
   }
 
-
   object TestFrame {
 
     def apply(rand: Int,
@@ -234,79 +231,72 @@ abstract class GenericRecord[
 
   }
 
-
-
   def checkSameRecording(testRecord: Seq[GameDisplay],
                          actualRecord: Seq[GameDisplay]): Boolean = {
     testRecord.zip(actualRecord).forall(p => p._1.conforms(p._2))
   }
 
+  val InterleaveFailMsg =
+    s"""
+       |Assuming you passed the non-interleaved version of each test:
+       |
+       |You likely have some global state. Running two instances of $gameLogicName
+       |and alternately doing steps between them results in some interference.
+       |Running your game with a single  $gameLogicName instance works, but when
+       |we have two  $gameLogicName instances running in 'parallel', the test fails.
+  """
 
-  class GameTestSuite extends TestBase{
+  def gameTest(testName : String, theTest : TestRecording, weight : Double): Unit = {
+    def actionsString(actions: Seq[GameAction]): String =
+      "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
 
+    def printTraceFrame(frame: TestFrame, actual: GameDisplay, index: Int): Unit = {
+      println(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}")
 
-    val InterleaveFailMsg =
-      s"""
-         |Assuming you passed the non-interleaved version of each test:
-         |
-         |You likely have some global state. Running two instances of $gameLogicName
-         |and alternately doing steps between them results in some interference.
-         |Running your game with a single  $gameLogicName instance works, but when
-         |we have two  $gameLogicName instances running in 'parallel', the test fails.
-    """
+      val frameIsCorrect = frame.display.conforms(actual)
+      val frameString =
+        if (frameIsCorrect) withHeader("Want & Got", frame.display.toString)
+        else twoColumnTable("Want", "Got", frame.display.toString, actual.toString)
 
-    def gameTest(testName : String, theTest : Test, weight : Double): Unit = {
-      def actionsString(actions: Seq[GameAction]): String =
-        "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
-
-      def printTraceFrame(frame: TestFrame, actual: GameDisplay, index: Int): Unit = {
-        println(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}")
-
-        val frameIsCorrect = frame.display.conforms(actual)
-        val frameString =
-          if (frameIsCorrect) withHeader("Want & Got", frame.display.toString)
-          else twoColumnTable("Want", "Got", frame.display.toString, actual.toString)
-
-        println(frameString)
-        println()
-      }
-      test(testName) {
-
-        val didPass = theTest.passes
-        val ptsStr = if (didPass) f"+$weight%.2f Points" else "No Points"
-        val headerString = s"${testName} : ${if (didPass) PassStr else FailStr} : $ptsStr"
-        println(List.fill(headerString.length)("=").mkString + "\n" + headerString)
-
-        if (!didPass) println("This is what went wrong:\n")
-        else println("This is what we got & expected:\n")
-
-        theTest.frames
-          .lazyZip(theTest.implementationDisplays)
-          .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
-
-        assert(didPass)
-      }
+      println(frameString)
+      println()
     }
+    test(testName) {
+      val didPass = theTest.passes
+      val ptsStr = if (didPass) f"+$weight%.2f Points" else "No Points"
+      val headerString = s"${testName} : ${if (didPass) PassStr else FailStr} : $ptsStr"
+      println(List.fill(headerString.length)("=").mkString + "\n" + headerString)
 
-    def gameInterleaveTests(name : String, testA : Test, testB : Test, weight : Double): Unit = {
-      test(name) {
-        val didPass = checkInterleave(testA, testB)
-        val message = s"Interleave Test: $name : " +
-          s"${
-            if (!didPass) FailStr + " : No Points\n" + InterleaveFailMsg.stripMargin
-            else PassStr + f" : +$weight%.2f Points"
-          }"
-        println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
+      if (!didPass) println("This is what went wrong:\n")
+      else println("This is what we got & expected:\n")
 
-        assert(didPass)
-      }
+      theTest.frames
+        .lazyZip(theTest.implementationDisplays)
+        .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
+
+      assert(didPass)
+    }
+  }
+
+  def gameInterleaveTests(name : String, testA : TestRecording, testB : TestRecording, weight : Double): Unit = {
+    test(name) {
+      val didPass = checkInterleave(testA, testB)
+      val message = s"Interleave Test: $name : " +
+        s"${
+          if (!didPass) FailStr + " : No Points\n" + InterleaveFailMsg.stripMargin
+          else PassStr + f" : +$weight%.2f Points"
+        }"
+      println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
+
+      assert(didPass)
     }
   }
 
 
+
 }
 
-object GenericRecord {
+object GameTestSuite {
   val PassStr = "[√] Pass"
   val FailStr = "[X] Fail"
 
