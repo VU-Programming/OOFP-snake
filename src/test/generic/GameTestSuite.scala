@@ -246,6 +246,8 @@ abstract class GameTestSuite[
        |we have two  $gameLogicName instances running in 'parallel', the test fails.
   """
 
+  def gameTest(testName : String, theTest : TestRecording): Unit = gameTest(testName, theTest,1.0)
+
   def gameTest(testName : String, theTest : TestRecording, weight : Double): Unit = {
     def actionsString(actions: Seq[GameAction]): String =
       "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
@@ -277,8 +279,10 @@ abstract class GameTestSuite[
       assert(didPass)
     }
   }
+  def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording): Unit =
+    gameInterleaveTest(name,testA,testB,1.0)
 
-  def gameInterleaveTests(name : String, testA : TestRecording, testB : TestRecording, weight : Double): Unit = {
+  def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording, weight : Double): Unit = {
     test(name) {
       val didPass = checkInterleave(testA, testB)
       val message = s"Interleave Test: $name : " +
