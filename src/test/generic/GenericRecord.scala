@@ -6,7 +6,7 @@ package generic
 import java.io.{File, PrintWriter}
 
 import engine.random.RandomGenerator
-import org.scalatest.{BeforeAndAfterAll, FunSuiteLike, Matchers}
+import org.scalatest.{BeforeAndAfterAll, FunSuite, FunSuiteLike, Matchers}
 import generic.GenericRecord._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -178,7 +178,7 @@ abstract class GenericRecord[
     return true
   }
 
-  case class Test(name: String, initialInfo: InitialInfo, frames: Seq[TestFrame]) {
+  case class Test(initialInfo: InitialInfo, frames: Seq[TestFrame]) {
     lazy val referenceDisplays: Seq[GameDisplay] = frames.map(_.display)
 
     lazy val implementationDisplays: Seq[GameDisplay] = {
@@ -245,27 +245,10 @@ abstract class GenericRecord[
     testRecord.zip(actualRecord).forall(p => p._1.conforms(p._2))
   }
 
-  case class TestWithPoints(test : Test, points : Double)
-  case class InterleaveTest(name : String, testa : Test, testb : Test)
-  case class InterleaveTestWithPoints(test : InterleaveTest, points : Double)
 
-  type Points = Double
+  class TestSuite extends FunSuite with TimeLimitedTests{
 
-  class TestSuite extends FunSuiteLike with Matchers with TimeLimitedTests with BeforeAndAfterAll{
 
-    // Testing via the via the test() method is done asynchronously
-    // so we set these variables via side effects to give more statistics
-    // such as the number of points obtained etc
-    var nrTests : Int = 0
-    var nrPassedTests : Int  = 0
-    var scoredPoints : Double = 0
-    var maxPoints  : Double = 0
-    val filenameForPoints : Option[String] = None
-
-    override def afterAll(): Unit = {
-      super.afterAll()
-      writePoints()
-    }
 
 
     val InterleaveFailMsg =
@@ -278,34 +261,8 @@ abstract class GenericRecord[
          |we have two  $gameLogicName instances running in 'parallel', the test fails.
     """
 
-    def reportOnUniformlyScoredTests(testList: List[Test] = Nil,
-                                     mainInterTestList: List[InterleaveTest] = Nil): Unit = {
-        runUniformlyScoredTestsAndGetGrade(testList, mainInterTestList)
-    }
 
-    def runUniformlyScoredTestsAndGetGrade(tests: List[Test] = Nil,
-                                           interTests: List[InterleaveTest] = Nil): Unit = {
-      val nrTests = tests.length + interTests.length
-      val scorePerTest: Double = FunctionalityPoints.toDouble / nrTests.toDouble
-
-      val testsWithPoints: List[TestWithPoints] =
-        tests.map(TestWithPoints(_, scorePerTest))
-
-      val interTestsWithScore: List[InterleaveTestWithPoints] =
-        interTests.map(InterleaveTestWithPoints(_, scorePerTest))
-
-      runTestsAndGetGrade(testsWithPoints, interTestsWithScore)
-    }
-
-    def runTestsAndGetGrade(gts: List[TestWithPoints] = Nil,
-                            gits: List[InterleaveTestWithPoints] = Nil): Unit = {
-      gts.foreach(handleTest)
-      gits.foreach(handleInterleaveTests)
-    }
-
-
-
-    def handleTest(t: TestWithPoints): Unit = {
+    def gameTest(testName : String, theTest : Test, weight : Double): Unit = {
       def actionsString(actions: Seq[GameAction]): String =
         "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
 
@@ -320,12 +277,11 @@ abstract class GenericRecord[
         println(frameString)
         println()
       }
-      val (theTest, points) = (t.test,t.points)
-      test(theTest.name) {
+      test(testName) {
 
         val didPass = theTest.passes
-        val ptsStr = if (didPass) f"+$points%.2f Points" else "No Points"
-        val headerString = s"${theTest.name} : ${if (didPass) PassStr else FailStr} : $ptsStr"
+        val ptsStr = if (didPass) f"+$weight%.2f Points" else "No Points"
+        val headerString = s"${testName} : ${if (didPass) PassStr else FailStr} : $ptsStr"
         println(List.fill(headerString.length)("=").mkString + "\n" + headerString)
 
         if (!didPass) println("This is what went wrong:\n")
@@ -335,64 +291,25 @@ abstract class GenericRecord[
           .lazyZip(theTest.implementationDisplays)
           .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
 
-        maxPoints += points
-        nrTests += 1
-        if(didPass) {
-          nrPassedTests += 1
-          scoredPoints += points
-        }
         assert(didPass)
 
       }
     }
 
-    def handleInterleaveTests(t: InterleaveTestWithPoints): Unit = {
-      val (name, testA, testB, points) = (t.test.name,t.test.testa,t.test.testb,t.points)
+    def gameInterleaveTests(name : String, testA : Test, testB : Test, weight : Double): Unit = {
       test(name) {
         val didPass = checkInterleave(testA, testB)
-        val message = s"Interleave Test: ${testA.name}, ${testB.name} : " +
+        val message = s"Interleave Test: $name : " +
           s"${
             if (!didPass) FailStr + " : No Points\n" + InterleaveFailMsg.stripMargin
-            else PassStr + f" : +$points%.2f Points"
+            else PassStr + f" : +$weight%.2f Points"
           }"
         println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
 
-        maxPoints += points
-        nrTests += 1
-        if(didPass) {
-          nrPassedTests += 1
-          scoredPoints += points
-        }
         assert(didPass)
 
       }
     }
-
-    def writePoints(): Unit = {
-      val fraction = scoredPoints / maxPoints
-      val percentage = fraction * 100
-      val resultStr = f"Total Functionality Points : $scoredPoints%.2f/$maxPoints%.2f [$percentage%.2f" + "%]"
-      println(f"Passed $nrPassedTests%d/$nrTests%d tests")
-      println(s"${"=" * resultStr.length}\n$resultStr\n${"=" * resultStr.length}")
-
-      val initialCodeStyleGrade = fraction * CodeStylePoints
-      println(f"(Initial code style points: $initialCodeStyleGrade%.2f)")
-      filenameForPoints match {
-        case Some(fn) =>
-          val filename = s"grade_${fn.replace('.', '_')}.tmp"
-          val pointStr = s"$scoredPoints"
-          val writer = new PrintWriter(new File(filename))
-          try {
-            writer.println(pointStr)
-          } finally {
-            writer.close()
-          }
-        case None => ()
-      }
-    }
-    override def timeLimit: Span = Span(1,Seconds)
-    // this is need to actually stop when the buggy code contains an infinite loop
-    override val defaultTestSignaler: Signaler = ReallyStopSignaler
   }
 
 
@@ -405,15 +322,5 @@ object GenericRecord {
   val DisplayPadWidth = 3
   val DisplayPadString: String = " " * DisplayPadWidth
 
-  val FunctionalityPoints = 4
-  val CodeStylePoints = 5
-
-  val GameStepTimeout: FiniteDuration = 10 milliseconds
 }
 
-
-object ReallyStopSignaler extends Signaler {
-  override def apply(testThread: Thread): Unit = {
-    StopRunningNow.stopRunningNowUnsafe(testThread)
-  }
-}
