@@ -1,65 +1,72 @@
 package snake
 
+import infrastructure.ScoreCounter
 import org.junit.runner.RunWith
-import snake.SnakeTests._
+import org.scalatest.{Args, Status, Suites}
 import org.scalatestplus.junit.JUnitRunner
-/*
-abstract class SnakeTestSuite extends TestSuite {
-
-  val mainTestList: List[Test] = List(
-    testStartCorrectly,
-    testApplePos3,
-    testApplePos8,
-    testNoRoomForApple,
-    testMove,
-    testIgnoreEatHead,
-    testIgnoreEatHeadQuickSwitch,
-    testIgnoreEatHeadQuickSwitch2,
-    testChangeDirs,
-    testWrapAroundEast,
-    testWrapAroundWest,
-    testWrapAroundNorth,
-    testWrapAroundSouth,
-    testGrow,
-    testGrowTwice,
-    testPreciselyDoesNotDie,
-    testGameOver,
-    testNoEscapeGameOver,
-    testGame3x1,
-    testGame6x6,
-    testGame6x3,
-    testGame10x7,
-  )
-
-  val mainInterTestList: List[InterleaveTest] = List(
-    InterleaveTest("testInterleave6x3and10x7", testGame6x3, testGame10x7),
-    InterleaveTest("testInterleave6x6and10x7", testGame6x6, testGame10x7),
-  )
-
-
-
-}
+import snake.SnakeTestsAssignment1_1.MaxGrade
+import snake.basic.{DeathTests, GrowthTests, MovementTests, NoReverseGameTests, NoReverseTest, PlacementTests, WrapAroundTests}
+import snake.reverse.ReverseTests
 
 @RunWith(classOf[JUnitRunner])
-class SnakeTestsAssignment1_1 extends SnakeTestSuite {
+class SnakeTestsAssignment1_1 extends Suites(
+    new PlacementTests,
+    new MovementTests,
+    new GrowthTests,
+    new WrapAroundTests,
+    new DeathTests,
+    new NoReverseTest,
+    new NoReverseGameTests
+) {
 
-  val testList: List[Test] = mainTestList :+ testNoReverseMode
-  reportOnUniformlyScoredTests(testList, mainInterTestList)
+    override def run(testName: Option[String], args: Args): Status = {
+        val scoreCounter = new ScoreCounter()
+        val newArgs =
+            args.copy(configMap = args.configMap.updated("scoreCounter",scoreCounter))
+        val res = runDirect(testName,newArgs)
+        printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
+        printf("Your grade for the repls exercise will be : %.2f\n",scoreCounter.fraction() * MaxGrade)
+        res
+    }
+
+    // run without making a new scorecounter
+    def runDirect(testName: Option[String], args: Args): Status = {
+        super.run(testName, args)
+    }
 }
+
+object SnakeTestsAssignment1_1 {
+    val MaxGrade = 10
+}
+
 
 @RunWith(classOf[JUnitRunner])
-class SnakeTestsAssignment1_3 extends SnakeTestSuite {
-  val reverseTests: List[Test] = List(
-    testReverseSimple,
-    testReversePastStart,
-    testReverseGameOver,
-    testChangeThePast,
-    testReverseLong,
-  )
+class SnakeTestsAssignment1_3 extends Suites(
+    new PlacementTests,
+    new MovementTests,
+    new GrowthTests,
+    new WrapAroundTests,
+    new DeathTests,
+    new NoReverseGameTests,
+    new ReverseTests
+) {
 
-  val testList: List[Test] = mainTestList ++ reverseTests
+    override def run(testName: Option[String], args: Args): Status = {
+        val scoreCounter = new ScoreCounter()
+        val newArgs =
+            args.copy(configMap = args.configMap.updated("scoreCounter",scoreCounter))
+        val res = runDirect(testName,newArgs)
+        printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
+        printf("Your grade for the repls exercise will be : %.2f\n",scoreCounter.fraction() * MaxGrade)
+        res
+    }
 
-  reportOnUniformlyScoredTests(testList, mainInterTestList)
+    // run without making a new scorecounter
+    def runDirect(testName: Option[String], args: Args): Status = {
+        super.run(testName, args)
+    }
 }
 
- */
+object SnakeTestsAssignment1_3 {
+    val MaxGrade = 10
+}
