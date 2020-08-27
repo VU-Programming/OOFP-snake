@@ -2,6 +2,7 @@ package infrastructure
 
 import org.scalactic.source.Position
 import org.scalatest.concurrent.{Signaler, TimeLimitedTests}
+import org.scalatest.exceptions.TestFailedException
 import org.scalatest.time.{Days, Seconds, Span}
 import org.scalatest.{Args, BeforeAndAfterAll, FunSuite, Status, Tag}
 
@@ -35,7 +36,7 @@ abstract class TestBase extends FunSuite with TimeLimitedTests {
         testFun
         scoreCounter.foreach(_.addScore(weight,weight))
       } catch {
-        case e : Any => {
+        case e : TestFailedException => {
           scoreCounter.foreach(_.addScore(weight,0))
           throw e
         }

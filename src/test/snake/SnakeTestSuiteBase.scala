@@ -83,7 +83,7 @@ abstract class SnakeTestSuiteBase extends GameTestSuite
     })
 
 
-  def test(name : String, frames : Seq[TestFrame]) : Unit = {
+  def checkGame(frames : Seq[TestFrame]) : Unit = {
 
       val dimensions: Dimensions = frames.head.display match {
         case grid: GridDisplay => Dimensions(grid.nrColumns, grid.nrRows)
@@ -94,7 +94,7 @@ abstract class SnakeTestSuiteBase extends GameTestSuite
 
       val framesWithStep : Seq[TestFrame] =
         frames.head +: frames.tail.map(frame => TestFrame(addStep(frame.input), frame.display))
-     gameTest(name, TestRecording(dimensions,framesWithStep))
+     checkGame(TestRecording(dimensions,framesWithStep))
 
   }
 
