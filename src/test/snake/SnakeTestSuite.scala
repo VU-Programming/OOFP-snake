@@ -5,7 +5,7 @@ import org.junit.runner.RunWith
 import org.scalatest.{Args, Status, Suites}
 import org.scalatestplus.junit.JUnitRunner
 import snake.BaseSnakeTestSuite.{BaseTests, MaxGrade}
-import snake.basic.{DeathTests, GrowthTests, MovementTests, NoReverseGameTests, NoReverseTest, PlacementTests, WrapAroundTests}
+import snake.basic.{DeathTests, GrowthTests, MovementTests, FullGameTests, NoReverseTest, PlacementTests, WrapAroundTests}
 import snake.reverse.ReverseTests
 
 abstract class SnakeTestSuite(suites: SnakeTestSuiteBase*) extends Suites(BaseTests ++ suites: _*) {
@@ -28,21 +28,21 @@ abstract class SnakeTestSuite(suites: SnakeTestSuiteBase*) extends Suites(BaseTe
 object BaseSnakeTestSuite {
     val MaxGrade = 10
     val BaseTests: Seq[SnakeTestSuiteBase] = Seq[SnakeTestSuiteBase](
-        new PlacementTests,
-        new MovementTests,
-        new GrowthTests,
-        new WrapAroundTests,
-        new DeathTests,
-        new NoReverseGameTests
+      new PlacementTests,
+      new MovementTests,
+      new GrowthTests,
+      new  WrapAroundTests,
+      new DeathTests,
+      new FullGameTests
     )
 }
 
 @RunWith(classOf[JUnitRunner])
 class SnakeTestsAssignment1_1 extends SnakeTestSuite(
-    new NoReverseTest
+  new NoReverseTest
 )
 
 @RunWith(classOf[JUnitRunner])
 class SnakeTestsAssignment1_3 extends SnakeTestSuite(
-    new ReverseTests
+  new ReverseTests
 )

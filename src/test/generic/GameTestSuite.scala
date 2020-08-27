@@ -151,7 +151,7 @@ abstract class GameTestSuite[
       getDisplay(logic)
   }
 
-  def checkInterleave(testA: TestRecording, testB: TestRecording): Boolean = {
+  def canInterleave(testA: TestRecording, testB: TestRecording): Boolean = {
     val randomA = new TestRandomGen(testA.frames.head.input.randomNumber)
     val randomB = new TestRandomGen(testB.frames.head.input.randomNumber)
 
@@ -274,21 +274,10 @@ abstract class GameTestSuite[
         .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
       assert(didPass,sbuild.toString())
   }
-  def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording): Unit =
-    gameInterleaveTest(name,testA,testB,1)
+  def checkInterleave( testA : TestRecording, testB : TestRecording): Unit = {
+      val didPass = canInterleave(testA, testB)
 
-  def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording, weight : Int): Unit = {
-    test(name,weight) {
-      val didPass = checkInterleave(testA, testB)
-      val message = s"Interleave Test: $name : " +
-        s"${
-          if (!didPass) FailStr + " : No Points\n" + InterleaveFailMsg.stripMargin
-          else PassStr + f" : +$weight%.2f Points"
-        }"
-      println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
-
-      assert(didPass)
-    }
+      assert(didPass, InterleaveFailMsg)
   }
 
 

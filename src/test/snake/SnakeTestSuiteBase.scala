@@ -83,19 +83,27 @@ abstract class SnakeTestSuiteBase extends GameTestSuite
     })
 
 
+  private def toTestRecording(frames : Seq[TestFrame]) : TestRecording = {
+    val dimensions: Dimensions = frames.head.display match {
+      case grid: GridDisplay => Dimensions(grid.nrColumns, grid.nrRows)
+      case _ => throw new Error("No grid display in test")
+    }
+
+    def addStep(input : FrameInput) : FrameInput = FrameInput(input.randomNumber, input.actions  :+ Step)
+
+    val framesWithStep : Seq[TestFrame] =
+      frames.head +: frames.tail.map(frame => TestFrame(addStep(frame.input), frame.display))
+
+    TestRecording(dimensions,framesWithStep)
+  }
+
   def checkGame(frames : Seq[TestFrame]) : Unit = {
+     checkGame(toTestRecording(frames))
 
-      val dimensions: Dimensions = frames.head.display match {
-        case grid: GridDisplay => Dimensions(grid.nrColumns, grid.nrRows)
-        case _ => throw new Error("No grid display in test")
-      }
+  }
 
-      def addStep(input : FrameInput) : FrameInput = FrameInput(input.randomNumber, input.actions  :+ Step)
-
-      val framesWithStep : Seq[TestFrame] =
-        frames.head +: frames.tail.map(frame => TestFrame(addStep(frame.input), frame.display))
-     checkGame(TestRecording(dimensions,framesWithStep))
-
+  def checkInterleave(framesA : Seq[TestFrame] , framesB : Seq[TestFrame]) : Unit = {
+    checkInterleave(toTestRecording(framesA), toTestRecording(framesB))
   }
 
 
