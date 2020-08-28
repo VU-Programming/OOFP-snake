@@ -133,5 +133,5 @@ class MovementTests extends SnakeTestSuiteBase {
               "the snake came from "
         )
     }
-    
+
 }
