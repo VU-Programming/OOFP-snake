@@ -5,7 +5,7 @@ import java.io.{OutputStream, PrintStream}
 
 import org.scalatest.{Args, ConfigMap, Reporter}
 import org.scalatest.events.Event
-import snake.{SnakeTestSuite, SnakeTestsAssignment1_1, SnakeTestsAssignment1_3}
+import snake.{SnakeTestSuite, SnakeTestsAssignment2_1, SnakeTestsAssignment2_3}
 
 // reports your score as a fraction between 0 and 1 for codegrade
 abstract class ReportFraction {
@@ -28,7 +28,7 @@ abstract class ReportFraction {
 }
 
 object ReportFraction1_1 extends ReportFraction {
-    override def Tests(): SnakeTestSuite = new SnakeTestsAssignment1_1()
+    override def Tests(): SnakeTestSuite = new SnakeTestsAssignment2_1()
 
     def main(args: Array[String]) : Unit = {
         Run()
@@ -36,7 +36,7 @@ object ReportFraction1_1 extends ReportFraction {
 }
 
 object ReportFraction1_3 extends ReportFraction {
-    override def Tests(): SnakeTestSuite = new SnakeTestsAssignment1_3()
+    override def Tests(): SnakeTestSuite = new SnakeTestsAssignment2_3()
 
     def main(args : Array[String]) : Unit  = {
         Run()

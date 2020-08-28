@@ -60,17 +60,17 @@ task zip(type: Zip) {
     destinationDir(file("$projectDir"))
 }
 
-task test1_1(type: Test) {
+task test2_1(type: Test) {
     description="Run tests for assignment 1.1 (snake)"
     filter {
-        includeTestsMatching "snake.SnakeTestsAssignment1_1"
+        includeTestsMatching "snake.SnakeTestsAssignment2_1"
     }
 }
 
 task test1_3(type: Test) {
-    description="Run tests for assignment 1.3 (snake)"
+    description="Run tests for assignment 2.3 (snake)"
     filter {
-        includeTestsMatching "snake.SnakeTestsAssignment1_3"
+        includeTestsMatching "snake.SnakeTestsAssignment2_3"
     }
 }
 

@@ -21,6 +21,66 @@ should make. Your implementation should:
   the center).
 * show the direction of the snake head.
 
+## Assignments
+
+There are 3 assignments for snake:
+### 2.1 Basic snake
+
+For this assignment implement the snake game _without_ reverse mode. This assignment is graded pass/fail. You pass the 
+assignment if your implementation passes 10 tests or more. The tests can be found in `SnakeTestsAssignment2_1` or by
+ running `./gradlew test2_1`.
+
+Your implementation must NOT implement reverse mode. The idea is
+that reverse mode is only implemented after the peer review such that there is some
+functionality in 1.3 which is not seen by other students in the peer review of 1.2. If you
+already implemented reverse mode, do not just disable reverse mode, remove any code
+that deals with it. Keep your code as simple and readable as possible. You code will be
+reviewed by your fellow student according to the clean code guidelines. Please read these and
+try to produce code with no offenses.
+
+If your implementation is more than 400 lines long (including empty lines), then some-
+thing is probably wrong. Did you duplicate code or re-implement basic data-structures?
+The reference implementation is 150 lines long. 
+
+
+## 2.2 Peer review
+ 
+ You will review and grade the snake implementations of 2.1 by 3 other students using the grading guidelines in 5. The 
+ codegrade system will assign implementations for you to grade.
+For each implementation, do the following:
+* Check for offenses of the guide and document them in the codegrade system
+* Write a small text in codegrade describing if you thought the code was easy to read and how the code should be improved.
+
+ 
+Peer reviews are graded by us using a pass/fail system. We will check if you made an
+effort to review the code and find penalties. If you receive very good code, it is of course
+OK to just state that it is very good and that you could not find any penalties. However,
+you will certainly fail if you receive code which is obviously bad on which you did not
+report a single penalty.
+
+When reviewing the code of other students please be nice and constructive!
+* Do not use swear words or strong language (e.g., do NOT use WTF).
+* Do not be condescending. Say that something is unclear, not that it is “stupid”.  
+* State how something can be improved, do not only criticize.
+
+Failure to be nice and/or constructive will lead to you failing assignment 1.2 (and hence the whole practical)!
+
+## 2.3 Snake reverse mode 
+
+Using the feedback from 3 other students from the peer review, you
+will improve your implementation of Snake. It is OK to improve your code by drawing
+inspiration from the code your reviewed from other students, but do not copy the code
+of other students! 
+
+For assignment 2.3 you should additionally implement a reverse mode which allows the player to rewind the game to an 
+earlier state.   When reverse mode is enabled, on each step the snake game returns to the previous game state. When 
+reverse mode is disabled again, the game will progress as normal from the point to which you reversed.
+Hence, you can rewind the game for a number of steps and then continue playing from
+this state. Reverse mode should not be implemented for assignment 2.1.
+
+The tests can be found in `SnakeTestsAssignment2_3` or by running `./gradlew test2_3`.
+
+
 ## Test setup
 
 To make sure that everyone programs exactly the same thing, we have implemented

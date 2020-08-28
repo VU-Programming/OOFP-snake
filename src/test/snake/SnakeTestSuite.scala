@@ -37,12 +37,4 @@ object BaseSnakeTestSuite {
     )
 }
 
-@RunWith(classOf[JUnitRunner])
-class SnakeTestsAssignment1_1 extends SnakeTestSuite(
-  new NoReverseTest
-)
 
-@RunWith(classOf[JUnitRunner])
-class SnakeTestsAssignment1_3 extends SnakeTestSuite(
-  new ReverseTests
-)
