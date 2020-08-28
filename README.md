@@ -201,7 +201,7 @@ and the current position of the snake is as follows:
 ```
 To determine the position of the apple, we want to pick a random free spot on the board
 (the apple should not be placed on the snake). We number the free spots on the board
-from left to right, top to bottom, skipping any spot occupied to by snake. In our example,
+from left to right, top to bottom, skipping any spot occupied to by the snake. In our example,
 this means the following numbering:
 ```
  0 | 1 | 2 | 3 | 4 
