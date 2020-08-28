@@ -51,9 +51,10 @@ object ReportFraction2_1 extends ReportFraction {
         val scoreCounter = runGetScoreCounter()
 
         out.printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
-        if(scoreCounter.points >= 10) out.printf("You passed exercise 2.1")
-        else out.printf("You did not pass exercise 2.1 yet")
-        out.printf("Fractiontouseforcodegrade %.2f",Math.min(1.0,scoreCounter.points / 10.0))
+        if(scoreCounter.points >= 10) out.printf("You passed exercise 2.1\n")
+        else out.printf("You did not pass exercise 2.1 yet\n")
+        val frac = if(scoreCounter.points >= 10) 1.0 else 0
+        out.printf("Fractiontouseforcodegrade %.2f",frac)
 
     }
 }
