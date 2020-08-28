@@ -252,12 +252,30 @@ abstract class GameTestSuite[
        |Running two instances of $gameLogicName/and alternately doing steps between them results in some interference.
   """.stripMargin.replaceAll("\n", " ")
 
+  def wordWrap(s : String, lineLen : Int) : String = {
+    val res = new StringBuilder()
+    var line : List[String] = List()
+    var len = 0
+    for(word <- s.split("[ ]")) {
+      if(len + word.length > lineLen) {
+        res++=line.reverse.mkString(" ") + "\n"
+        line = List(word)
+        len = word.length
+      } else {
+        len+= word.length
+        line = word :: line
+      }
+    }
+    if(line.nonEmpty) res++=line.reverse.mkString(" ")
+    res.toString()
+  }
+
 
   def checkGame(theTest : TestRecording, hint : String): Unit = {
     def actionsString(actions: Seq[GameAction]): String =
       "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
     val sbuild = new StringBuilder()
-    if(!hint.isEmpty) sbuild.append("\nHint: "+hint )
+    if(!hint.isEmpty) sbuild.append("\n" + wordWrap("Hint: "+hint,80) )
     sbuild.append("\n" + horizontalLineOfWidth(80) + "\n")
     def printTraceFrame(frame: TestFrame, actual: GameDisplay, index: Int): Unit = {
       sbuild.append(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}\n")

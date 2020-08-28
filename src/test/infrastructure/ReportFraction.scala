@@ -53,7 +53,7 @@ object ReportFraction2_1 extends ReportFraction {
         out.printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
         if(scoreCounter.points >= 10) out.printf("You passed exercise 2.1")
         else out.printf("You did not pass exercise 2.1 yet")
-        out.printf("Fractiontouseforcodegrade %.2f",Math.max(1.0,scoreCounter.points / 10.0))
+        out.printf("Fractiontouseforcodegrade %.2f",Math.min(1.0,scoreCounter.points / 10.0))
 
     }
 }
