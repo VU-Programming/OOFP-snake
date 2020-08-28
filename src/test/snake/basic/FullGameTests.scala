@@ -21,7 +21,7 @@ class FullGameTests extends SnakeTestSuiteBase {
                     """O>O"""),
                 TestFrame(0,
                     """OO>""")
-            )
+            ), "The game should work at any board size which can hold the initial snake. In this case 3x1."
         )
     }
 
@@ -220,7 +220,7 @@ class FullGameTests extends SnakeTestSuiteBase {
     )
 
     test("testGame6x6") {
-        checkGame(game6x6)
+        checkGame(game6x6, hint ="The game should work at any board size which can hold the initial snake. In this case 6x6.")
     }
 
     val game6x3 : List[TestFrame] =   List(
@@ -305,7 +305,7 @@ class FullGameTests extends SnakeTestSuiteBase {
     )
 
     test("testGame6x3") {
-        checkGame(game6x3)
+        checkGame(game6x3, hint = "The game should work at any board size which can hold the initial snake. In this case 6x3." )
     }
 
     val game10x7 : List[TestFrame] =  List(
@@ -746,19 +746,19 @@ class FullGameTests extends SnakeTestSuiteBase {
     )
 
     test("testGame10x7") {
-        checkGame( game10x7)
+        checkGame( game10x7,  hint ="The game should work at any board size which can hold the initial snake. In this case 10x7.")
     }
 
-    test("testInterleave6x3and10x7,") {
+    test("testInterleave6x3and10x7") {
         checkInterleave(game6x3,game10x7)
     }
 
-    test("testInterleave6x6and10x7,") {
+    test("testInterleave6x6and10x7") {
         checkInterleave(game6x6,game10x7)
     }
 
 
-    test("testInterleave6x3and6x6,") {
+    test("testInterleave6x3and6x6") {
         checkInterleave(game6x3,game6x6)
     }
 }

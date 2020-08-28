@@ -97,8 +97,9 @@ abstract class SnakeTestSuiteBase extends GameTestSuite
     TestRecording(dimensions,framesWithStep)
   }
 
-  def checkGame(frames : Seq[TestFrame]) : Unit = {
-     checkGame(toTestRecording(frames))
+
+  def checkGame(frames : Seq[TestFrame], hint : String = "" ) : Unit = {
+     checkGame(toTestRecording(frames), hint )
 
   }
 

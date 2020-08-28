@@ -28,7 +28,7 @@ class ReverseTests extends SnakeTestSuiteBase {
                     """OO>..
                       |A....
                       |....."""),
-            )
+            ), hint = "The game should reverse to earlier game states after enabling reverse mode."
         )
     }
 
@@ -56,7 +56,7 @@ class ReverseTests extends SnakeTestSuiteBase {
                 TestFrame(2,
                     """OO>..
                       |A....""")
-            )
+            ), hint = "Reversing past the start of the game should keep the game at the initial position"
         )
     }
 
@@ -93,7 +93,7 @@ class ReverseTests extends SnakeTestSuiteBase {
                 TestFrame(2,
                     """OO>..
                       |A...."""),
-            )
+            ), hint = "Reversing from a game over state should immediately give the last non game over state"
         )
     }
 
@@ -140,7 +140,8 @@ class ReverseTests extends SnakeTestSuiteBase {
                     """....A
                       |<OO..
                       |.....""")
-            )
+
+        ), hint = "After reversing, it should be possible to keep playing, doing different actions than the previous time"
         )
     }
 

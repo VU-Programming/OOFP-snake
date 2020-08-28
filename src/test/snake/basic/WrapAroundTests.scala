@@ -31,10 +31,12 @@ class WrapAroundTests extends SnakeTestSuiteBase {
                 TestFrame(6,
                     """.OO>..
                       |...A.."""),
-            )
+            ),
+            hint = "If the snake leaves the screen, it re-emerges at the other end."
         )
     }
 
+    // If the snake leaves the screen, it re-emerges at the other end.
     test("testWrapAroundSouth") {
         checkGame(
             List(
@@ -73,10 +75,11 @@ class WrapAroundTests extends SnakeTestSuiteBase {
                       |.AO.
                       |..v.
                       |....""")
-            )
+            ), hint = "If the snake leaves the screen, it re-emerges at the other end."
         )
     }
 
+    // If the snake leaves the screen, it re-emerges at the other end.
     test("testWrapAroundNorth") {
         checkGame(
             List(
@@ -105,10 +108,11 @@ class WrapAroundTests extends SnakeTestSuiteBase {
                       |..O.
                       |.AO.
                       |...."""),
-            )
+            ), hint = "If the snake leaves the screen, it re-emerges at the other end."
         )
     }
 
+    // If the snake leaves the screen, it re-emerges at the other end.
     test("testWrapAroundWest") {
         checkGame(
             List(
@@ -157,7 +161,7 @@ class WrapAroundTests extends SnakeTestSuiteBase {
                       |.A..
                       |O.<O
                       |...."""),
-            )
+            ), hint = "If the snake leaves the screen, it re-emerges at the other end."
         )
     }
 }

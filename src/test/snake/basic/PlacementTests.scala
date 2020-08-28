@@ -3,16 +3,20 @@ package snake.basic
 import snake.SnakeTestSuiteBase
 
 class PlacementTests extends SnakeTestSuiteBase {
+
     test("testStartCorrectly") {
         checkGame(
             List(
                 TestFrame(0,
                     """OO>A..
                       |......""")
-            )
+            ),
+            hint = " The snake should begin in the top left, heading east, and be three cells long."
         )
     }
 
+    // See assignment description on where to place the
+    // apple!
     test("testApplePos3") {
         checkGame(
             List(
@@ -20,6 +24,7 @@ class PlacementTests extends SnakeTestSuiteBase {
                     """OO>A..
                       |......""")
             )
+        , hint = "The apple should be placed correctly. See README.md"
         )
     }
 
@@ -29,7 +34,8 @@ class PlacementTests extends SnakeTestSuiteBase {
                 TestFrame(8,
                     """OO>...
                       |.....A""")
-            )
+            ),
+             hint =  "The apple should be placed correctly. See README.md"
         )
     }
 
@@ -54,6 +60,8 @@ class PlacementTests extends SnakeTestSuiteBase {
                     GameOverDisplay()
                 )
             )
+
+        , hint = "No apple should be placed if the entire playing field is filled with the snake body."
         )
     }
 }

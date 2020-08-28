@@ -239,27 +239,32 @@ abstract class GameTestSuite[
 
   val InterleaveFailMsg =
     s"""
-       |Assuming you passed the non-interleaved version of each test:
+       |Hint: It should be possible to “run” multiple games simultaneously, i.e., it should not
+       |be a problem to have multiple instances of $gameLogicName which act independently. To test
+       |this, we perform “interleave tests”: we instantiate two $gameLogicName objects with different
+       |board sizes and alternate between performing a step on one and a step on the other. If
+       |all is correct, the two games should progress exactly as they would if they were the only
+       |snake games being run. If this is not true, then there is likely some global state through
+       |which one game influences the other.
        |
-       |You likely have some global state. Running two instances of $gameLogicName
-       |and alternately doing steps between them results in some interference.
-       |Running your game with a single  $gameLogicName instance works, but when
-       |we have two  $gameLogicName instances running in 'parallel', the test fails.
-  """
+       |
+       |Hence if you fail this test but you passed the other full game test, then you have some global state.
+       |Running two instances of $gameLogicName/and alternately doing steps between them results in some interference.
+  """.stripMargin.replaceAll("\n", " ")
 
 
-  def checkGame(theTest : TestRecording): Unit = {
+  def checkGame(theTest : TestRecording, hint : String): Unit = {
     def actionsString(actions: Seq[GameAction]): String =
       "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
     val sbuild = new StringBuilder()
-
+    if(!hint.isEmpty) sbuild.append("\nHint: "+hint )
+    sbuild.append("\n" + horizontalLineOfWidth(80) + "\n")
     def printTraceFrame(frame: TestFrame, actual: GameDisplay, index: Int): Unit = {
       sbuild.append(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}\n")
 
       val frameIsCorrect = frame.display.conforms(actual)
-      val frameString =
-        if (frameIsCorrect) withHeader("Want & Got", frame.display.toString)
-        else twoColumnTable("Want", "Got", frame.display.toString, actual.toString)
+      val headerB = if(frameIsCorrect) "Got ✓" else "Got ✗"
+      val frameString = twoColumnTable("Want", headerB, frame.display.toString, actual.toString)
 
       sbuild.append(frameString + "\n")
       sbuild.append("\n")
@@ -277,7 +282,7 @@ abstract class GameTestSuite[
   def checkInterleave( testA : TestRecording, testB : TestRecording): Unit = {
       val didPass = canInterleave(testA, testB)
 
-      assert(didPass, InterleaveFailMsg)
+      assert(didPass, "\n" + InterleaveFailMsg)
   }
 
 
