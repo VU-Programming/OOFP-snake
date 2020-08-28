@@ -72,6 +72,7 @@ class MovementTests extends SnakeTestSuiteBase {
                       |....""")
             ), hint = "You can change direction."
         )
+    }
 
     test("testIgnoreEatHead") {
         checkGame(
@@ -132,7 +133,5 @@ class MovementTests extends SnakeTestSuiteBase {
               "the snake came from "
         )
     }
-
-
-    }
+    
 }
