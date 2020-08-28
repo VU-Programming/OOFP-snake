@@ -3,7 +3,7 @@ package infrastructure
 
 import java.io.{OutputStream, PrintStream}
 
-import infrastructure.ReportFraction1_1.runGetScoreCounter
+
 import org.scalatest.{Args, ConfigMap, Reporter}
 import org.scalatest.events.{Event, TestFailed, TestSucceeded}
 import snake.{SnakeTestSuite, SnakeTestsAssignment2_1, SnakeTestsAssignment2_3}
@@ -17,29 +17,6 @@ class CustomReporter(val out : PrintStream) extends Reporter {
         }
     }
 }
-/*
-
-// reports your score as a fraction between 0 and 1 for codegrade
-object ReportFraction {
-  def main(args : Array[String]) : Unit  = {
-    val out = System.out
-    // prevent inventive students from printing 1.0 to
-    // stderr and then getting full points
-    System.setOut(new PrintStream(new OutputStream {
-      override def write(i: Int): Unit = ()
-    }))
-    System.setErr(new PrintStream(new OutputStream {
-      override def write(i: Int): Unit = ()
-    }))
-    val scoreCounter = new ScoreCounter()
-    new AllTests().runDirect(None, Args(
-      reporter = new CustumReporter(out),
-      configMap = ConfigMap("scoreCounter"->  scoreCounter))
-    )
-
-  }
-}
-*/
 
 // reports your score as a fraction between 0 and 1 for codegrade
 abstract class ReportFraction {
