@@ -48,13 +48,14 @@ dependencies {
 
 task zip(type: Zip) {
     group = "prepareZipForSubmit"
-    description = "Zip your code for submission to Canvas"
+    description = "Zip your code for submission to Codegrade"
 
     // To make sure you can always run this task
     outputs.upToDateWhen { false }
     dependsOn assemble
-    from fileTree(dir: 'src/snake/logic')
-    include '*/**'
+    dependsOn testClasses
+    from fileTree(dir: '.')
+    include 'src/**'
 
     archiveFileName = 'snake.zip'
     destinationDir(file("$projectDir"))
