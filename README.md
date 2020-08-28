@@ -35,7 +35,7 @@ that reverse mode is only implemented after the peer review such that there is s
 functionality in 1.3 which is not seen by other students in the peer review of 1.2. If you
 already implemented reverse mode, do not just disable reverse mode, remove any code
 that deals with it. Keep your code as simple and readable as possible. You code will be
-reviewed by your fellow student according to the clean code guidelines. Please read these and
+reviewed by your fellow student according to the clean code guidelines(to be published). Please read these and
 try to produce code with no offenses.
 
 If your implementation is more than 400 lines long (including empty lines), then some-
@@ -45,7 +45,7 @@ The reference implementation is 150 lines long.
 
 ## 2.2 Peer review
  
- You will review and grade the snake implementations of 2.1 by 3 other students using the grading guidelines in 5. The 
+ You will review and grade the snake implementations of 2.1 by 3 other students using the grading guidelines (to be published). The 
  codegrade system will assign implementations for you to grade.
 For each implementation, do the following:
 * Check for offenses of the guide and document them in the codegrade system
