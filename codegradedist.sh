@@ -1,3 +1,4 @@
+rm -r codegradedist
 mkdir -p codegradedist
 cd codegradedist
 wget https://gitlab.com/vu-oofp/gamebase/-/archive/snake/gamebase-snake.tar.gz
