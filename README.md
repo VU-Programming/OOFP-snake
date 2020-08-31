@@ -80,6 +80,17 @@ this state. Reverse mode should not be implemented for assignment 2.1.
 
 The tests can be found in `SnakeTestsAssignment2_3` or by running `./gradlew test2_3`.
 
+Grading is built up as follows:
+
+* Amount of tests passed: 5.5 points
+* Use of _immutable_ gamestate: 1 points 
+* Use of a set of points instead of a 2 dimensional array/list 0.5
+* Code style 3 points 
+Total : 10 points 
+
+The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
+of programming. Code style is judged as described in the readable code lectures and the
+ [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style).
 
 ## Test setup
 
