@@ -10,6 +10,7 @@ import snake.logic.GameLogic._
  */
 class GameLogic(val random: RandomGenerator,
                 val gridDims : Dimensions) {
+
   def gameOver: Boolean = false
 
   // TODO implement me
@@ -28,6 +29,8 @@ class GameLogic(val random: RandomGenerator,
 
 /** GameLogic companion object */
 object GameLogic {
+
+  val FramesPerSecond: Int = 5 // change this to increase/decrease speed of game
 
   // These are the dimensions used when playing the game.
   // When testing the game, other dimensions are passed to

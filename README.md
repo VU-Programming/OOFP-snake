@@ -21,9 +21,44 @@ should make. Your implementation should:
   the center).
 * show the direction of the snake head.
 
+## Framework 
+
+Code to draw the game state and handle keyboard events has already been provided in `src/snake/game/SnakeGame.scala`, 
+where you can also run the game (press the play button). You only have to implement the game logic. Your implementation
+ should go in `src/snake/logic/SnakeLogic.scala` . If you want to add additional files, please make certain to
+keep them in the `src.snake.logic` package (that is the directory `src/snake/logic`).
+
+The drawing and event code, `SnakeGame` interacts with the game logic `SnakeLogic` as follows:
+
+* When drawing the game, `SnakeGame` asks `SnakeLogic` for each cell in the grid what the type is. The cell types are 
+ defined `snake.logic.CellType` and can be one of the following: 
+   - `Empty()`
+   - `Apple()`
+   - `SnakeHead(direction: Direction)` Direction is one of `North(), East(), South()` or `West()`  
+   - `SnakeBody(distanceToHead: Float)` The float indicated the color of the snake body, with 1.0 indicating dark green 
+   and 0.0 indicating light green. This can be used to make the color of the head light green and the color of the body 
+   turn gradually darker. It is optional to do this. 
+* When the user pressed an arrow key, the method `changeDirection` is called with the direction of the arrow 
+(`North(), East(), South()` or `West()`)
+* When the user presses the `"r"` key, the method `setReverse` is called with argument `True`. When the user releases
+ the `r` key the method is called again with the argument `False`. This is used in assignment 2.3
+ * Every 5 seconds (by default) the method `step()` is called to advanced the game: move the snake, handle apple and 
+ handle game over. You can adjust the speed of the game by increasing or decreasing the value `SnakeLogic.FramesPerSecond`.
+ 
+ A full example which uses a similar setup is the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban).
+
 ## Assignments
 
-There are 3 assignments for snake:
+To get a handle on how the framework works, please try to implement the following things first:
+
+1. Fill the screen with `SnakeHead` triangles pointing east.
+2. Same as 1 but now change the direction of the `SnakeHead` triangles when the user pressed an arrow key.
+3. Same as 2. but now only draw a single `SnakeHead` triangle at position x = 5, y = 3.
+4. Same as 3. but now the `SnakeHead` triangle should move, it should start in positon x = 5, y = 3 and every step move
+in the direction that the triangle is pointing. If the triangle moves out of the grid it should re-emerge at the other 
+end. 
+
+There are 3 graded assignments for snake:
 ### 2.1 Basic snake
 
 For this assignment implement the snake game _without_ reverse mode. This assignment is graded pass/fail. You pass the 
