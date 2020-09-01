@@ -20,7 +20,7 @@ import snake.logic.{Apple, CellType, Direction, East, Empty, GameLogic, North, S
 class SnakeGame extends GameBase {
 
   var gameLogic = new GameLogic(new ScalaRandomGen(),GameLogic.DefaultGridDims)
-  val updateTimer = new UpdateTimer(gameLogic.FramesPerSecond)
+  val updateTimer = new UpdateTimer(GameLogic.FramesPerSecond)
   val gridDimensions =  gameLogic.gridDims
   val widthInPixels: Int = WidthCellInPixels * gridDimensions.width
   val heightInPixels: Int = HeightCellInPixels * gridDimensions.height
