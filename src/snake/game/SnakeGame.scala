@@ -22,8 +22,8 @@ class SnakeGame extends GameBase {
   var gameLogic = new GameLogic(new ScalaRandomGen(),GameLogic.DefaultGridDims)
   val updateTimer = new UpdateTimer(GameLogic.FramesPerSecond)
   val gridDimensions =  gameLogic.gridDims
-  val widthInPixels: Int = WidthCellInPixels * gridDimensions.width
-  val heightInPixels: Int = HeightCellInPixels * gridDimensions.height
+  val widthInPixels: Int = (GameLogic.DrawSizeFactor * WidthCellInPixels * gridDimensions.width).ceil.toInt
+  val heightInPixels: Int = (GameLogic.DrawSizeFactor *  HeightCellInPixels * gridDimensions.height).ceil.toInt
   val screenArea: Rectangle = Rectangle(Point(0, 0), widthInPixels, heightInPixels)
 
   // this function is wrongly named draw by processing (is called on each update next to drawing)
@@ -141,8 +141,8 @@ class SnakeGame extends GameBase {
 object SnakeGame {
 
 
-  val WidthCellInPixels: Int = 15
-  val HeightCellInPixels: Int = WidthCellInPixels
+  val WidthCellInPixels: Double = 20 * GameLogic.DrawSizeFactor
+  val HeightCellInPixels: Double = WidthCellInPixels
 
   def main(args: Array[String]): Unit = {
     // This is needed for Processing, using the name
