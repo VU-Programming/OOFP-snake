@@ -45,6 +45,13 @@ class TetrisLogic(val randomGen: RandomGenerator,
 
 object TetrisLogic {
 
+  val FramesPerSecond: Int = 5 // change this to speed up or slow down the game
+
+  val DrawSizeFactor = 1.0 // increase this to make the game bigger (for high-res screens)
+  // or decrease to make game smaller
+
+
+
   def makeEmptyBoard(gridDims : Dimensions): Seq[Seq[CellType]] = {
     val emptyLine = Seq.fill(gridDims.width)(Empty)
     Seq.fill(gridDims.height)(emptyLine)

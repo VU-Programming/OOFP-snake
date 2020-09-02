@@ -17,10 +17,10 @@ import tetris.logic.{Point => GridPoint}
 class TetrisGame extends GameBase {
 
   var gameLogic : TetrisLogic = TetrisLogic()
-  val updateTimer = new UpdateTimer(FramesPerSecond)
+  val updateTimer = new UpdateTimer(TetrisLogic.FramesPerSecond)
   val gridDims : Dimensions = gameLogic.gridDims
-  val widthInPixels: Int = WidthCellInPixels * gridDims.width
-  val heightInPixels: Int = HeightCellInPixels * gridDims.height
+  val widthInPixels: Int = (WidthCellInPixels * gridDims.width).ceil.toInt
+  val heightInPixels: Int = (HeightCellInPixels * gridDims.height).ceil.toInt
   val screenArea: Rectangle = Rectangle(Point(0, 0), widthInPixels, heightInPixels)
 
   override def draw(): Unit = {
@@ -116,9 +116,9 @@ class TetrisGame extends GameBase {
 
 object TetrisGame {
 
-  val FramesPerSecond: Int = 5
-  val WidthCellInPixels: Int = 15
-  val HeightCellInPixels: Int = WidthCellInPixels
+
+  val WidthCellInPixels: Double = 15 * TetrisLogic.DrawSizeFactor
+  val HeightCellInPixels: Double = WidthCellInPixels
 
   def main(args:Array[String]): Unit = {
     PApplet.main("tetris.game.TetrisGame")
