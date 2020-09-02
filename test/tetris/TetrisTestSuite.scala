@@ -8,6 +8,7 @@ class TetrisTestSuite extends Suites(
   new RotationTests,
   new RotateBackToStartTests,
   new MovementTests,
+  new DropTests,
   new BlockedTests,
   new SpawnTests,
   new ClearLinesTests,
@@ -31,7 +32,4 @@ class TetrisTestSuite extends Suites(
     def runDirect(testName: Option[String], args: Args): Status = {
       super.run(testName, args)
     }
-
-
-
   }
