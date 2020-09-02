@@ -1,7 +1,6 @@
 package tetris.logic
 
 import engine.random.{RandomGenerator, ScalaRandomGen}
-import tetris.game._
 import tetris.logic.TetrisLogic._
 
 /** To implement Tetris, complete the ``TODOs`` below.
