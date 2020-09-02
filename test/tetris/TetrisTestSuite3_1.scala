@@ -1,6 +1,6 @@
 package tetris
 
-import infrastructure.ScoreCounter
+
 import org.junit.runner.RunWith
 import org.scalatest.{Args, Status, Suites}
 import org.scalatestplus.junit.JUnitRunner

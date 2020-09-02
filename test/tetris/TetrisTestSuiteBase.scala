@@ -5,7 +5,6 @@ package tetris
 
 import engine.random.RandomGenerator
 import generic.{CellTypeInterface, GameLogicInterface, GameTestSuite}
-import tetris.game._
 import tetris.logic.{CellType, Dimensions, Empty, ICell, JCell, LCell, OCell, Point, SCell, TCell, TetrisLogic, ZCell}
 
 sealed abstract class TetrisAction
