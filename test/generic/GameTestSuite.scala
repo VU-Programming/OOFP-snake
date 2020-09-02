@@ -10,6 +10,7 @@ import generic.GameTestSuite._
 import scala.language.postfixOps
 import generic.StringUtils._
 import infrastructure.TestBase
+import org.scalatest.exceptions.TestFailedException
 
 /**   * Generic test infrastructure for Snake and Tetris.
  *
@@ -150,7 +151,7 @@ abstract class GameTestSuite[
     getDisplay(logic)
   }
 
-  def checkInterleave(testA: TestRecording, testB: TestRecording): Boolean = {
+  def canInterleave(testA: TestRecording, testB: TestRecording): Boolean = {
     val randomA = new TestRandomGen(testA.frames.head.input.randomNumber)
     val randomB = new TestRandomGen(testB.frames.head.input.randomNumber)
 
@@ -238,60 +239,68 @@ abstract class GameTestSuite[
 
   val InterleaveFailMsg =
     s"""
-       |Assuming you passed the non-interleaved version of each test:
+       |Hint: It should be possible to “run” multiple games simultaneously, i.e., it should not
+       |be a problem to have multiple instances of $gameLogicName which act independently. To test
+       |this, we perform “interleave tests”: we instantiate two $gameLogicName objects with different
+       |board sizes and alternate between performing a step on one and a step on the other. If
+       |all is correct, the two games should progress exactly as they would if they were the only
+       |snake games being run. If this is not true, then there is likely some global state through
+       |which one game influences the other.
        |
-       |You likely have some global state. Running two instances of $gameLogicName
-       |and alternately doing steps between them results in some interference.
-       |Running your game with a single  $gameLogicName instance works, but when
-       |we have two  $gameLogicName instances running in 'parallel', the test fails.
-  """
+       |
+       |Hence if you fail this test but you passed the other full game test, then you have some global state.
+       |Running two instances of $gameLogicName/and alternately doing steps between them results in some interference.
+  """.stripMargin.replaceAll("\n", " ")
 
-  def gameTest(testName : String, theTest : TestRecording): Unit = gameTest(testName, theTest,1)
+  def wordWrap(s : String, lineLen : Int) : String = {
+    val res = new StringBuilder()
+    var line : List[String] = List()
+    var len = 0
+    for(word <- s.split("[ ]")) {
+      if(len + word.length > lineLen) {
+        res++=line.reverse.mkString(" ") + "\n"
+        line = List(word)
+        len = word.length
+      } else {
+        len+= word.length
+        line = word :: line
+      }
+    }
+    if(line.nonEmpty) res++=line.reverse.mkString(" ")
+    res.toString()
+  }
 
-  def gameTest(testName : String, theTest : TestRecording, weight : Int): Unit = {
+
+  def checkGame(theTest : TestRecording, hint : String): Unit = {
     def actionsString(actions: Seq[GameAction]): String =
       "<" ++ actions.map(_.toString).mkString(", ") ++ ">"
     val sbuild = new StringBuilder()
-
+    if(!hint.isEmpty) sbuild.append("\n" + wordWrap("Hint: "+hint,80) )
+    sbuild.append("\n" + horizontalLineOfWidth(80) + "\n")
     def printTraceFrame(frame: TestFrame, actual: GameDisplay, index: Int): Unit = {
       sbuild.append(s"step=$index, rand=${frame.input.randomNumber}, actions=${actionsString(frame.input.actions)}\n")
 
       val frameIsCorrect = frame.display.conforms(actual)
-      val frameString =
-        if (frameIsCorrect) withHeader("Want & Got", frame.display.toString)
-        else twoColumnTable("Want", "Got", frame.display.toString, actual.toString)
+      val headerB = if(frameIsCorrect) "Got ✓" else "Got ✗"
+      val frameString = twoColumnTable("Want", headerB, frame.display.toString, actual.toString)
 
       sbuild.append(frameString + "\n")
       sbuild.append("\n")
     }
-    test(testName,weight = weight ) {
-      val didPass = theTest.passes
+    val didPass = theTest.passes
 
-      if (!didPass) sbuild.append("This is what went wrong:\n\n")
-      else sbuild.append("This is what we got & expected:\n\n")
+    if (!didPass) sbuild.append("This is what went wrong:\n\n")
+    else sbuild.append("This is what we got & expected:\n\n")
 
-      theTest.frames
-        .lazyZip(theTest.implementationDisplays)
-        .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
-
-      assert(didPass,sbuild.toString())
-    }
+    theTest.frames
+      .lazyZip(theTest.implementationDisplays)
+      .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
+    assert(didPass,sbuild.toString())
   }
-  def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording): Unit =
-    gameInterleaveTest(name,testA,testB,1)
+  def checkInterleave( testA : TestRecording, testB : TestRecording): Unit = {
+    val didPass = canInterleave(testA, testB)
 
-  def gameInterleaveTest(name : String, testA : TestRecording, testB : TestRecording, weight : Int): Unit = {
-    test(name,weight) {
-      val didPass = checkInterleave(testA, testB)
-      val message = s"Interleave Test: $name : " +
-        s"${
-          if (!didPass) FailStr + " : No Points\n" + InterleaveFailMsg.stripMargin
-          else PassStr + f" : +$weight%.2f Points"
-        }"
-      println("=" * StringUtils.widthOfMultilineString(message) + "\n" + message)
-
-      assert(didPass)
-    }
+    assert(didPass, "\n" + InterleaveFailMsg)
   }
 
 
