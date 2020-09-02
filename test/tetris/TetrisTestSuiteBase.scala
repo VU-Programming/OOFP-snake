@@ -85,11 +85,11 @@ class TetrisTestSuiteBase  extends GameTestSuite
     }
     def parseInitialField(s : String) : Seq[Seq[CellType]] =
       stringToGridDisplay(s).grid.map(_.map(_.gridType))
-    initialBoardString match {
+    val board = initialBoardString match {
       case Some(s) => parseInitialField(s)
       case _ => emptyBoard(dimensions)
     }
-    TestRecording((dimensions, emptyBoard(dimensions)),frames)
+    TestRecording((dimensions, board),frames)
   }
 
   private def toTestRecording(initialBoard : String, frames : Seq[TestFrame]) : TestRecording = {
