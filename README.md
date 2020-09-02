@@ -118,10 +118,15 @@ The tests can be found in `SnakeTestsAssignment2_3` or by running `./gradlew tes
 Grading is built up as follows:
 
 * Amount of tests passed: 5.5 points
-* Use of _immutable_ gamestate: 1 points 
+* Use of _immutable_ gamestate: 1.5 points (see below)
 * Use of a set of points instead of a 2 dimensional array/list 0.5
-* Code style 3 points 
+* Code style 2.5 points 
 Total : 10 points 
+
+An example of immutable game state can be found in the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban) 
+in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/main/sokoban/logic/SokobanLogic.scala). 
+To get the full 1.5 points your code needs to only use a single `var` namely for the stack of gamestates (similar to 
+the `frames` variable in `SokobanLevel`). 
 
 The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
 of programming. Code style is judged as described in the readable code lectures and the
