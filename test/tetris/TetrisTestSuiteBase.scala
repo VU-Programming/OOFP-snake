@@ -32,10 +32,10 @@ case class TetrisGridTypeWrapper(gridType : CellType)  extends CellTypeInterface
 
 
 case class TetrisLogicWrapper
-(override val randomGen : RandomGenerator,
- override val gridDims : Dimensions,
- override val initialBoard : Seq[Seq[CellType]])
-  extends TetrisLogic(randomGen,gridDims,initialBoard) with GameLogicInterface[TetrisAction, TetrisGridTypeWrapper]{
+(randomGentlw : RandomGenerator,
+ gridDimstlw : Dimensions,
+ initialBoardtlw : Seq[Seq[CellType]])
+  extends TetrisLogic(randomGentlw,gridDimstlw,initialBoardtlw) with GameLogicInterface[TetrisAction, TetrisGridTypeWrapper]{
   override def performAction(action: TetrisAction): Unit = action match {
     case RotateLeft => rotateLeft()
     case RotateRight => rotateRight()
