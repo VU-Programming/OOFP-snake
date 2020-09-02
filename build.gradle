@@ -61,3 +61,35 @@ task zip(type: Zip) {
     destinationDir(file("$projectDir"))
 }
 
+
+task test3_1(type: Test) {
+    description="Run tests for assignment 3.1 (tetris)"
+    filter {
+        includeTestsMatching "tetris.TetrisTestSuite3_1"
+    }
+}
+
+task test3_2(type: Test) {
+    description="Run tests for assignment 3.2 (tetris)"
+    filter {
+        includeTestsMatching "tetris.TetrisTestSuite3_2"
+    }
+}
+
+task fraction3_1(type: JavaExec, dependsOn: classes) {
+    // To make sure you can always run this task
+    outputs.upToDateWhen { false }
+    main = 'infrastructure.ReportFraction3_1'
+    classpath sourceSets.test.runtimeClasspath
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.runtime
+}
+
+task fraction3_2(type: JavaExec, dependsOn: classes) {
+    // To make sure you can always run this task
+    outputs.upToDateWhen { false }
+    main = 'infrastructure.ReportFraction3_2'
+    classpath sourceSets.test.runtimeClasspath
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.runtime
+}

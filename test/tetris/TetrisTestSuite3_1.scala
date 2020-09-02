@@ -1,8 +1,11 @@
 package tetris
 
 import infrastructure.ScoreCounter
+import org.junit.runner.RunWith
 import org.scalatest.{Args, Status, Suites}
+import org.scalatestplus.junit.JUnitRunner
 
+@RunWith(classOf[JUnitRunner])
 class TetrisTestSuite3_1 extends TetrisTestSuitesBase(new PlacementTests,
   new RotationTests,
   new RotateBackToStartTests,
