@@ -1,8 +1,11 @@
+import org.codehaus.groovy.runtime.GStringImpl
 
 plugins {
     id 'scala'
     id 'idea'
+    id 'application'
 }
+
 
 
 test {
@@ -14,7 +17,7 @@ test {
 
 ext {
     scalaMajorVersion = '2.13'
-    scalaVersion = "${scalaMajorVersion}.0"
+    scalaVersion = "${scalaMajorVersion}.0" as GStringImpl
 }
 
 
@@ -33,26 +36,25 @@ dependencies {
     implementation "org.scala-lang:scala-library:${scalaVersion}"
     compile fileTree(include: ['*.jar'], dir: 'lib')
     testImplementation("junit:junit:4.13")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.6.0")
+    testCompile("org.junit.vintage:junit-vintage-engine:5.6.0")
     testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.8"
     compile "org.scalacheck:scalacheck_${scalaMajorVersion}:1.14.3"
 }
 
 task zip(type: Zip) {
     group = "prepareZipForSubmit"
-    description = "Zip your code for submission to Canvas"
+    description = "Zip your code for submission to Codegrade"
 
     // To make sure you can always run this task
-    outputs.upToDate When { false }
-    dependsOn build
-    from fileTree(dir: 'src/bla')
-    include '*/**'
+    outputs.upToDateWhen { false }
+    dependsOn assemble
+    dependsOn testClasses
+    from fileTree(dir: '.')
+    include '**.scala'
 
-    archiveFileName = 'exercises.zip'
+    archiveFileName = 'snake.zip'
     destinationDir(file("$projectDir"))
 }
-
-
 
 
 
