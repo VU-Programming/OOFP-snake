@@ -1,64 +1,37 @@
-// DO NOT MODIFY FOR BASIC SUBMISSION
-// scalastyle:off
+package tetris
 
-package test.tetris
+import infrastructure.ScoreCounter
+import org.scalatest.{Args, Status, Suites}
 
-import org.junit.runner.RunWith
-import org.scalatestplus.junit.JUnitRunner
-import tetris.TetrisRecord._
-import tetris.TetrisTests._
+class TetrisTestSuite extends Suites(
+  new PlacementTests,
+  new RotationTests,
+  new RotateBackToStartTests,
+  new MovementTests,
+  new BlockedTests,
+  new SpawnTests,
+  new ClearLinesTests,
+  new GameOverTests,
+  new FullGameTests )
+  {
 
-@RunWith(classOf[JUnitRunner])
-class TetrisTestSuite extends TestSuite {
+    val MaxPoints = 5.5
 
-  val testList: List[Test] = List(
-    testPlacementI,
-    testPlacementIEven,
-    testPlacementJ,
-    testPlacementL,
-    testPlacementOEven,
-    testPlacementO,
-    testPlacementS,
-    testPlacementT,
-    testPlacementZ,
-    testIRotations,
-    testJRotations,
-    testLRotations,
-    testORotations,
-    testSRotations,
-    testTRotations,
-    testZRotations,
-    testRotate360,
-    testRotate360CC,
-    testRotateLeftRight,
-    testRotateRightLeft,
-    testMovement,
-    testMovement2,
-    testMoveOutLeft,
-    testMoveOutRight,
-    testBlockedByBlocksLeft,
-    testBlockedByBlocksRight,
-    testBlockedByBlocksRotateLeft,
-    testBlockedByBlocksRotateRight,
-    testSpawn,
-    testGameOver,
-    testNoEscapeGameOver,
-    testNoEscapeGameOver2,
-    testDrop,
-    testClear1Line,
-    testClear1LineMiddle,
-    testClear2Lines,
-    testClear3Lines,
-    testClear4Lines,
-    testGame5x9,
-    testGame8x11,
-    testGame6x10
-  )
+    override def run(testName: Option[String], args: Args): Status = {
+      val scoreCounter = new ScoreCounter()
+      val newArgs =
+        args.copy(configMap = args.configMap.updated("scoreCounter",scoreCounter))
+      val res = runDirect(testName,newArgs)
+      printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
+      printf("Your base grade for the tetris exercise will be : %.2f\n",scoreCounter.fraction() * MaxPoints)
+      res
+    }
 
-  val mainInterTestList: List[InterleaveTest] = List(
-    InterleaveTest("testInterleave5x9and8x11", testGame5x9, testGame8x11),
-    InterleaveTest("testInterleave8x11and6x10", testGame8x11, testGame6x10),
-  )
+    // run without making a new scorecounter
+    def runDirect(testName: Option[String], args: Args): Status = {
+      super.run(testName, args)
+    }
 
-  reportOnUniformlyScoredTests(testList, mainInterTestList)
-}
+
+
+  }

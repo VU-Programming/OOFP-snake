@@ -4,7 +4,7 @@
 package tetris
 
 import engine.random.RandomGenerator
-import generic.{CellTypeInterface, GameLogicInterface, GenericRecord}
+import generic.{CellTypeInterface, GameLogicInterface, GameTestSuite}
 import tetris.game._
 import tetris.logic.{CellType, Dimensions, Empty, ICell, JCell, LCell, OCell, Point, SCell, TCell, TetrisLogic, ZCell}
 
@@ -53,7 +53,7 @@ case class TetrisLogicWrapper
 }
 
 
-object TetrisRecord  extends GenericRecord
+class TetrisTestSuiteBase  extends GameTestSuite
   [TetrisAction, TetrisGridTypeWrapper, TetrisLogicWrapper, (Dimensions, Seq[Seq[CellType]])]() {
   def charToGridType(char: Char) : TetrisGridTypeWrapper = TetrisGridTypeWrapper(char match {
     case 'I' => ICell
@@ -78,25 +78,37 @@ object TetrisRecord  extends GenericRecord
   override def gameLogicName: String = "TetrisLogic"
 
 
-  object TetrisTest {
-    def apply(name: String, frames: Seq[TestFrame]): Test = {
-      val dimensions: Dimensions = frames.head.display match {
-        case grid: GridDisplay => Dimensions(width = grid.nrColumns, height = grid.nrRows)
-        case _ => throw new Error("No grid display in test")
-      }
-      Test(name,(dimensions, emptyBoard(dimensions)),frames)
+  private def toTestRecording(initialBoardString : Option[String], frames : Seq[TestFrame]) : TestRecording = {
+    val dimensions: Dimensions = frames.head.display match {
+      case grid: GridDisplay => Dimensions(width = grid.nrColumns, height = grid.nrRows)
+      case _ => throw new Error("No grid display in test")
     }
-
     def parseInitialField(s : String) : Seq[Seq[CellType]] =
       stringToGridDisplay(s).grid.map(_.map(_.gridType))
-
-
-    def apply(name: String, initial : String, frames: Seq[TestFrame]): Test = {
-      val dimensions: Dimensions = frames.head.display match {
-        case grid: GridDisplay => Dimensions(width = grid.nrColumns, height = grid.nrRows)
-        case x => throw new Error("No grid display in " ++ name ++ " got instead " ++ x.toString)
-      }
-      Test(name,(dimensions, parseInitialField(initial)),frames)
+    initialBoardString match {
+      case Some(s) => parseInitialField(s)
+      case _ => emptyBoard(dimensions)
     }
+    TestRecording((dimensions, emptyBoard(dimensions)),frames)
   }
+
+  private def toTestRecording(initialBoard : String, frames : Seq[TestFrame]) : TestRecording = {
+    toTestRecording(Some(initialBoard),frames)
+  }
+
+  private def toTestRecording(frames : Seq[TestFrame]) : TestRecording = {
+    toTestRecording(None,frames)
+  }
+
+  def checkGame(frames : Seq[TestFrame], hint : String = ""  ) : Unit =
+    checkGame(toTestRecording(frames), hint )
+
+  def checkGame(initialBoard : String, frames : Seq[TestFrame], hint : String  ) : Unit =
+    checkGame(toTestRecording(initialBoard,frames), hint )
+
+  def checkInterleave(framesA : Seq[TestFrame] , framesB : Seq[TestFrame]) : Unit = {
+    checkInterleave(toTestRecording(framesA), toTestRecording(framesB))
+  }
+
+
 }
