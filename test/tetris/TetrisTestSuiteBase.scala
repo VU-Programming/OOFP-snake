@@ -47,8 +47,8 @@ case class TetrisLogicWrapper
 
   override def getCell(col: Int , row: Int): TetrisGridTypeWrapper = TetrisGridTypeWrapper(getCellType(Point(col,row)))
 
-  override def nrRows: Int = gridDims.height
-  override def nrColumns: Int = gridDims.width
+  override def nrRows: Int = gridDimstlw.height
+  override def nrColumns: Int = gridDimstlw.width
 }
 
 
