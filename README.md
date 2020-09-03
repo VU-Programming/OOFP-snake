@@ -125,8 +125,13 @@ Total : 10 points
 
 An example of immutable game state can be found in the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban) 
 in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/main/sokoban/logic/SokobanLogic.scala). 
-To get the full 1.5 points your code needs to only use a single `var` namely for the stack of gamestates (similar to 
-the `frames` variable in `SokobanLevel`). 
+To get the full 1.5 points, you need to:
+* Not use mutable containers (Arrays and others)
+* Use a GameState that contains only vals
+* Use vars only to:
+   - keep track of the current gamestate
+   - keep track of past gamestates
+   - keep track of whether reverse is enabled
 
 The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
 of programming. Code style is judged as described in the readable code lectures and the
