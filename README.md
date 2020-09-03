@@ -132,6 +132,7 @@ To get the full 1.5 points, you need to:
    - keep track of the current gamestate
    - keep track of past gamestates
    - keep track of whether reverse is enabled
+You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions.
 
 The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
 of programming. Code style is judged as described in the readable code lectures and the
