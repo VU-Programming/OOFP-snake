@@ -86,8 +86,8 @@ center of rotation (circle in the picture). The positions are then `(-1,0),(0,0)
 Rotating clockwise as described above (`(x,y) -> (-y,x)`) works, but the tetromino always ends up one position to the
 left of where it should be (i.e. `(0,-1),(0,0),(0,1),(0,2)`). We can fix this by pushing the tetromino one to the right after rotation.
 In other words, we do `(x,y) -> (-y + 1,x)`.
-Rotating counter-clockwise works by rotating around the anchor and then pushing one position to the left,
-`(x,y) -> (y - 1,-x)`.
+Rotating counter-clockwise works by rotating around the anchor and then pushing one position to the down,
+`(x,y) -> (y ,-x + 1)`.
 
 Hence, there are three rotation behaviors:
 * Rotation for pieces where the anchor=the center of rotation (`(x,y) -> (-y,x)`) (J,L,S,T,Z)
