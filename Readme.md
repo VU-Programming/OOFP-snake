@@ -1,4 +1,3 @@
-
 # Tetris
 
 In the second assignment, you will implement another classic computer game, namely
@@ -134,9 +133,7 @@ To get the full 1.5 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
 * Use a vars only to keep track of the current gamestate
-In contrast to the snake exercise
-
-CHANGE FROM SNAKE: You are NOT allowed to locally use vars and builders inside functions.
+CHANGE FROM SNAKE: You are NOT allowed to locally use vars and builders inside functions to get the immutability bonus. 
 
  Code style is judged as described in the readable code lectures and the
 [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style).
