@@ -98,7 +98,7 @@ This class should have three subclasses, each implementing a different rotation 
 
 ## Assignments
 
-There are 2 assignments for snake:
+There are 2 assignments for tetris:
 ### 3.1 Basic Tetris
 
 Implement the basics of tetris: piece rotation and movement.
