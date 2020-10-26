@@ -132,7 +132,7 @@ in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blo
 To get the full 1.5 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
-* Use a vars only to keep track of the current gamestate
+* Use a var only to keep track of the current gamestate
 CHANGE FROM SNAKE: You are NOT allowed to locally use vars and builders inside functions to get the immutability bonus. 
 
  Code style is judged as described in the readable code lectures and the
