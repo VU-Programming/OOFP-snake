@@ -22,7 +22,7 @@ test {
 
 ext {
     scalaMajorVersion = '2.13'
-    scalaVersion = "${scalaMajorVersion}.3" as GStringImpl
+    scalaVersion = "${scalaMajorVersion}.6" as GStringImpl
 }
 
 
@@ -42,8 +42,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'lib')
     testImplementation("junit:junit:4.13")
     testCompile("org.junit.vintage:junit-vintage-engine:5.6.0")
-    testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.8"
-    testCompile "org.scalacheck:scalacheck_${scalaMajorVersion}:1.14.3"
+    testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.9"
+    compile "org.scalacheck:scalacheck_${scalaMajorVersion}:1.14.3"
 }
 
 task zip(type: Zip) {
@@ -69,10 +69,10 @@ task test3_1(type: Test) {
     }
 }
 
-task test3_2(type: Test) {
-    description="Run tests for assignment 3.2 (tetris)"
+task test3(type: Test) {
+    description="Run tests for assignment 3 (tetris)"
     filter {
-        includeTestsMatching "tetris.TetrisTestSuite3_2"
+        includeTestsMatching "tetris.TetrisTestSuite3"
     }
 }
 
@@ -85,10 +85,10 @@ task fraction3_1(type: JavaExec, dependsOn: classes) {
     classpath configurations.runtime
 }
 
-task fraction3_2(type: JavaExec, dependsOn: classes) {
+task fraction3(type: JavaExec, dependsOn: classes) {
     // To make sure you can always run this task
     outputs.upToDateWhen { false }
-    main = 'infrastructure.ReportFraction3_2'
+    main = 'infrastructure.ReportFraction3'
     classpath sourceSets.test.runtimeClasspath
     classpath sourceSets.main.runtimeClasspath
     classpath configurations.runtime

@@ -5,7 +5,7 @@ import java.io.{OutputStream, PrintStream}
 
 import org.scalatest.{Args, ConfigMap, Reporter, Suites}
 import org.scalatest.events.{Event, TestFailed, TestSucceeded}
-import tetris.{TetrisTestSuite3_1, TetrisTestSuite3_2, TetrisTestSuitesBase}
+import tetris.{TetrisTestSuite3_1, TetrisTestSuite3, TetrisTestSuitesBase}
 
 class CustomReporter(val out : PrintStream) extends Reporter {
   override def apply(event: Event): Unit = {
@@ -58,15 +58,15 @@ object ReportFraction3_1 extends ReportFraction {
   }
 }
 
-object ReportFraction3_2 extends ReportFraction {
-  override def Tests() = new TetrisTestSuite3_2()
+object ReportFraction3 extends ReportFraction {
+  override def Tests() = new TetrisTestSuite3()
 
   def main(args : Array[String]) : Unit  = {
     val out = System.out
     val scoreCounter = runGetScoreCounter()
 
     out.printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
-    out.printf("Your base grade for exercise 2.3 will be : %.2f\n",scoreCounter.fraction() * Tests().MaxPoints)
+    out.printf("Your base grade for exercise 3 will be : %.2f\n",scoreCounter.fraction() * Tests().MaxPoints)
     out.printf("Fractiontouseforcodegrade %.2f",scoreCounter.fraction())
   }
 }
