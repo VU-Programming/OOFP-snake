@@ -287,16 +287,11 @@ abstract class GameTestSuite[
       sbuild.append(frameString + "\n")
       sbuild.append("\n")
     }
-<<<<<<< HEAD:test/generic/GameTestSuite.scala
-      val didPass = theTest.passes
-=======
     val didPass = theTest.passes
->>>>>>> master:test/generic/GameTestSuite.scala
 
     if (!didPass) sbuild.append("This is what went wrong:\n\n")
     else sbuild.append("This is what we got & expected:\n\n")
-
-<<<<<<< HEAD:test/generic/GameTestSuite.scala
+    
       theTest.frames
         .lazyZip(theTest.implementationDisplays)
         .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
@@ -306,17 +301,6 @@ abstract class GameTestSuite[
       val didPass = canInterleave(testA, testB)
 
       assert(didPass, "\n" + InterleaveFailMsg)
-=======
-    theTest.frames
-      .lazyZip(theTest.implementationDisplays)
-      .lazyZip(theTest.frames.indices).foreach(printTraceFrame)
-    assert(didPass,sbuild.toString())
-  }
-  def checkInterleave( testA : TestRecording, testB : TestRecording): Unit = {
-    val didPass = canInterleave(testA, testB)
-
-    assert(didPass, "\n" + InterleaveFailMsg)
->>>>>>> master:test/generic/GameTestSuite.scala
   }
 
 
