@@ -4,27 +4,25 @@
 package snake.game
 
 import java.awt.event
-
 import processing.core.{PApplet, PConstants}
 import processing.event.KeyEvent
-import java.awt.event.KeyEvent._
 
+import java.awt.event.KeyEvent._
 import engine.GameBase
 import engine.graphics.{Color, Point, Rectangle}
-import snake.logic.{Point => GridPoint}
+import snake.logic.{Apple, CellType, Dimensions, Direction, East, Empty, GameLogic, North, SnakeBody, SnakeHead, South, West, Point => GridPoint}
 import snake.game.SnakeGame._
 import engine.graphics.Color._
 import engine.random.ScalaRandomGen
-import snake.logic.{Apple, CellType, Direction, East, Empty, GameLogic, North, SnakeBody, SnakeHead, South, West}
 
 class SnakeGame extends GameBase {
 
   var gameLogic = new GameLogic(new ScalaRandomGen(),GameLogic.DefaultGridDims)
-  val updateTimer = new UpdateTimer(GameLogic.FramesPerSecond)
-  val gridDimensions =  gameLogic.gridDims
+  val updateTimer = new UpdateTimer(GameLogic.FramesPerSecond.toFloat)
+  val gridDimensions : Dimensions =  gameLogic.gridDims
   val widthInPixels: Int = (GameLogic.DrawSizeFactor * WidthCellInPixels * gridDimensions.width).ceil.toInt
   val heightInPixels: Int = (GameLogic.DrawSizeFactor *  HeightCellInPixels * gridDimensions.height).ceil.toInt
-  val screenArea: Rectangle = Rectangle(Point(0, 0), widthInPixels, heightInPixels)
+  val screenArea: Rectangle = Rectangle(Point(0, 0), widthInPixels.toFloat, heightInPixels.toFloat)
 
   // this function is wrongly named draw by processing (is called on each update next to drawing)
   override def draw(): Unit = {
