@@ -22,7 +22,7 @@ test {
 
 ext {
     scalaMajorVersion = '2.13'
-    scalaVersion = "${scalaMajorVersion}.3" as GStringImpl
+    scalaVersion = "${scalaMajorVersion}.6" as GStringImpl
 }
 
 
@@ -42,7 +42,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'lib')
     testImplementation("junit:junit:4.13")
     testCompile("org.junit.vintage:junit-vintage-engine:5.6.0")
-    testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.8"
+    testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.9"
     compile "org.scalacheck:scalacheck_${scalaMajorVersion}:1.14.3"
 }
 
@@ -92,7 +92,5 @@ task fraction2_3(type: JavaExec, dependsOn: classes) {
     classpath sourceSets.main.runtimeClasspath
     classpath configurations.runtime
 }
-
-
 
 
