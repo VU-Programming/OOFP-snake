@@ -11,8 +11,8 @@ a random location, excluding all places covered by the snake. When the snake rea
 an end of the game board, it re-emerges at the opposite end.
 
 It is probably easiest to understand the game by playing it yourself. You can find a lot
-of snake implementations on the web, for example [here](https://www.coolmathgames.
-com/0-snake). There are four differences between this implementation and the one you
+of snake implementations on the web, for example [here](https://www.coolmathgames.com/0-snake). 
+There are four differences between this implementation and the one you
 should make. Your implementation should:
 * make the snake should grow by 3 blocks instead of 4.
 * make the snake re-emerge at the other end of the screen when reaching the end of
