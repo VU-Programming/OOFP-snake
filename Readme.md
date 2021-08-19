@@ -1,4 +1,3 @@
-
 # Tetris
 
 In the second assignment, you will implement another classic computer game, namely
@@ -99,7 +98,7 @@ This class should have three subclasses, each implementing a different rotation 
 
 ## Assignments
 
-There are 2 assignments for snake:
+There are 2 assignments for tetris:
 ### 3.1 Basic Tetris
 
 Implement the basics of tetris: piece rotation and movement.
@@ -133,10 +132,8 @@ in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blo
 To get the full 1.5 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
-* Use a vars only to keep track of the current gamestate
-In contrast to the snake exercise
-
-CHANGE FROM SNAKE: You are NOT allowed to locally use vars and builders inside functions.
+* Use a var only to keep track of the current gamestate
+CHANGE FROM SNAKE: You are NOT allowed to locally use vars and builders inside functions to get the immutability bonus. 
 
  Code style is judged as described in the readable code lectures and the
 [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style).
