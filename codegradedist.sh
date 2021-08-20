@@ -8,3 +8,4 @@ rm -r lib
 rm -r src/snake/game/
 rm -r src/engine/GameBase.scala src/engine/graphics/
 tar cvzf snake.tar.gz *
+
