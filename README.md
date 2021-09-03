@@ -98,13 +98,12 @@ When reviewing the code of other students please be nice and constructive!
 * Do not be condescending. Say that something is unclear, not that it is “stupid”.  
 * State how something can be improved, do not only criticize.
 
-Failure to be nice and/or constructive will lead to you failing assignment 1.2 (and hence the whole practical)!
+Failure to be nice and/or constructive will lead to you failing assignment 2.1.
 
 ## 2.3 Snake reverse mode 
 
 Using the feedback from 3 other students from the peer review, you
-will improve your implementation of Snake. It is OK to improve your code by drawing
-inspiration from the code your reviewed from other students, but do not copy the code
+will improve your implementation of Snake. It is up to you to decide which suggestion from your fellow students make sense, you do not have to follow up on all suggestions. It is OK to improve your code by drawing inspiration from the code your reviewed from other students, but do not copy the code
 of other students! 
 
 For assignment 2.3 you should additionally implement a reverse mode which allows the player to rewind the game to an 
