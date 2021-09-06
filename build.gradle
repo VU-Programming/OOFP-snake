@@ -17,7 +17,7 @@ test {
 
 ext {
     scalaMajorVersion = '2.13'
-    scalaVersion = '2.13.6' as GStringImpl
+    scalaVersion = '2.13.6' 
 }
 
 
