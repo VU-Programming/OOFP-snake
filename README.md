@@ -118,7 +118,7 @@ Grading is built up as follows:
 
 * Amount of tests passed: 5.5 points
 * Use of _immutable_ gamestate: 1.5 points (see below)
-* Use of a set of points instead of a 2 dimensional array/list 0.5
+* Do not use a 2 dimensional array/list 0.5 (see below)
 * Code style 2.5 points 
 Total : 10 points 
 
@@ -132,6 +132,11 @@ To get the full 1.5 points, you need to:
    - keep track of past gamestates
    - keep track of whether reverse is enabled
 You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions.
+
+To get the points for not using a 2-dimensional structure:
+* Do not store cells in a 2-dimensional structure
+* Do not store points for empty grid cells.
+This typically means storing the Snake as a list of points, and the apple as a point.
 
 The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
 of programming. Code style is judged as described in the readable code lectures and the
