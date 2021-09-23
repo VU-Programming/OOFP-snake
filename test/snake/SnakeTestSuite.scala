@@ -15,7 +15,7 @@ abstract class SnakeTestSuite(suites: SnakeTestSuiteBase*) extends Suites(BaseTe
             args.copy(configMap = args.configMap.updated("scoreCounter",scoreCounter))
         val res = runDirect(testName,newArgs)
         printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
-        printf("Your grade for the repls exercise will be : %.2f\n",scoreCounter.fraction() * MaxGrade)
+        printf("Your grade for the snake exercise will be : %.2f\n",scoreCounter.fraction() * MaxGrade)
         res
     }
 
@@ -26,7 +26,7 @@ abstract class SnakeTestSuite(suites: SnakeTestSuiteBase*) extends Suites(BaseTe
 }
 
 object BaseSnakeTestSuite {
-    val MaxGrade = 10
+    val MaxGrade = 5.5
     val BaseTests: Seq[SnakeTestSuiteBase] = Seq[SnakeTestSuiteBase](
       new PlacementTests,
       new MovementTests,
