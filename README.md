@@ -133,7 +133,7 @@ To get the full 1.5 points, you need to:
    - keep track of whether reverse is enabled
    - keep track of the current direction
 
-You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions (NOTE: this is not true for the next assignment, there it is not allowed for the immutability bonus).
+You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions (NOTE: this is not true for the next assignment, there this is not allowed for the immutability bonus).
 
 To get the points for not using a 2-dimensional structure:
 * Do not store cells in a 2-dimensional structure
