@@ -127,11 +127,13 @@ in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blo
 To get the full 1.5 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
-* Use vars only to:
+* Use vars only to (these are the allowed vars, you are of course allowed to use a subset of these):
    - keep track of the current gamestate
    - keep track of past gamestates
    - keep track of whether reverse is enabled
-You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions.
+   - keep track of the current direction
+
+You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions (NOTE: this is not true for the next assignment, there it is not allowed for the immutability bonus).
 
 To get the points for not using a 2-dimensional structure:
 * Do not store cells in a 2-dimensional structure
