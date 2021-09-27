@@ -15,8 +15,7 @@ You are making a slightly simplified version of this game:
  kick” system. We do not implement this, we simply do not rotate if the target spot is occupied or out of bounds.
 
 The assignment is similar to assignments 2.1 and 2.3. Keep your code as simple and
-readable as possible. If your implementation is more than 450 lines long (including empty lines), then some-
-thing is probably wrong. The reference implementation is 170 lines long.
+readable as possible. If your implementation is more than 450 lines long (including empty lines), then something is probably wrong. The reference implementation is 170 lines long.
 
 ## Framework
 
