@@ -35,9 +35,8 @@ also calls `gameOver` and draws a game over text if this is true.
 * When the user pressed the left, right or down arrow key, then `moveLeft`, `moveRight` or `moveDown` is called
 correspondingly.
 * When the user pressed the `s` key or the up arrow, then `rotateRight` is called. When the user pressed `a` then
-`rotateLeft` is called.the u, right or down arrow key, then `moveLeft`, `moveRight` or `moveDown` is called
- correspondingly.
-* When the user presses the space bar, then `doHardDrop` is called. This immediately drop the current tetromino
+`rotateLeft` is called.
+* When the user presses the space bar, then `doHardDrop` is called. This immediately drops the current tetromino
 to where it is supported by the floor or already placed blocks.
 * Every 5 seconds (by default) the method `moveDown` is called to advanced the game.
 You can adjust the speed of the game by increasing or decreasing the value `TetrisLogic.FramesPerSecond`.
