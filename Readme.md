@@ -96,7 +96,7 @@ This class should have three subclasses, each implementing a different rotation 
 
 ## Assignments
 
-Implement full tetris. Tests can be found in `TetrisTestSuite3_2`
+Implement full tetris. Tests can be found in `TetrisTestSuite3`
 
 Grading is built up as follows:
 
