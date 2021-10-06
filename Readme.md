@@ -103,7 +103,7 @@ Grading is built up as follows:
 * Amount of tests passed: 5.5 points
 * Use of _immutable_ gamestate: 1.0 points (see below)
 * Meaningful usage of higher order functions (0.75 points)
-    - Meaningful usage of `map` 0.25 points
+    - Meaningful usage of `map` 0.25 points. NOTE: This means the map higher order _function_. Not the Map datastructure! No point will be given for using the map datastructure instead of the higher order function. 
     - Meaningful usage of `filter` 0.25 points
     - Meaningful usage of `exists` or `forall` 0.25 points
 * Implementation of rotation and anchors (see table above) (max 0.75 points):
