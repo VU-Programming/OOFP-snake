@@ -15,8 +15,7 @@ You are making a slightly simplified version of this game:
  kick” system. We do not implement this, we simply do not rotate if the target spot is occupied or out of bounds.
 
 The assignment is similar to assignments 2.1 and 2.3. Keep your code as simple and
-readable as possible. If your implementation is more than 450 lines long (including empty lines), then some-
-thing is probably wrong. The reference implementation is 170 lines long.
+readable as possible. If your implementation is more than 450 lines long (including empty lines), then something is probably wrong. The reference implementation is 170 lines long.
 
 ## Framework
 
@@ -36,9 +35,8 @@ also calls `gameOver` and draws a game over text if this is true.
 * When the user pressed the left, right or down arrow key, then `moveLeft`, `moveRight` or `moveDown` is called
 correspondingly.
 * When the user pressed the `s` key or the up arrow, then `rotateRight` is called. When the user pressed `a` then
-`rotateLeft` is called.the u, right or down arrow key, then `moveLeft`, `moveRight` or `moveDown` is called
- correspondingly.
-* When the user presses the space bar, then `doHardDrop` is called. This immediately drop the current tetromino
+`rotateLeft` is called.
+* When the user presses the space bar, then `doHardDrop` is called. This immediately drops the current tetromino
 to where it is supported by the floor or already placed blocks.
 * Every 5 seconds (by default) the method `moveDown` is called to advanced the game.
 You can adjust the speed of the game by increasing or decreasing the value `TetrisLogic.FramesPerSecond`.
@@ -98,22 +96,14 @@ This class should have three subclasses, each implementing a different rotation 
 
 ## Assignments
 
-There are 2 assignments for tetris:
-### 3.1 Basic Tetris
-
-Implement the basics of tetris: piece rotation and movement.
-This assignment is pass/fail. To pass this assignment, you need to pass 17 tests from `TetrisTestSuite3_1`.
-
-### 3.2 Tetris
-
-Implement full tetris. Tests can be found in `TetrisTestSuite3_2`
+Implement full tetris. Tests can be found in `TetrisTestSuite3`
 
 Grading is built up as follows:
 
 * Amount of tests passed: 5.5 points
 * Use of _immutable_ gamestate: 1.0 points (see below)
 * Meaningful usage of higher order functions (0.75 points)
-    - Meaningful usage of `map` 0.25 points
+    - Meaningful usage of `map` 0.25 points. NOTE: This means the map higher order _function_, Not the Map datastructure. No point will be given for using the map datastructure instead of the higher order function. 
     - Meaningful usage of `filter` 0.25 points
     - Meaningful usage of `exists` or `forall` 0.25 points
 * Implementation of rotation and anchors (see table above) (max 0.75 points):
@@ -129,7 +119,7 @@ of programming.
 
 An example of an immutable game state can be found in the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban)
 in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/main/sokoban/logic/SokobanLogic.scala).
-To get the full 1.5 points, you need to:
+To get the full 1.0 point, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
 * Use a var only to keep track of the current gamestate
