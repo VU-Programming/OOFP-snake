@@ -17,7 +17,7 @@ test {
 
 ext {
     scalaMajorVersion = '2.13'
-    scalaVersion = '2.13.6' 
+    scalaVersion = '2.13.8'
 }
 
 
@@ -33,12 +33,11 @@ sourceSets.main.scala.srcDirs = ['src']
 sourceSets.test.scala.srcDirs = ['test']
 
 dependencies {
-    implementation "org.scala-lang:scala-library:2.13.6"
+    implementation "org.scala-lang:scala-library:${scalaVersion}"
     compile fileTree(include: ['*.jar'], dir: 'lib')
     testImplementation('junit:junit:4.13.2')
-    testCompile('org.junit.vintage:junit-vintage-engine:5.7.2')
+    testCompile('org.junit.vintage:junit-vintage-engine:5.9.0')
     testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.9"
-    compile "org.scalacheck:scalacheck_${scalaMajorVersion}:1.14.3"
 }
 
 task zip(type: Zip) {
