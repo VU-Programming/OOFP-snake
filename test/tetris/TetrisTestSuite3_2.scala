@@ -6,7 +6,7 @@ import org.scalatest.{Args, Status, Suites}
 import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class TetrisTestSuite3 extends TetrisTestSuitesBase(
+class TetrisTestSuite3_2 extends TetrisTestSuitesBase(
   new PlacementTests,
   new RotationTests,
   new RotateBackToStartTests,
