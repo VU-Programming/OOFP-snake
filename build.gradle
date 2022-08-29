@@ -68,7 +68,7 @@ task test3_1(type: Test) {
 }
 
 task test3_2(type: Test) {
-    description="Run tests for assignment 3 (tetris)"
+    description="Run tests for assignment 3.2 (tetris)"
     filter {
         includeTestsMatching "tetris.TetrisTestSuite3_2"
     }
