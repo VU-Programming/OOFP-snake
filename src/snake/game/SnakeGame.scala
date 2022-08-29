@@ -112,7 +112,7 @@ class SnakeGame extends GameBase {
 
   override def settings(): Unit = {
     pixelDensity(displayDensity())
-    size(widthInPixels, heightInPixels, PConstants.P2D)
+    size(widthInPixels, heightInPixels)
   }
 
   override def setup(): Unit = {
