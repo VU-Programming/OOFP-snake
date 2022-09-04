@@ -96,7 +96,15 @@ This class should have three subclasses, each implementing a different rotation 
 
 ## Assignments
 
-Implement full tetris. Tests can be found in `TetrisTestSuite3`
+There are 2 assignments for tetris:
+### 3.1 Basic Tetris
+
+Implement the basics of tetris: piece rotation and movement.
+This assignment is pass/fail. To pass this assignment, you need to pass 17 tests from `TetrisTestSuite3_1`.
+
+### 3.2 Tetris
+
+Implement full tetris. Tests can be found in `TetrisTestSuite3_2`
 
 Grading is built up as follows:
 
