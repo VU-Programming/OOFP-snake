@@ -117,9 +117,9 @@ The tests can be found in `SnakeTestsAssignment2_3` or by running `./gradlew tes
 Grading is built up as follows:
 
 * Amount of tests passed: 5.5 points
-* Use of _immutable_ gamestate: 1.5 points (see below)
+* Use of _immutable_ gamestate: 2 points (see below)
 * Do not use a 2 dimensional array/list 0.5 (see below)
-* Code style 2.5 points 
+* Code style 2 points 
 Total : 10 points 
 
 An example of immutable game state can be found in the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban) 
