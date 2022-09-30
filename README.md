@@ -132,6 +132,7 @@ To get the full 1.5 points, you need to:
    - keep track of past gamestates
    - keep track of whether reverse is enabled
    - keep track of the current direction
+* Implement the logic for generating a new Gamestate object *inside* the gamestate object.
 
 You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions (NOTE: this is not true for the next assignment, there this is not allowed for the immutability bonus).
 
@@ -142,7 +143,7 @@ This typically means storing the Snake as a list of points, and the apple as a p
 
 The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
 of programming. Code style is judged as described in the readable code lectures and the
- [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style).
+ [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style). Note: If you do not implement reverse mode, you get a 0.6 point style penalty.
 
 ## Test setup
 
