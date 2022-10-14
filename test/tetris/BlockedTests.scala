@@ -130,4 +130,127 @@ class BlockedTests extends TetrisTestSuiteBase {
       hint = "The current tetromino cannot rotate into existing blocks –– instead, the rotation is ignored.")
   }
 
+  test("testRotateLeftOutRight") {
+    checkGame(initialBoard =
+      """...
+        |...
+        |...""",
+      List(TestFrame(2,
+        """..L
+          |LLL
+          |..."""),
+        TestFrame(2, List(RotateLeft),
+          """LL.
+            |.L.
+            |.L."""),
+        TestFrame(2, List(Right),
+          """.LL
+            |..L
+            |..L"""),
+        TestFrame(2, List(RotateLeft),
+          """.LL
+            |..L
+            |..L""")
+      ),
+      hint = "Trying to rotate out of the screen on the right side has no effect")
+  }
+
+  test("testRotateRightOutRight") {
+    checkGame(initialBoard =
+      """...
+        |...
+        |...""",
+      List(TestFrame(4,
+        """.SS
+          |SS.
+          |..."""),
+        TestFrame(2, List(RotateLeft),
+          """S..
+            |SS.
+            |.S."""),
+        TestFrame(2, List(Right),
+          """.S.
+            |.SS
+            |..S"""),
+        TestFrame(2, List(RotateRight),
+          """.S.
+            |.SS
+            |..S""")
+      ),
+      hint = "Trying to rotate out of the screen on the right side has no effect/")
+  }
+
+  test("testRotateLeftOutLeft") {
+    checkGame(initialBoard =
+      """....
+        |....
+        |....
+        |....""",
+      List(TestFrame(0,
+        """....
+          |IIII
+          |....
+          |...."""),
+        TestFrame(2, List(RotateLeft),
+          """.I..
+            |.I..
+            |.I..
+            |.I.."""),
+        TestFrame(2, List(Left),
+          """I...
+            |I...
+            |I...
+            |I..."""),
+        TestFrame(2, List(RotateLeft),
+          """I...
+            |I...
+            |I...
+            |I...""")
+      ),
+      hint = "Trying to rotate out of the screen on the left side has no effect")
+  }
+
+  test("testRotateRightOutLeft") {
+    checkGame(initialBoard =
+      """...
+        |...
+        |...""",
+      List(TestFrame(5,
+        """.T.
+          |TTT
+          |..."""),
+        TestFrame(2, List(RotateRight),
+          """.T.
+            |.TT
+            |.T."""),
+        TestFrame(2, List(Left),
+          """T..
+            |TT.
+            |T.."""),
+        TestFrame(2, List(RotateRight),
+          """T..
+            |TT.
+            |T..""")
+      ),
+      hint = "Trying to rotate out of the screen on the right side has no effect")
+  }
+
+  test("testRotateOutBottom") {
+    checkGame(initialBoard =
+      """....
+        |....""",
+      List(TestFrame(0,
+        """....
+          |IIII"""),
+        TestFrame(2, List(RotateLeft),
+          """....
+            |IIII"""),
+        TestFrame(2, List(RotateRight),
+          """....
+            |IIII""")
+      ),
+      hint = "Trying to rotate out of the screen on the bottom has no effect")
+  }
+
+
 }
