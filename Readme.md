@@ -122,6 +122,8 @@ Grading is built up as follows:
 
 Total : 10 points
 
+ In contrast to snake, no points are subtracted for using a 2 dimesional structure, and using such a structure is encouraged.
+
 These rewards  are inteded to reward trying out new styles
 of programming.
 
