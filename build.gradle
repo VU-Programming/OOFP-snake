@@ -36,6 +36,11 @@ dependencies {
     implementation "org.scala-lang:scala-library:${scalaVersion}"
     compile fileTree(include: ['*.jar'], dir: 'lib')
     testImplementation('junit:junit:4.13.2')
+    testImplementation("org.scala-lang:scala-reflect") {
+      version {
+          strictly '2.13.11'
+      }
+    }
     testCompile('org.junit.vintage:junit-vintage-engine:5.9.0')
     testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.9"
 }
