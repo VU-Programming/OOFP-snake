@@ -25,7 +25,7 @@ should make. Your implementation should:
 
 Code to draw the game state and handle keyboard events has already been provided in `src/snake/game/SnakeGame.scala`, 
 where you can also run the game (press the play button). You only have to implement the game logic. Your implementation
- should go in `src/snake/logic/SnakeLogic.scala` . If you want to add additional files, please make certain to
+ should go in `src/snake/logic/GameLogic.scala` . If you want to add additional files, please make certain to
 keep them in the `src.snake.logic` package (that is the directory `src/snake/logic`).
 
 The drawing and event code, `SnakeGame` interacts with the game logic `GameLogic` as follows:
