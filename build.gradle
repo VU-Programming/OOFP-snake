@@ -42,7 +42,7 @@ dependencies {
       }
     }
     testCompile('org.junit.vintage:junit-vintage-engine:5.9.0')
-    testCompile "org.scalatest:scalatest_${scalaMajorVersion}:3.0.9"
+    testCompile("org.scalatest:scalatest_${scalaMajorVersion}:3.0.9")
 }
 
 task zip(type: Zip) {
