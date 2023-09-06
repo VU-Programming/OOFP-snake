@@ -25,7 +25,7 @@ should make. Your implementation should:
 
 Code to draw the game state and handle keyboard events has already been provided in `src/snake/game/SnakeGame.scala`, 
 where you can also run the game (press the play button). You only have to implement the game logic. Your implementation
- should go in `src/snake/logic/SnakeLogic.scala` . If you want to add additional files, please make certain to
+ should go in `src/snake/logic/GameLogic.scala` . If you want to add additional files, please make certain to
 keep them in the `src.snake.logic` package (that is the directory `src/snake/logic`).
 
 The drawing and event code, `SnakeGame` interacts with the game logic `GameLogic` as follows:
@@ -42,7 +42,7 @@ The drawing and event code, `SnakeGame` interacts with the game logic `GameLogic
 (`North(), East(), South()` or `West()`)
 * When the user presses the `"r"` key, the method `setReverse` is called with argument `True`. When the user releases
  the `r` key the method is called again with the argument `False`. This is used in assignment 2.3
- * Every 5 seconds (by default) the method `step()` is called to advanced the game: move the snake, handle apple and 
+ * Every second the `step()` method is called 5 times (by default) to advance the game: move the snake, handle apple and 
  handle game over. You can adjust the speed of the game by increasing or decreasing the value `GameLogic.FramesPerSecond`.
  
  A full example which uses a similar setup is the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban).
