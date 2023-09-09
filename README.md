@@ -5,8 +5,8 @@ snake to an apple on the game board. The snake cannot stop moving, and dies when
 it hits something (excluding apples). Because the snake is growing longer and longer as
 the game progresses, it gets increasingly difficult to avoid collisions with the snake itself.
 The player can change the direction of the head of the snake by using the arrow keys. At
-step in the game, there is always an apple somewhere on the board. If the snake eats an
-apple, the snake becomes one cell longer per step, for 3 steps. A new apple is placed on
+each step in the game, there is always an apple somewhere on the board. If the snake eats an
+apple, the snake becomes one cell longer per step, for 3 steps. A new apple is placed in
 a random location, excluding all places covered by the snake. When the snake reaches
 an end of the game board, it re-emerges at the opposite end.
 
@@ -14,7 +14,7 @@ It is probably easiest to understand the game by playing it yourself. You can fi
 of snake implementations on the web, for example [here](https://www.coolmathgames.com/0-snake). 
 There are four differences between this implementation and the one you
 should make. Your implementation should:
-* make the snake should grow by 3 blocks instead of 4.
+* make the snake grow by 3 blocks instead of 4.
 * make the snake re-emerge at the other end of the screen when reaching the end of
   the screen instead of dying.
 * make the snake start at a length of 3, at the top left (instead of a length of 1 at
@@ -25,7 +25,7 @@ should make. Your implementation should:
 
 Code to draw the game state and handle keyboard events has already been provided in `src/snake/game/SnakeGame.scala`, 
 where you can also run the game (press the play button). You only have to implement the game logic. Your implementation
- should go in `src/snake/logic/GameLogic.scala` . If you want to add additional files, please make certain to
+should go in `src/snake/logic/GameLogic.scala`. If you want to add additional files, please make certain to
 keep them in the `src.snake.logic` package (that is the directory `src/snake/logic`).
 
 The drawing and event code, `SnakeGame` interacts with the game logic `GameLogic` as follows:
@@ -35,10 +35,10 @@ The drawing and event code, `SnakeGame` interacts with the game logic `GameLogic
    - `Empty()`
    - `Apple()`
    - `SnakeHead(direction: Direction)` Direction is one of `North(), East(), South()` or `West()`  
-   - `SnakeBody(distanceToHead: Float)` The float indicated the color of the snake body, with 1.0 indicating dark green 
+   - `SnakeBody(distanceToHead: Float)` The float indicates the color of the snake body, with 1.0 indicating dark green 
    and 0.0 indicating light green. This can be used to make the color of the head light green and the color of the body 
    turn gradually darker. It is optional to do this. 
-* When the user pressed an arrow key, the method `changeDirection` is called with the direction of the arrow 
+* When the user presses an arrow key, the method `changeDirection` is called with the direction of the arrow 
 (`North(), East(), South()` or `West()`)
 * When the user presses the `"r"` key, the method `setReverse` is called with argument `True`. When the user releases
  the `r` key the method is called again with the argument `False`. This is used in assignment 2.3
@@ -52,9 +52,9 @@ The drawing and event code, `SnakeGame` interacts with the game logic `GameLogic
 To get a handle on how the framework works, please try to implement the following things first:
 
 1. Fill the screen with `SnakeHead` triangles pointing east.
-2. Same as 1 but now change the direction of the `SnakeHead` triangles when the user pressed an arrow key.
+2. Same as 1 but now change the direction of the `SnakeHead` triangles when the user presses an arrow key.
 3. Same as 2. but now only draw a single `SnakeHead` triangle at position x = 5, y = 3.
-4. Same as 3. but now the `SnakeHead` triangle should move, it should start in positon x = 5, y = 3 and every step move
+4. Same as 3. but now the `SnakeHead` triangle should move, it should start in position x = 5, y = 3 and every step move
 in the direction that the triangle is pointing. If the triangle moves out of the grid it should re-emerge at the other 
 end. 
 
@@ -67,14 +67,14 @@ assignment if your implementation passes 10 tests or more. The tests can be foun
 
 Your implementation must NOT implement reverse mode. The idea is
 that reverse mode is only implemented after the peer review such that there is some
-functionality in 1.3 which is not seen by other students in the peer review of 1.2. If you
+functionality in 1.3 that is not seen by other students in the peer review of 1.2. If you
 already implemented reverse mode, do not just disable reverse mode, remove any code
 that deals with it. Keep your code as simple and readable as possible. You code will be
-reviewed by your fellow student according to the clean code guidelines(to be published). Please read these and
+reviewed by your fellow student according to the clean code guidelines (to be published). Please read these and
 try to produce code with no offenses.
 
 If your implementation is more than 400 lines long (including empty lines), then some-
-thing is probably wrong. Did you duplicate code or re-implement basic data-structures?
+thing is probably wrong. Did you duplicate code or re-implement basic data structures?
 The reference implementation is 150 lines long. 
 
 
@@ -90,7 +90,7 @@ For each implementation, do the following:
 Peer reviews are graded by us using a pass/fail system. We will check if you made an
 effort to review the code and find penalties. If you receive very good code, it is of course
 OK to just state that it is very good and that you could not find any penalties. However,
-you will certainly fail if you receive code which is obviously bad on which you did not
+you will certainly fail if you receive code that is obviously bad on which you did not
 report a single penalty.
 
 When reviewing the code of other students please be nice and constructive!
@@ -103,11 +103,11 @@ Failure to be nice and/or constructive will lead to you failing assignment 2.1.
 ## 2.3 Snake reverse mode 
 
 Using the feedback from 3 other students from the peer review, you
-will improve your implementation of Snake. It is up to you to decide which suggestion from your fellow students make sense, you do not have to follow up on all suggestions. It is OK to improve your code by drawing inspiration from the code your reviewed from other students, but do not copy the code
+will improve your implementation of Snake. It is up to you to decide which suggestions from your fellow students make sense, you do not have to follow up on all suggestions. It is OK to improve your code by drawing inspiration from the code you reviewed from other students, but do not copy the code
 of other students! 
 
 For assignment 2.3 you should additionally implement a reverse mode which allows the player to rewind the game to an 
-earlier state.   When reverse mode is enabled, on each step the snake game returns to the previous game state. When 
+earlier state. When reverse mode is enabled, on each step the snake game returns to the previous game state. When 
 reverse mode is disabled again, the game will progress as normal from the point to which you reversed.
 Hence, you can rewind the game for a number of steps and then continue playing from
 this state. Reverse mode should not be implemented for assignment 2.1.
@@ -117,7 +117,7 @@ The tests can be found in `SnakeTestsAssignment2_3` or by running `./gradlew tes
 Grading is built up as follows:
 
 * Amount of tests passed: 5.5 points
-* Use of _immutable_ gamestate: 2 points (see below)
+* Use of _immutable_ game state: 2 points (see below)
 * Do not use a 2 dimensional array/list 0.5 (see below)
 * Code style 2 points 
 Total : 10 points 
@@ -128,20 +128,20 @@ To get the full 1.5 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
 * Use vars only to (these are the allowed vars, you are of course allowed to use a subset of these):
-   - keep track of the current gamestate
-   - keep track of past gamestates
+   - keep track of the current game state
+   - keep track of past game states
    - keep track of whether reverse is enabled
    - keep track of the current direction
-* Implement the logic for generating a new Gamestate object *inside* the gamestate object.
+* Implement the logic for generating a new GameState object *inside* the GameState object.
 
 You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions (NOTE: this is not true for the next assignment, there this is not allowed for the immutability bonus).
 
 To get the points for not using a 2-dimensional structure:
 * Do not store cells in a 2-dimensional structure
 * Do not store points for empty grid cells.
-This typically means storing the Snake as a list of points, and the apple as a point. For the purposes of grading a `Map[Point, CellType]` or something similar is considered a 2 dimensional structure.
+This typically means storing the Snake as a list of points, and the apple as a point. For the purposes of grading a `Map[Point, CellType]` or something similar is considered a 2-dimensional structure.
 
-The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
+The reward for using an immutable gamestate and not using a 2-dimensional array/list is to reward trying out new styles
 of programming. Code style is judged as described in the readable code lectures and the
  [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style). Note: If you do not implement reverse mode, you get a 0.6 point style penalty.
 
@@ -149,7 +149,7 @@ of programming. Code style is judged as described in the readable code lectures 
 
 To make sure that everyone programs exactly the same thing, we have implemented
 a number of tests that your Snake implementation should pass. This section describes
-these tests and the specific requirement on your snake implementation.
+these tests and the specific requirements on your snake implementation.
 
 Each test describes an expected run of a snake game, typically on a small board (for
 example, 6x3). A run consists of multiple *frames* (between each frame step is called).
@@ -169,7 +169,7 @@ OO..
 ....
 ```
 This indicates:
-* The total number steps is 4
+* The total number of steps is 4
 * The next random number is 2
 * The player pressed west, and then north, before the screen was rendered.
 * The game field is 4x4 cells big. 
@@ -228,15 +228,15 @@ Want   | Got ✗
 ....   | ....
 ....   | ....
 ```
-On each frame the expected output (Want) and the output produced by your implementation 
-are displayed side-by-side. A checkmark (✓) indicates that on this frame the expected ouput and the
+On each frame, the expected output (Want) and the output produced by your implementation 
+are displayed side-by-side. A checkmark (✓) indicates that on this frame the expected output and the
 output produced by your implementation are the same, a cross (✗) indicates that they differ.
  Here, the implementation seems to ignore a change in direction.
  
  ## Apple placement
  
  To ensure reproducible behavior, we specify exactly how a random number generator must be used to place the food. The random number generator itself is passed
- to the SnakeLogic class as an argument called `randomGen: RandomGenerator` . This
+ to the SnakeLogic class as an argument called `randomGen: RandomGenerator`. This
  `RandomGenerator` class has the following method:
  ```scala 
  def randomInt(upTo: Int): Int
@@ -252,10 +252,10 @@ to randomly place the apple using the following method, which we DO NOT USE:
 3. If the resulting coordinate is not free, try again.
 
 This method has the downside that it might take a lot of tries before you find a free spot,
-especially if the board is almost full. Moreover, it requires arbitrary amount of numbers
+especially if the board is almost full. Moreover, it requires an arbitrary amount of numbers
 for placing a single apple, which complicates testing.
 
-Instead of the above method, we opt for a method which always succeeds at placing an
+Instead of the above method, we opt for a method that always succeeds at placing an
 apple, using only a single number. To see how this works, suppose we have a 5x3 board
 and the current position of the snake is as follows:
 ```
@@ -265,7 +265,7 @@ and the current position of the snake is as follows:
 ```
 To determine the position of the apple, we want to pick a random free spot on the board
 (the apple should not be placed on the snake). We number the free spots on the board
-from left to right, top to bottom, skipping any spot occupied to by the snake. In our example,
+from left to right, top to bottom, skipping any spot occupied by the snake. In our example,
 this means the following numbering:
 ```
  0 | 1 | 2 | 3 | 4 
@@ -275,6 +275,6 @@ this means the following numbering:
  7 | 8 | 9 | 10| 11   
 ```
 To pick a random spot, first compute the number of free spots and then call `randomGen.randomInt(nrFreeSpots)`
-(in our case nrFreeSpots=12 ). Then  place the apple at the position corresponding to the
+(in our case nrFreeSpots=12 ). Then place the apple at the position corresponding to the
 number you got.
 
