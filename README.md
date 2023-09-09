@@ -38,7 +38,7 @@ The drawing and event code, `SnakeGame` interacts with the game logic `GameLogic
    - `SnakeBody(distanceToHead: Float)` The float indicates the color of the snake body, with 1.0 indicating dark green 
    and 0.0 indicating light green. This can be used to make the color of the head light green and the color of the body 
    turn gradually darker. It is optional to do this. 
-* When the user presses an arrow key, the method `changeDirection` is called with the direction of the arrow 
+* When the user presses an arrow key, the method `changeDir` is called with the direction of the arrow 
 (`North(), East(), South()` or `West()`)
 * When the user presses the `"r"` key, the method `setReverse` is called with argument `True`. When the user releases
  the `r` key the method is called again with the argument `False`. This is used in assignment 2.3
