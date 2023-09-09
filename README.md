@@ -123,7 +123,7 @@ Grading is built up as follows:
 Total : 10 points 
 
 An example of immutable game state can be found in the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban) 
-in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/main/sokoban/logic/SokobanLogic.scala). 
+in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/sokoban/logic/SokobanLogic.scala). 
 To get the full 1.5 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
@@ -143,7 +143,7 @@ This typically means storing the Snake as a list of points, and the apple as a p
 
 The reward for using an immutable gamestate and not using a 2-dimensional array/list is to reward trying out new styles
 of programming. Code style is judged as described in the readable code lectures and the
- [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style). Note: If you do not implement reverse mode, you get a 0.6 point style penalty.
+ [code style grading guideline](https://canvas.vu.nl/courses/71445/pages/code-style). Note: If you do not implement reverse mode, you get a 0.6 point style penalty.
 
 ## Test setup
 
