@@ -17,13 +17,13 @@ class GameLogic(val random: RandomGenerator,
   def step(): Unit = ()
 
   // TODO implement me
-  def setReverse(r: Boolean): Unit = ()
-
-  // TODO implement me
   def changeDir(d: Direction): Unit = ()
 
   // TODO implement me
   def getCellType(p : Point): CellType = Empty()
+
+  // TODO implement me
+  def setReverse(r: Boolean): Unit = ()
 
 }
 
