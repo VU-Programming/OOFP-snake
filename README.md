@@ -118,8 +118,8 @@ Grading is built up as follows:
 
 * Amount of tests passed: 5.5 points
 * Use of _immutable_ game state: 2 points (see below)
-* Do not use a 2 dimensional array/list 0.5 (see below)
-* Code style 2 points
+* Do not use a 2 dimensional array/list: 0.5 (see below)
+* Code style: 2 points
 
 Total : 10 points 
 
