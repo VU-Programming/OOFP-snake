@@ -128,7 +128,7 @@ These rewards  are intended to reward trying out new styles
 of programming.
 
 An example of an immutable game state can be found in the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban)
-in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/main/sokoban/logic/SokobanLogic.scala).
+in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/sokoban/logic/SokobanLogic.scala).
 To get the full 1.0 point, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
@@ -136,5 +136,5 @@ To get the full 1.0 point, you need to:
 CHANGE FROM SNAKE: You are NOT allowed to locally use vars and builders inside functions to get the immutability bonus. 
 
  Code style is judged as described in the readable code lectures and the
-[code style grading guidelines](https://canvas.vu.nl/courses/50305/pages/code-style).
+[code style grading guidelines](https://canvas.vu.nl/courses/71445/pages/code-style).
 
