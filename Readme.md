@@ -11,8 +11,8 @@ You are making a slightly simplified version of this game:
 * No difficulty curve (speeding up).
 * No hold functionality.
 * No box showing the next tetrominoes.
-* In the official Tetris, if a tetromino is rotated but the target spot is occupied or out of bounds, the tetromino may slightly be moved to a space that is free via a “wall-
- kick” system. We do not implement this, we simply do not rotate if the target spot is occupied or out of bounds.
+* In the official Tetris, if a tetromino is rotated but the target spot is occupied or out of bounds, the tetromino may slightly be moved to a space that is free via a “wall-kick"
+system. We do not implement this, we simply do not rotate if the target spot is occupied or out of bounds.
 
 The assignment is similar to assignments 2.1 and 2.3. Keep your code as simple and
 readable as possible. If your implementation is more than 450 lines long (including empty lines), then something is probably wrong. The reference implementation is 170 lines long.
@@ -30,7 +30,7 @@ The drawing and event code, `TetrisGame` interacts with the game logic `TetrisLo
 
 * When drawing the game, `TetrisGame` asks `TetrisLogic` for each cell in the grid what the type is. The cell types are
 defined `tetris.logic.CellType` and are either `Empty` or an `<X>Cell` where X is the letter corresponding to the tetromino
-that the block originated from. See below for a list of tetrominos. The drawing code
+that the block originated from. See below for a list of tetrominoes. The drawing code
 also calls `gameOver` and draws a game over text if this is true.
 * When the user pressed the left, right or down arrow key, then `moveLeft`, `moveRight` or `moveDown` is called
 correspondingly.
@@ -53,7 +53,7 @@ generator is passed to the TetrisLogic class as an argument called `randomGen`. 
 call `randomInt(nrTetrominoes)` , where `nrTetrominoes=7` , to determine the index of
 the tetromino to get.
 
-![Tetromino table](tetrominos.png)
+![Tetromino table](tetrominoes.png)
 
 The tetrominoes should be placed based on their anchor, which is located:
 * at the center of rotation (shown as a circle in above) for tetrominoes J, L, S, T and Z.
@@ -117,7 +117,7 @@ Grading is built up as follows:
 * Implementation of rotation and anchors (see table above) (max 0.75 points):
    - Hard coding is allowed, but gives 0.0 points
    - Not hard coded, but does not use subclassing (described above) (0.4 points)
-   - Implement tetrominos by using subclasses (see above) (0.75 points)
+   - Implement tetrominoes by using subclasses (see above) (0.75 points)
 * Code style 2 points
 
 Total : 10 points
