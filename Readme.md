@@ -31,7 +31,7 @@ The drawing and event code, `TetrisGame` interacts with the game logic `TetrisLo
 * When drawing the game, `TetrisGame` asks `TetrisLogic` for each cell in the grid what the type is. The cell types are
 defined `tetris.logic.CellType` and are either `Empty` or an `<X>Cell` where X is the letter corresponding to the tetromino
 that the block originated from. See below for a list of tetrominoes. The drawing code
-also calls `gameOver` and draws a game over text if this is true.
+also calls `isGameOver` and draws a game over text if this is true.
 * When the user presses the left, right or down arrow key, then `moveLeft`, `moveRight` or `moveDown` is called
 correspondingly.
 * When the user presses the `s` key or the up arrow, then `rotateRight` is called. When the user pressed `a` then
