@@ -118,13 +118,14 @@ Grading is built up as follows:
 
 * Amount of tests passed: 5.5 points
 * Use of _immutable_ game state: 2 points (see below)
-* Do not use a 2 dimensional array/list 0.5 (see below)
-* Code style 2 points 
+* Do not use a 2 dimensional array/list: 0.5 (see below)
+* Code style: 2 points
+
 Total : 10 points 
 
 An example of immutable game state can be found in the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban) 
 in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/sokoban/logic/SokobanLogic.scala). 
-To get the full 1.5 points, you need to:
+To get the full 2 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
 * Use vars only to (these are the allowed vars, you are of course allowed to use a subset of these):
