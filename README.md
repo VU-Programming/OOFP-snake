@@ -141,8 +141,10 @@ To get the points for not using a 2-dimensional structure:
 This typically means storing the Snake as a list of points, and the apple as a point. For the purposes of grading a `Map[Point, CellType]` or something similar is considered a 2 dimensional structure.
 
 The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
-of programming. Code style is judged as described in the readable code lectures and the
- [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style). Note: If you do not implement reverse mode, you get a 0.6 point style penalty.
+of programming. 
+
+Code style is judged as described in the readable code lectures and the
+ [code style grading guideline](https://canvas.vu.nl/courses/50305/pages/code-style). The maximum style grade you can get depends on how much of the previous 8 points you got. For example, if you get 5 points from the tests, did not make your gamestate immutable (0/2), but did get the points for not using an 2 dimension array (0.5), then your maximum style points is (5.5/8) * 2 = 1,375 point.
 
 ## Test setup
 
