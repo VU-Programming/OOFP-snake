@@ -11,7 +11,8 @@ import snake.logic.GameLogic._
 class GameLogic(val random: RandomGenerator,
                 val gridDims : Dimensions) {
 
-  def gameOver: Boolean = false
+  // TODO implement me
+  def getCellType(p: Point): CellType = Empty()
 
   // TODO implement me
   def step(): Unit = ()
@@ -19,9 +20,8 @@ class GameLogic(val random: RandomGenerator,
   // TODO implement me
   def changeDir(d: Direction): Unit = ()
 
-  // TODO implement me
-  def getCellType(p : Point): CellType = Empty()
-
+  def gameOver: Boolean = false
+  
   // TODO implement me
   def setReverse(r: Boolean): Unit = ()
 

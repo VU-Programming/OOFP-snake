@@ -128,23 +128,24 @@ in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blo
 To get the full 2 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
-* Use vars only to (these are the allowed vars, you are of course allowed to use a subset of these):
-   - keep track of the current game state
-   - keep track of past game states
+* Use maximally 3 vars. You can use a var only to (these are the allowed vars, you are of course allowed to use a subset of these):
+   - keep track of past gamestates
    - keep track of whether reverse is enabled
    - keep track of the current direction
 * Implement the logic for generating a new GameState object *inside* the GameState object.
 
-You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions (NOTE: this is not true for the next assignment, there this is not allowed for the immutability bonus).
+You are allowed to locally use vars and builders (i.e. ListBuilder) inside functions (NOTE: this is not true for the next assignment, there this is not allowed for the immutability points).
 
 To get the points for not using a 2-dimensional structure:
 * Do not store cells in a 2-dimensional structure
 * Do not store points for empty grid cells.
 This typically means storing the Snake as a list of points, and the apple as a point. For the purposes of grading a `Map[Point, CellType]` or something similar is considered a 2-dimensional structure.
 
-The reward for using an immutable gamestate and not using a 2-dimensional array/list is to reward trying out new styles
-of programming. Code style is judged as described in the readable code lectures and the
- [code style grading guideline](https://canvas.vu.nl/courses/71445/pages/code-style). Note: If you do not implement reverse mode, you get a 0.6 point style penalty.
+The reward for using an immutable gamestate and not using a 2 dimensional array/list is to reward trying out new styles
+of programming. 
+
+Code style is judged as described in the readable code lectures and the
+ [code style grading guideline](https://canvas.vu.nl/courses/78072/pages/code-style). The maximum style grade you can get depends on how much of the previous 8 points you got. For example, if you get 5 points from the tests, did not make your gamestate immutable (0/2), but did get the points for not using an 2 dimension array (0.5), then your maximum style points is (5.5/8) * 2 = 1,375 point.
 
 ## Test setup
 
