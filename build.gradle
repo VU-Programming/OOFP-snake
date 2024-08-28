@@ -11,41 +11,40 @@ application {
 
 
 
-test {
-    useJUnitPlatform()
-    afterSuite { suite, result ->
-        result.exception?.printStackTrace()
-    }
-}
 
 ext {
     scalaMajorVersion = '2.13'
-    scalaVersion = '2.13.11'
+    scalaVersion = "${scalaMajorVersion}.14"
 }
 
 
 repositories {
-    flatDir {
-        dirs 'lib'
-    }
 
     mavenCentral()
+
+    maven {
+        url "https://jogamp.org/deployment/maven/"
+    }
+
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 sourceSets.main.scala.srcDirs = ['src']
 sourceSets.test.scala.srcDirs = ['test']
 
 dependencies {
-    implementation "org.scala-lang:scala-library:${scalaVersion}"
-    implementation fileTree(include: ['*.jar'], dir: 'lib')
-    testImplementation('junit:junit:4.13.2')
-    testImplementation("org.scala-lang:scala-reflect") {
-      version {
-          strictly '2.13.11'
-      }
-    }
-    testImplementation('org.junit.vintage:junit-vintage-engine:5.9.0')
-    testImplementation("org.scalatest:scalatest_${scalaMajorVersion}:3.0.9")
+    implementation "com.github.micycle1:processing-core-4:4.3"
+    implementation 'org.jogamp.gluegen:gluegen-rt-main:2.5.0-rc-20230523'
+// https://mvnrepository.com/artifact/org.jogamp.gluegen/gluegen-rt
+    implementation 'org.jogamp.gluegen:gluegen-rt:2.5.0-rc-20230523'
+
+    implementation "org.scala-lang:scala-library:2.13.14"
+   testImplementation('junit:junit:4.13.2')
+   testImplementation("org.scala-lang:scala-reflect:2.13.14") 
+   testImplementation("org.scalatest:scalatest_${scalaMajorVersion}:3.0.9")
+
 }
 
 task zip(type: Zip) {
@@ -94,4 +93,5 @@ task fraction2_3(type: JavaExec, dependsOn: classes) {
     classpath sourceSets.main.runtimeClasspath
     //classpath configurations.runtime
 }
+
 

@@ -3,7 +3,6 @@ package infrastructure
 
 import java.io.{OutputStream, PrintStream}
 
-
 import org.scalatest.{Args, ConfigMap, Reporter}
 import org.scalatest.events.{Event, TestFailed, TestSucceeded}
 import snake.{SnakeTestSuite, SnakeTestsAssignment2_1, SnakeTestsAssignment2_3}
@@ -71,4 +70,5 @@ object ReportFraction2_3 extends ReportFraction {
         out.printf("Your base grade for exercise 2.3 will be : %.2f\n",scoreCounter.fraction() * MaxBaseGrade)
         out.printf("Fractiontouseforcodegrade %.2f",scoreCounter.fraction())
     }
+
 }
