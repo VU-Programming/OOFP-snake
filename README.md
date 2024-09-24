@@ -124,12 +124,13 @@ Grading is built up as follows:
 Total : 10 points 
 
 An example of immutable game state can be found in the [Sokoban example](https://gitlab.com/vu-oofp/gamebase/-/tree/sokoban) 
-in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/sokoban/logic/SokobanLogic.scala). 
+in the [immutable sokoban logic class](https://gitlab.com/vu-oofp/gamebase/-/blob/sokoban/src/sokoban/logic/SokobanLevel.scala). 
 To get the full 2 points, you need to:
 * Not use mutable containers (Arrays and others)
 * Use a GameState that contains only vals
-* Use maximally 3 vars. You can use a var only to (these are the allowed vars, you are of course allowed to use a subset of these):
-   - keep track of past gamestates
+* Use maximally 4 vars. You can use a var only to (these are the allowed vars, you are of course allowed to use a subset of these):
+   - keep track of an immutable stack of past gamestates (perhaps including the current one at the top)
+   - keep track of the current gamestate 
    - keep track of whether reverse is enabled
    - keep track of the current direction
 * Implement the logic for generating a new GameState object *inside* the GameState object.
