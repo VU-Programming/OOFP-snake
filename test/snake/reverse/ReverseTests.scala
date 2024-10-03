@@ -60,6 +60,84 @@ class ReverseTests extends SnakeTestSuiteBase {
         )
     }
 
+    test("testReverseToDirectionChange") {
+        checkGame(
+            List(
+                TestFrame(2,
+                    """OO>..
+                      |A....
+                      |....."""),
+                TestFrame(2,
+                    """.OO>.
+                      |A....
+                      |....."""),
+                TestFrame(2, List(ChangeDir(South())),
+                    """..OO.
+                      |A..v.
+                      |....."""),
+                TestFrame(2,
+                    """...O.
+                      |A..O.
+                      |...v."""),
+                TestFrame(2, List(ChangeDir(East()), ChangeDir(West())),
+                    """.....
+                      |A..O.
+                      |..<O."""),
+                TestFrame(2,
+                    """.....
+                      |A....
+                      |.<OO."""),
+                TestFrame(2,
+                    """.....
+                      |A....
+                      |<OO.."""),
+                TestFrame(2, List(ReverseGame(true)),
+                    """.....
+                      |A....
+                      |.<OO."""),
+                TestFrame(2,
+                    """.....
+                      |A..O.
+                      |..<O."""),
+                TestFrame(2,
+                    """...O.
+                      |A..O.
+                      |...v."""),
+                TestFrame(2, List(ReverseGame(false)),
+                    """...v.
+                      |A..O.
+                      |...O."""),
+                TestFrame(2,
+                    """...O.
+                      |A..v.
+                      |...O."""),
+                TestFrame(2, List(ReverseGame(true)),
+                    """...v.
+                      |A..O.
+                      |...O."""),
+                TestFrame(2,
+                    """...O.
+                      |A..O.
+                      |...v."""),
+                TestFrame(2,
+                    """..OO.
+                      |A..v.
+                      |....."""),
+                TestFrame(2,
+                    """.OO>.
+                      |A....
+                      |....."""),
+                TestFrame(2, List(ReverseGame(false)),
+                    """..OO>
+                      |A....
+                      |.....""")
+            ),
+            hint = "After reversing to a GameState where the snake changed direction, " +
+              "the snake should keep going in the direction it is pointing to (if user does not input anything), " +
+              "and not perform automatically the same turn it performed the previous time"
+        )
+    }
+
     test("testReverseGameOver") {
         checkGame(
             List(
