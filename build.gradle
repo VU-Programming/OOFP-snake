@@ -14,7 +14,7 @@ application {
 
 ext {
     scalaMajorVersion = '2.13'
-    scalaVersion = "${scalaMajorVersion}.14"
+    scalaVersion = "${scalaMajorVersion}.16"
 }
 
 
@@ -40,9 +40,9 @@ dependencies {
 // https://mvnrepository.com/artifact/org.jogamp.gluegen/gluegen-rt
     implementation 'org.jogamp.gluegen:gluegen-rt:2.5.0-rc-20230523'
 
-    implementation "org.scala-lang:scala-library:2.13.14"
+    implementation "org.scala-lang:scala-library:2.13.16"
    testImplementation('junit:junit:4.13.2')
-   testImplementation("org.scala-lang:scala-reflect:2.13.14") 
+   testImplementation("org.scala-lang:scala-reflect:2.13.16") 
    testImplementation("org.scalatest:scalatest_${scalaMajorVersion}:3.0.9")
 
 }
