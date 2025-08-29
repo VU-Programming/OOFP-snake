@@ -1,3 +1,11 @@
+##
+
+The goals of this assignment are:
+- To practice using immutable data
+- To practice writing readable code
+- To practice programming
+
+
 ## Game description
 
 The goal of Snake is to create a snake as long as possible. This is achieved by guiding the
