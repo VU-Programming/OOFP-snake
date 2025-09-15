@@ -35,14 +35,14 @@ sourceSets.main.scala.srcDirs = ['src']
 sourceSets.test.scala.srcDirs = ['test']
 
 dependencies {
-    implementation "com.github.micycle1:processing-core-4:4.3"
-    implementation 'org.jogamp.gluegen:gluegen-rt-main:2.5.0-rc-20230523'
+    implementation("org.processing:core:4.4.4")
+    implementation("org.jogamp.gluegen:gluegen-rt-main:2.5.0")
 // https://mvnrepository.com/artifact/org.jogamp.gluegen/gluegen-rt
-    implementation 'org.jogamp.gluegen:gluegen-rt:2.5.0-rc-20230523'
+    implementation("org.jogamp.gluegen:gluegen-rt:2.5.0")
 
     implementation "org.scala-lang:scala-library:2.13.16"
    testImplementation('junit:junit:4.13.2')
-   testImplementation("org.scala-lang:scala-reflect:2.13.16") 
+   testImplementation("org.scala-lang:scala-reflect:2.13.16")
    testImplementation("org.scalatest:scalatest_${scalaMajorVersion}:3.0.9")
 
 }
@@ -93,5 +93,3 @@ task fraction2_3(type: JavaExec, dependsOn: classes) {
     classpath sourceSets.main.runtimeClasspath
     //classpath configurations.runtime
 }
-
-
