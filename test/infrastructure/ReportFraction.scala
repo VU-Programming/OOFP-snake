@@ -60,7 +60,7 @@ object ReportFraction2_1 extends ReportFraction {
 
 object ReportFraction2_3 extends ReportFraction {
     override def Tests(): SnakeTestSuite = new SnakeTestsAssignment2_3()
-    val MaxBaseGrade = 5
+    val MaxBaseGrade = 5.5
 
     def main(args : Array[String]) : Unit  = {
         val out = System.out
