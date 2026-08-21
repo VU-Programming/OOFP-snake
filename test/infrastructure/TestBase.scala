@@ -1,12 +1,12 @@
 package infrastructure
 
-import org.scalactic.source.Position
 import org.scalatest.concurrent.{Signaler, TimeLimitedTests}
 import org.scalatest.exceptions.TestFailedException
 import org.scalatest.time.{Days, Seconds, Span}
-import org.scalatest.{Args, BeforeAndAfterAll, FunSuite, Status, Tag}
+import org.scalatest.{Args, Status, Tag}
+import org.scalatest.funsuite.AnyFunSuite
 
-abstract class TestBase extends FunSuite with TimeLimitedTests {
+abstract class TestBase extends AnyFunSuite with TimeLimitedTests {
 
   // check if the program was launced from the debugger, so that we can disable the timeout in that case
   val isDebug : Boolean = java.lang.management.ManagementFactory.getRuntimeMXBean.getInputArguments.toString.indexOf("jdwp") >= 0
@@ -26,12 +26,8 @@ abstract class TestBase extends FunSuite with TimeLimitedTests {
     super.run(testName, args)
   }
 
-  override def test(testName: String, testTags: Tag*)(testFun: => Any)(implicit pos: Position): Unit =
-    test(testName,1,testTags:_*){testFun}
-
-
-  def test(testName : String, weight : Int, testTags : Tag*)(testFun : => Any)(implicit pos: Position): Unit = {
-    super.test(testName,testTags:_*){
+  def weightedTest(testName : String, weight : Int = 1, testTags : Tag*)(testFun : => Any): Unit = {
+    super.test(testName,testTags*){
       try {
         testFun
         scoreCounter.foreach(_.addScore(weight,weight))

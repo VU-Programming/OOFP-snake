@@ -8,7 +8,7 @@ import snake.BaseSnakeTestSuite.{BaseTests, MaxGrade}
 import snake.basic.{DeathTests, GrowthTests, MovementTests, FullGameTests, NoReverseTest, PlacementTests, WrapAroundTests}
 import snake.reverse.ReverseTests
 
-abstract class SnakeTestSuite(suites: SnakeTestSuiteBase*) extends Suites(BaseTests ++ suites: _*) {
+abstract class SnakeTestSuite(suites: SnakeTestSuiteBase*) extends Suites((BaseTests ++ suites)*) {
     override def run(testName: Option[String], args: Args): Status = {
         val scoreCounter = new ScoreCounter()
         val newArgs =

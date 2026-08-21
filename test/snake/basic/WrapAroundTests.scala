@@ -4,7 +4,7 @@ import snake.logic.{North, South, West}
 import snake.{ChangeDir, SnakeTestSuiteBase}
 
 class WrapAroundTests extends SnakeTestSuiteBase {
-    test("testWrapAroundEast") {
+    weightedTest("testWrapAroundEast") {
         checkGame(
             List(
                 TestFrame(6,
@@ -37,7 +37,7 @@ class WrapAroundTests extends SnakeTestSuiteBase {
     }
 
     // If the snake leaves the screen, it re-emerges at the other end.
-    test("testWrapAroundSouth") {
+    weightedTest("testWrapAroundSouth") {
         checkGame(
             List(
                 TestFrame(2,
@@ -80,7 +80,7 @@ class WrapAroundTests extends SnakeTestSuiteBase {
     }
 
     // If the snake leaves the screen, it re-emerges at the other end.
-    test("testWrapAroundNorth") {
+    weightedTest("testWrapAroundNorth") {
         checkGame(
             List(
                 TestFrame(6,
@@ -113,7 +113,7 @@ class WrapAroundTests extends SnakeTestSuiteBase {
     }
 
     // If the snake leaves the screen, it re-emerges at the other end.
-    test("testWrapAroundWest") {
+    weightedTest("testWrapAroundWest") {
         checkGame(
             List(
                 TestFrame(2,

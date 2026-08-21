@@ -5,7 +5,7 @@ import snake.{ChangeDir, ReverseGame, SnakeTestSuiteBase}
 
 class ReverseTests extends SnakeTestSuiteBase {
 
-    test("testReverseSimple") {
+    weightedTest("testReverseSimple") {
         checkGame(
             List(
                 TestFrame(2,
@@ -32,7 +32,7 @@ class ReverseTests extends SnakeTestSuiteBase {
         )
     }
 
-    test("testReversePastStart") {
+    weightedTest("testReversePastStart") {
         checkGame(
             List(
                 TestFrame(2,
@@ -60,7 +60,7 @@ class ReverseTests extends SnakeTestSuiteBase {
         )
     }
 
-    test("testReverseToDirectionChange") {
+    weightedTest("testReverseToDirectionChange") {
         checkGame(
             List(
                 TestFrame(2,
@@ -138,7 +138,7 @@ class ReverseTests extends SnakeTestSuiteBase {
         )
     }
 
-    test("testReverseGameOver") {
+    weightedTest("testReverseGameOver") {
         checkGame(
             List(
                 TestFrame(2,
@@ -175,7 +175,7 @@ class ReverseTests extends SnakeTestSuiteBase {
         )
     }
 
-    test("testChangeThePast") {
+    weightedTest("testChangeThePast") {
         checkGame(
             List(
                 TestFrame(2,
@@ -223,7 +223,7 @@ class ReverseTests extends SnakeTestSuiteBase {
         )
     }
 
-    test("testReverseLong") {
+    weightedTest("testReverseLong") {
         checkGame(
             List(
                 TestFrame(2,

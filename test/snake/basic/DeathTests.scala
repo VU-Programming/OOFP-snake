@@ -6,7 +6,7 @@ import snake.{ChangeDir, SnakeTestSuiteBase}
 class DeathTests extends SnakeTestSuiteBase {
 
 
-    test("testGameOver") {
+    weightedTest("testGameOver") {
         checkGame(
             List(
                 TestFrame(0,
@@ -40,7 +40,7 @@ class DeathTests extends SnakeTestSuiteBase {
     }
 
 
-    test("testPreciselyDoesNotDie") {
+    weightedTest("testPreciselyDoesNotDie") {
         checkGame(
             List(
                 TestFrame(0,
@@ -78,7 +78,7 @@ class DeathTests extends SnakeTestSuiteBase {
         )
     }
 
-    test("testNoEscapeGameOver") {
+    weightedTest("testNoEscapeGameOver") {
         checkGame(
             List(
                 TestFrame(0,

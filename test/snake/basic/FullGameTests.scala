@@ -4,7 +4,7 @@ import snake.logic.{East, North, South, West}
 import snake.{ChangeDir, SnakeTestSuiteBase}
 
 class FullGameTests extends SnakeTestSuiteBase {
-    test("testGame3x1") {
+    weightedTest("testGame3x1") {
         checkGame(
             List(
                 TestFrame(0,
@@ -219,7 +219,7 @@ class FullGameTests extends SnakeTestSuiteBase {
             GameOverDisplay()),
     )
 
-    test("testGame6x6") {
+    weightedTest("testGame6x6") {
         checkGame(game6x6, hint ="The game should work at any board size which can hold the initial snake. In this case 6x6.")
     }
 
@@ -304,7 +304,7 @@ class FullGameTests extends SnakeTestSuiteBase {
             GameOverDisplay())
     )
 
-    test("testGame6x3") {
+    weightedTest("testGame6x3") {
         checkGame(game6x3, hint = "The game should work at any board size which can hold the initial snake. In this case 6x3." )
     }
 
@@ -745,20 +745,20 @@ class FullGameTests extends SnakeTestSuiteBase {
             GameOverDisplay())
     )
 
-    test("testGame10x7") {
+    weightedTest("testGame10x7") {
         checkGame( game10x7,  hint ="The game should work at any board size which can hold the initial snake. In this case 10x7.")
     }
 
-    test("testInterleave6x3and10x7") {
+    weightedTest("testInterleave6x3and10x7") {
         checkInterleave(game6x3,game10x7)
     }
 
-    test("testInterleave6x6and10x7") {
+    weightedTest("testInterleave6x6and10x7") {
         checkInterleave(game6x6,game10x7)
     }
 
 
-    test("testInterleave6x3and6x6") {
+    weightedTest("testInterleave6x3and6x6") {
         checkInterleave(game6x3,game6x6)
     }
 }

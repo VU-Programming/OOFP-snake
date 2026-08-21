@@ -4,7 +4,7 @@ import snake.{ReverseGame, SnakeTestSuiteBase}
 
 class NoReverseTest extends SnakeTestSuiteBase {
 
-    test("TestNoReverseMode") {
+    weightedTest("TestNoReverseMode") {
         checkGame(
             List(
                 TestFrame(2,
