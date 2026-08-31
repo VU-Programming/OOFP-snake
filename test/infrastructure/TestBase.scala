@@ -26,7 +26,7 @@ abstract class TestBase extends AnyFunSuite with TimeLimitedTests {
     super.run(testName, args)
   }
 
-  def weightedTest(testName : String, weight : Int = 1, testTags : Tag*)(testFun : => Any): Unit = {
+  def test(testName : String, weight : Int = 1, testTags : Tag*)(testFun : => Any): Unit = {
     super.test(testName,testTags*){
       try {
         testFun

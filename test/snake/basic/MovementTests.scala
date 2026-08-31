@@ -5,7 +5,7 @@ import snake.{ChangeDir, SnakeTestSuiteBase}
 
 class MovementTests extends SnakeTestSuiteBase {
 
-    weightedTest("testMove") {
+    test("testMove") {
         checkGame(
             List(
                 TestFrame(3,
@@ -22,7 +22,7 @@ class MovementTests extends SnakeTestSuiteBase {
         )
     }
 
-    weightedTest("testChangeDirs") {
+    test("testChangeDirs") {
         checkGame(
             List(
                 TestFrame(2,
@@ -74,7 +74,7 @@ class MovementTests extends SnakeTestSuiteBase {
         )
     }
 
-    weightedTest("testIgnoreEatHead") {
+    test("testIgnoreEatHead") {
         checkGame(
             List(
                 TestFrame(5,
@@ -92,7 +92,7 @@ class MovementTests extends SnakeTestSuiteBase {
         )
     }
 
-    weightedTest("testQuickSwitch") {
+    test("testQuickSwitch") {
         checkGame(
             List(
                 TestFrame(4,
@@ -113,7 +113,7 @@ class MovementTests extends SnakeTestSuiteBase {
         )
     }
 
-    weightedTest("testQuickSwitch2") {
+    test("testQuickSwitch2") {
         checkGame(
             List(
                 TestFrame(4,

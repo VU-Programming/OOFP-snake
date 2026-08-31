@@ -4,7 +4,7 @@ import snake.SnakeTestSuiteBase
 
 class GrowthTests extends SnakeTestSuiteBase {
 
-    weightedTest("testGrow") {
+    test("testGrow") {
         checkGame(
             List(
                 TestFrame(1,
@@ -38,7 +38,7 @@ class GrowthTests extends SnakeTestSuiteBase {
         )
     }
 
-    weightedTest("testGrowTwice") {
+    test("testGrowTwice") {
         checkGame(
             List(
                 TestFrame(0,

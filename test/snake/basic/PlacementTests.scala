@@ -4,7 +4,7 @@ import snake.SnakeTestSuiteBase
 
 class PlacementTests extends SnakeTestSuiteBase {
 
-    weightedTest("testStartCorrectly") {
+    test("testStartCorrectly") {
         checkGame(
             List(
                 TestFrame(0,
@@ -17,7 +17,7 @@ class PlacementTests extends SnakeTestSuiteBase {
 
     // See assignment description on where to place the
     // apple!
-    weightedTest("testApplePos3") {
+    test("testApplePos3") {
         checkGame(
             List(
                 TestFrame(0,
@@ -28,7 +28,7 @@ class PlacementTests extends SnakeTestSuiteBase {
         )
     }
 
-    weightedTest("testApplePos8") {
+    test("testApplePos8") {
         checkGame(
             List(
                 TestFrame(8,
@@ -39,7 +39,7 @@ class PlacementTests extends SnakeTestSuiteBase {
         )
     }
 
-    weightedTest("testNoRoomForApple") {
+    test("testNoRoomForApple") {
         checkGame(
             List(
                 TestFrame(2,
