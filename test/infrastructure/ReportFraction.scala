@@ -53,7 +53,7 @@ object ReportFraction2_1 extends ReportFraction {
         out.printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
         if(scoreCounter.points >= 10) out.printf("You passed exercise 2.1\n")
         else out.printf("You did not pass exercise 2.1 yet\n")
-        val frac = if(scoreCounter.points >= 10) 1.0 else 0
+        val frac = if(scoreCounter.points >= 10) 1 else 0
         val result = s"""{ "tag": "points", "points": "${frac}/${1}" }"""
         Files.writeString(Path.of("grade"), result)
 
