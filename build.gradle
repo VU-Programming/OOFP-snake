@@ -23,11 +23,11 @@ repositories {
     mavenCentral()
 
     maven {
-        url "https://jogamp.org/deployment/maven/"
+        url = "https://jogamp.org/deployment/maven/"
     }
 
     maven {
-        url "https://jitpack.io"
+        url = "https://jitpack.io"
     }
 }
 

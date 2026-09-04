@@ -2,7 +2,8 @@
 package infrastructure
 
 import java.io.{OutputStream, PrintStream}
-
+import java.io.{FileOutputStream, PrintWriter}
+import java.nio.file.{Files, Path}
 import org.scalatest.{Args, ConfigMap, Reporter}
 import org.scalatest.events.{Event, TestFailed, TestSucceeded}
 import snake.{SnakeTestSuite, SnakeTestsAssignment2_1, SnakeTestsAssignment2_3}
@@ -53,7 +54,8 @@ object ReportFraction2_1 extends ReportFraction {
         if(scoreCounter.points >= 10) out.printf("You passed exercise 2.1\n")
         else out.printf("You did not pass exercise 2.1 yet\n")
         val frac = if(scoreCounter.points >= 10) 1.0 else 0
-        out.printf("Fractiontouseforcodegrade %.2f",frac)
+        val result = s"""{ "tag": "points", "points": "${frac}/${1}" }"""
+        Files.writeString(Path.of("grade"), result)
 
     }
 }
@@ -68,7 +70,8 @@ object ReportFraction2_3 extends ReportFraction {
 
         out.printf("You got %d/%d points!\n", scoreCounter.points, scoreCounter.maxPoints)
         out.printf("Your base grade for exercise 2.3 will be : %.2f\n",scoreCounter.fraction() * MaxBaseGrade)
-        out.printf("Fractiontouseforcodegrade %.2f",scoreCounter.fraction())
+        val result = s"""{ "tag": "points", "points": "${scoreCounter.points}/${scoreCounter.maxPoints}" }"""
+        Files.writeString(Path.of("grade"), result)
     }
 
 }
