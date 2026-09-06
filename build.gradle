@@ -63,6 +63,8 @@ task zip(type: Zip) {
 
 task test2_1(type: Test) {
     description="Run tests for assignment 2.1 (snake)"
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
     filter {
         includeTestsMatching "snake.SnakeTestsAssignment2_1"
     }
@@ -70,6 +72,8 @@ task test2_1(type: Test) {
 
 task test2_3(type: Test) {
     description="Run tests for assignment 2.3 (snake)"
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
     filter {
         includeTestsMatching "snake.SnakeTestsAssignment2_3"
     }
