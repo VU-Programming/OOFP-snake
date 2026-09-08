@@ -238,36 +238,43 @@ abstract class GameTestSuite[
   }
 
   val InterleaveFailMsg =
-    s"""
-       |Hint: It should be possible to “run” multiple games simultaneously, i.e., it should not
-       |be a problem to have multiple instances of $gameLogicName which act independently. To test
-       |this, we perform “interleave tests”: we instantiate two $gameLogicName objects with different
-       |board sizes and alternate between performing a step on one and a step on the other. If
-       |all is correct, the two games should progress exactly as they would if they were the only
-       |snake games being run. If this is not true, then there is likely some global state through
-       |which one game influences the other.
+    s"""Hint: It should be possible to “run” multiple games simultaneously, i.e.,
+       |it should not be a problem to have multiple instances of $gameLogicName which
+       |act independently. To test this, we perform “interleave tests”: we
+       |instantiate two $gameLogicName objects with different board sizes and
+       |alternate between performing a step on one and a step on the other. If all
+       |is correct, the two games should progress exactly as they would if they were
+       |the only snake games being run. If this is not true, then there is likely
+       |some global state through which one game influences the other.
        |
-       |
-       |Hence if you fail this test but you passed the other full game test, then you have some global state.
-       |Running two instances of $gameLogicName/and alternately doing steps between them results in some interference.
-  """.stripMargin.replaceAll("\n", " ")
+       |Hence if you fail this test but you passed the other full game test, then
+       |you have some global state. Running two instances of $gameLogicName and
+       |alternately doing steps between them results in some interference.
+       |""".stripMargin
 
   def wordWrap(s : String, lineLen : Int) : String = {
-    val res = new StringBuilder()
-    var line : List[String] = List()
-    var len = 0
-    for(word <- s.split("[ ]")) {
-      if(len + word.length > lineLen) {
-        res++=line.reverse.mkString(" ") + "\n"
-        line = List(word)
-        len = word.length
-      } else {
-        len+= word.length
-        line = word :: line
+    def wrapLine(input: String): String = {
+      val result = new StringBuilder()
+      var line = new StringBuilder()
+
+      for (word <- input.split(" ").filter(_.nonEmpty)) {
+        val separatorLength = if (line.isEmpty) 0 else 1
+        if (line.nonEmpty && line.length + separatorLength + word.length > lineLen) {
+          if (result.nonEmpty) result.append("\n")
+          result.append(line)
+          line = new StringBuilder(word)
+        } else {
+          if (line.nonEmpty) line.append(" ")
+          line.append(word)
+        }
       }
+
+      if (result.nonEmpty && line.nonEmpty) result.append("\n")
+      result.append(line)
+      result.toString()
     }
-    if(line.nonEmpty) res++=line.reverse.mkString(" ")
-    res.toString()
+
+    s.split("\n", -1).map(wrapLine).mkString("\n")
   }
 
 
@@ -315,4 +322,3 @@ object GameTestSuite {
   val DisplayPadString: String = " " * DisplayPadWidth
 
 }
-

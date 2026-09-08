@@ -3,7 +3,9 @@ package snake.basic
 import snake.logic.{East, North, South, West}
 import snake.{ChangeDir, SnakeTestSuiteBase}
 
-class MovementTests extends SnakeTestSuiteBase {
+@org.scalatest.DoNotDiscover
+class Test2_Movement extends SnakeTestSuiteBase {
+    override def suiteName = "2 Movement"
 
     test("testMove") {
         checkGame(
@@ -17,8 +19,9 @@ class MovementTests extends SnakeTestSuiteBase {
                 TestFrame(3,
                     """..OO>.
                       |A....."""),
-            ), hint = "When moving the snake is extended from the head in the current direction (and he snake is " +
-              "shortened from the tail if it is not currently growing)."
+            ), hint = "When moving the snake is extended from the head in the current\n" +
+              "direction (and he snake is shortened from the tail if it is not\n" +
+              "currently growing)."
         )
     }
 
@@ -86,9 +89,10 @@ class MovementTests extends SnakeTestSuiteBase {
                 TestFrame(5, List(ChangeDir(West())),
                     """..OO>.
                       |..A...""")
-            ), hint = "It should not be possible to “crash into yourself”: If the snake is currently traveling " +
-              "eastwards, it should not be possible to change the current direction to west (and then die in the next " +
-              "step). This generalizes to other directions."
+            ), hint = "It should not be possible to “crash into yourself”: If the snake is\n" +
+              "currently traveling eastwards, it should not be possible to change\n" +
+              "the current direction to west (and then die in the next step). This\n" +
+              "generalizes to other directions."
         )
     }
 
@@ -107,9 +111,11 @@ class MovementTests extends SnakeTestSuiteBase {
                     """..OO
                       |...A
                       |...^"""),
-            ), hint = "It should not be possible to crash into yourself by changing the direction multiple times " +
-              "before the next step. For example, if the snake came from the west, and the we changed the current " +
-              "direction to north, it still should not be possible to change the direction to to west before taking a step."
+            ), hint = "It should not be possible to crash into yourself by changing the\n" +
+              "direction multiple times before the next step. For example, if the\n" +
+              "snake came from the west, and the we changed the current direction\n" +
+              "to north, it still should not be possible to change the direction\n" +
+              "to to west before taking a step."
         )
     }
 
@@ -128,9 +134,10 @@ class MovementTests extends SnakeTestSuiteBase {
                     """..OO
                       |...A
                       |...^"""),
-            ), hint = "To prevent crashing into yourself, you should not just pick the first change of direction." +
-              "Instead, you should take the last valid change of direction (i.e. not a change in the direction where" +
-              "the snake came from "
+            ), hint = "To prevent crashing into yourself, you should not just pick the\n" +
+              "first change of direction. Instead, you should take the last valid\n" +
+              "change of direction (i.e. not a change in the direction where the\n" +
+              "snake came from "
         )
     }
 

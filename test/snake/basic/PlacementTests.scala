@@ -2,7 +2,9 @@ package snake.basic
 
 import snake.SnakeTestSuiteBase
 
-class PlacementTests extends SnakeTestSuiteBase {
+@org.scalatest.DoNotDiscover
+class Test1_Placement extends SnakeTestSuiteBase {
+    override def suiteName = "1 Placement"
 
     test("testStartCorrectly") {
         checkGame(
@@ -11,7 +13,8 @@ class PlacementTests extends SnakeTestSuiteBase {
                     """OO>A..
                       |......""")
             ),
-            hint = " The snake should begin in the top left, heading east, and be three cells long."
+            hint = "The snake should begin in the top left, heading east, and be three\n" +
+              "cells long."
         )
     }
 
@@ -61,7 +64,8 @@ class PlacementTests extends SnakeTestSuiteBase {
                 )
             )
 
-        , hint = "No apple should be placed if the entire playing field is filled with the snake body."
+        , hint = "No apple should be placed if the entire playing field is filled with\n" +
+          "the snake body."
         )
     }
 }

@@ -2,7 +2,10 @@ package snake.basic
 
 import snake.SnakeTestSuiteBase
 
-class GrowthTests extends SnakeTestSuiteBase {
+@org.scalatest.DoNotDiscover
+class Test3_Growth extends SnakeTestSuiteBase {
+
+    override def suiteName = "3 Growth"
 
     test("testGrow") {
         checkGame(
@@ -31,10 +34,12 @@ class GrowthTests extends SnakeTestSuiteBase {
                 TestFrame(10,
                     """....OOOOO>
                       |...A......"""),
-            ), hint = "After eating the apple, the snake should grow by one cell per step, for three steps. This means " +
-              "that the tail should not be shortened for three steps. The new food should be placed as soon as the previous " +
-              "food is eaten. The snake should grow after eating the apple, it should not already have grown in the " +
-              "frame where the head of the snake eats the apple (and a new apple is placed)."
+            ), hint = "After eating the apple, the snake should grow by one cell per step,\n" +
+              "for three steps. This means that the tail should not be shortened for\n" +
+              "three steps. The new food should be placed as soon as the previous\n" +
+              "food is eaten. The snake should grow after eating the apple, it\n" +
+              "should not already have grown in the frame where the head of the\n" +
+              "snake eats the apple (and a new apple is placed)."
         )
     }
 
@@ -74,8 +79,8 @@ class GrowthTests extends SnakeTestSuiteBase {
                 TestFrame(10,
                     """....OOOOOOOO>.
                       |.A............"""),
-            ), hint = "If a new apple is eaten before the snake has fully grown from the last apple, " +
-              "the effect is stacked."
+            ), hint = "If a new apple is eaten before the snake has fully grown from the\n" +
+              "last apple, the effect is stacked."
         )
     }
 }

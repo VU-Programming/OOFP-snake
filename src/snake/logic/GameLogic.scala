@@ -10,15 +10,26 @@ import snake.logic.GameLogic._
  */
 class GameLogic(val random: RandomGenerator,
                 val gridDims : Dimensions) {
+  var applePos = Point(0,5)
 
+  var snake : List[Point] = List(Point(0,0), Point(1,0), Point(2,0))
+  var currentDir : Direction = East()
+  
+  
+  def getCellType(p: Point): CellType = {
+    if(applePos == p) Apple()
+    else if(snake.contains(p)) SnakeBody(0)
+    else Empty()
+  }
   // TODO implement me
-  def getCellType(p: Point): CellType = Empty()
-
+  def step(): Unit = {
+    if(currentDir == East()) applePos = Point(applePos.x + 1, applePos.y )
+    else applePos = Point(applePos.x - 1, applePos.y )
+  }
   // TODO implement me
-  def step(): Unit = ()
-
-  // TODO implement me
-  def changeDir(d: Direction): Unit = ()
+  def changeDir(d: Direction): Unit = {
+    currentDir = d 
+  }
 
   def gameOver: Boolean = false
   

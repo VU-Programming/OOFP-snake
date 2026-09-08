@@ -3,7 +3,10 @@ package snake.basic
 import snake.logic.{North, South, West}
 import snake.{ChangeDir, SnakeTestSuiteBase}
 
-class WrapAroundTests extends SnakeTestSuiteBase {
+@org.scalatest.DoNotDiscover
+class Test4_WrapAround extends SnakeTestSuiteBase {
+    override def suiteName = "4 Wrap around"
+
     test("testWrapAroundEast") {
         checkGame(
             List(

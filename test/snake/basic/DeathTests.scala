@@ -3,7 +3,9 @@ package snake.basic
 import snake.logic.{North, South, West}
 import snake.{ChangeDir, SnakeTestSuiteBase}
 
-class DeathTests extends SnakeTestSuiteBase {
+@org.scalatest.DoNotDiscover
+class Test5_Death extends SnakeTestSuiteBase {
+    override def suiteName = "5 Death"
 
 
     test("testGameOver") {
@@ -35,7 +37,8 @@ class DeathTests extends SnakeTestSuiteBase {
                       |......"""),
                 TestFrame(6, List(ChangeDir(North())),
                     GameOverDisplay())
-            ), hint = "The game ends when as the head of the snake collides with the rest of the snake."
+            ), hint = "The game ends when as the head of the snake\n" +
+              "collides with the rest of the snake."
         )
     }
 
@@ -73,8 +76,8 @@ class DeathTests extends SnakeTestSuiteBase {
                 TestFrame(3,
                     """OOOOO>
                       |A....."""),
-            ), hint = "The game should not end if the tail of the snake is exactly at the next position of the head " +
-              "(and the snake does not grow)"
+            ), hint = "The game should not end if the tail of the snake is exactly at the\n" +
+              "next position of the head (and the snake does not grow)"
         )
     }
 
@@ -104,8 +107,9 @@ class DeathTests extends SnakeTestSuiteBase {
                 TestFrame(0, List(ChangeDir(North())),
                     GameOverDisplay()),
                 TestFrame(0, GameOverDisplay())
-            ), hint = "The snake should not move anymore after the game is over, hence it should not be possible to" +
-              " “escape” from a game over by moving though the snake."
+            ), hint = "The snake should not move anymore after the game is over, hence it\n" +
+              "should not be possible to “escape” from a game over by moving though\n" +
+              "the snake."
         )
     }
 }

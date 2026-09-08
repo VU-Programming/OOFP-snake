@@ -3,7 +3,10 @@ package snake.basic
 import snake.logic.{East, North, South, West}
 import snake.{ChangeDir, SnakeTestSuiteBase}
 
-class FullGameTests extends SnakeTestSuiteBase {
+@org.scalatest.DoNotDiscover
+class Test6_FullGames extends SnakeTestSuiteBase {
+    override def suiteName = "6 Full games"
+
     test("testGame3x1") {
         checkGame(
             List(
@@ -21,7 +24,8 @@ class FullGameTests extends SnakeTestSuiteBase {
                     """O>O"""),
                 TestFrame(0,
                     """OO>""")
-            ), "The game should work at any board size which can hold the initial snake. In this case 3x1."
+            ), "The game should work at any board size which can hold the initial\n" +
+              "snake. In this case 3x1."
         )
     }
 
@@ -220,7 +224,9 @@ class FullGameTests extends SnakeTestSuiteBase {
     )
 
     test("testGame6x6") {
-        checkGame(game6x6, hint ="The game should work at any board size which can hold the initial snake. In this case 6x6.")
+        checkGame(game6x6,
+            hint = "The game should work at any board size which can hold the initial\n" +
+              "snake. In this case 6x6.")
     }
 
     val game6x3 : List[TestFrame] =   List(
@@ -305,7 +311,9 @@ class FullGameTests extends SnakeTestSuiteBase {
     )
 
     test("testGame6x3") {
-        checkGame(game6x3, hint = "The game should work at any board size which can hold the initial snake. In this case 6x3." )
+        checkGame(game6x3,
+            hint = "The game should work at any board size which can hold the initial\n" +
+              "snake. In this case 6x3.")
     }
 
     val game10x7 : List[TestFrame] =  List(
@@ -746,7 +754,9 @@ class FullGameTests extends SnakeTestSuiteBase {
     )
 
     test("testGame10x7") {
-        checkGame( game10x7,  hint ="The game should work at any board size which can hold the initial snake. In this case 10x7.")
+        checkGame(game10x7,
+            hint = "The game should work at any board size which can hold the initial\n" +
+              "snake. In this case 10x7.")
     }
 
     test("testInterleave6x3and10x7") {

@@ -3,7 +3,8 @@ package snake.reverse
 import snake.logic.{East, North, South, West}
 import snake.{ChangeDir, ReverseGame, SnakeTestSuiteBase}
 
-class ReverseTests extends SnakeTestSuiteBase {
+@org.scalatest.DoNotDiscover
+class Test7_Reverse extends SnakeTestSuiteBase {
 
     test("testReverseSimple") {
         checkGame(
@@ -28,7 +29,8 @@ class ReverseTests extends SnakeTestSuiteBase {
                     """OO>..
                       |A....
                       |....."""),
-            ), hint = "The game should reverse to earlier game states after enabling reverse mode."
+            ), hint = "The game should reverse to earlier game states after enabling\n" +
+              "reverse mode."
         )
     }
 
@@ -56,7 +58,8 @@ class ReverseTests extends SnakeTestSuiteBase {
                 TestFrame(2,
                     """OO>..
                       |A....""")
-            ), hint = "Reversing past the start of the game should keep the game at the initial position"
+            ), hint = "Reversing past the start of the game should keep the game at the\n" +
+              "initial position"
         )
     }
 
@@ -132,9 +135,10 @@ class ReverseTests extends SnakeTestSuiteBase {
                       |A....
                       |.....""")
             ),
-            hint = "After reversing to a GameState where the snake changed direction, " +
-              "the snake should keep going in the direction it is pointing to (if user does not input anything), " +
-              "and not perform automatically the same turn it performed the previous time"
+            hint = "After reversing to a GameState where the snake changed direction,\n" +
+              "the snake should keep going in the direction it is pointing to\n" +
+              "(if user does not input anything), and not perform automatically\n" +
+              "the same turn it performed the previous time"
         )
     }
 
@@ -171,7 +175,8 @@ class ReverseTests extends SnakeTestSuiteBase {
                 TestFrame(2,
                     """OO>..
                       |A...."""),
-            ), hint = "Reversing from a game over state should immediately give the last non game over state"
+            ), hint = "Reversing from a game over state should immediately give the last\n" +
+              "non game over state"
         )
     }
 
@@ -219,7 +224,8 @@ class ReverseTests extends SnakeTestSuiteBase {
                       |<OO..
                       |.....""")
 
-        ), hint = "After reversing, it should be possible to keep playing, doing different actions than the previous time"
+        ), hint = "After reversing, it should be possible to keep playing, doing\n" +
+          "different actions than the previous time"
         )
     }
 
