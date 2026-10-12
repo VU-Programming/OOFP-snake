@@ -75,7 +75,7 @@ assignment if your implementation passes 10 tests or more. The tests can be foun
 
 Your implementation must NOT implement reverse mode. The idea is
 that reverse mode is only implemented after the peer review such that there is some
-functionality in 1.3 that is not seen by other students in the peer review of 1.2. If you
+functionality in 2.3 that is not seen by other students in the peer review of 2.2. If you
 already implemented reverse mode, do not just disable reverse mode, remove any code
 that deals with it. Keep your code as simple and readable as possible. You code will be
 reviewed by your fellow student according to the clean code guidelines (to be published). Please read these and
@@ -154,7 +154,7 @@ The reward for using an immutable gamestate and not using a 2 dimensional array/
 of programming. 
 
 Code style is judged as described in the readable code lectures and the
- [code style grading guideline](https://canvas.vu.nl/courses/78072/pages/code-style). The maximum style grade you can get depends on how much of the previous 8 points you got. For example, if you get 5 points from the tests, did not make your gamestate immutable (0/2), but did get the points for not using an 2 dimension array (0.5), then your maximum style points is (5.5/8) * 2 = 1,375 point.
+ [code style grading guideline](https://canvas.vu.nl/courses/90312/pages/code-style). The maximum style grade you can get depends on how much of the previous 8 points you got. For example, if you get 5 points from the tests, did not make your gamestate immutable (0/2), but did get the points for not using an 2 dimension array (0.5), then your maximum style points is (5.5/8) * 2 = 1,375 point.
 
 ## Test setup
 
